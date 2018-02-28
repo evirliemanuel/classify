@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_student__profile__grade"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lieverandiver.thesisproject.StudentActivity_Profile_Grade">
+<RelativeLayout
+    android:id="@+id/sadaaaasda"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+    android:background="@color/cardview_light_background">
+    <LinearLayout
+        android:id="@+id/activity_login_header"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:background="@drawable/cover_photos"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <RelativeLayout
+        android:id="@+id/dsdd"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="75dp"
+        android:background="@drawable/shape_round"
+        android:layout_marginLeft="10dp">
+
+        <ImageView
+            android:id="@+id/activity_ccslogo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/student_profile_male"
+            android:layout_gravity="center|top" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_below="@+id/activity_login_header"
+        android:layout_toEndOf="@+id/dsdd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/student_profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manuel, Virlie E."
+            android:textSize="22dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/student_profile_email"
+            android:layout_below="@+id/student_profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="lieverandiver@gmail.com"
+            android:textSize="15dp"/>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/view_subject_gradingcriteria_cv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        card_view:cardElevation="3dp"
+        android:layout_below="@+id/sadaaaasda">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_width="200dp"
+                android:layout_marginLeft="20dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp">
+
+
+                <TextView
+                    android:id="@+id/quizzes_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Grades"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true" />
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/view_gradingcriteria_cv_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/view_subject_gradingcriteria_cv"
+        android:layout_centerHorizontal="true">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+</RelativeLayout>

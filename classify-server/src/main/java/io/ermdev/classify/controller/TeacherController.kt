@@ -1,7 +1,9 @@
 package io.ermdev.classify.controller
 
+import io.ermdev.classify.data.entity.User
 import io.ermdev.classify.data.service.TeacherService
 import io.ermdev.classify.dto.TeacherDto
+import io.ermdev.classify.dto.UserDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -23,8 +25,19 @@ class TeacherController(@Autowired var teacherService: TeacherService) {
 
     @GetMapping()
     fun getById(): ResponseEntity<List<TeacherDto>> {
+        val teachers = teacherService.findAll()
         val dto = ArrayList<TeacherDto>()
-        teacherService.findAll().parallelStream().forEach({ t -> dto.add(TeacherDto(t.id, t.name, t.email)) })
+        teachers.parallelStream().forEach({ t -> dto.add(TeacherDto(t.id, t.name, t.email)) })
+        return ResponseEntity(dto, HttpStatus.FOUND)
+    }
+
+    @GetMapping("{teacherId}/user")
+    fun getUser(@PathVariable("teacherId") teacherId: Long): ResponseEntity<UserDto> {
+        var user = teacherService.findById(teacherId).user
+        if (user == null) {
+            user = User()
+        }
+        val dto = UserDto(user.id, user.username, user.password)
         return ResponseEntity(dto, HttpStatus.FOUND)
     }
 }

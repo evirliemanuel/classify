@@ -8,8 +8,8 @@ import org.springframework.data.repository.query.Param
 interface TeacherRepository : JpaRepository<Teacher, Long> {
 
     @Query("from Teacher where id=:teacherId")
-    fun findById(@Param("teacherId") teacherId: Long): Teacher?
+    fun findById(@Param("teacherId") teacherId: Long): Teacher
 
     @Query("from Teacher")
-    override fun findAll(): List<Teacher>?
+    override fun findAll(): List<Teacher>
 }

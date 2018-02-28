@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="20dp"-->
+    <!--android:text="Manage your schedule"-->
+    <!--android:textColor="@color/colorAccent"-->
+    <!--android:gravity="center"-->
+    <!--android:textSize="18sp"/>-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/colorMoca2">
+                    <TextView
+                        android:id="@+id/a_class_f_d_add_text_header"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:text="Manage your schedule"
+                        android:textColor="@color/colorWhite"/>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+            <Spinner
+                android:id="@+id/a_class_f_d_add_spinnerDay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0sp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"/>
+
+            <EditText
+                android:id="@+id/a_class_f_d_text_room"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Room name"
+                android:gravity="center"
+                android:inputType="text"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"/>
+
+            <TimePicker
+                android:id="@+id/a_class_f_d_add_timepicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-10dp"
+                android:scaleY="0.8"
+                android:layout_marginTop="-30dp"
+                android:scaleX="0.8" />
+
+            <EditText
+                android:id="@+id/a_class_f_d_text_duration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Number of time (in minute)"
+                android:gravity="center"
+                android:inputType="number"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"/>
+
+            <Button
+                android:id="@+id/a_class_f_d_btn_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/AppTheme.Base.Button.Normal"
+                android:text="Confirm"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+            <Button
+                android:id="@+id/a_class_f_d_btn_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/AppTheme.Base.Button.Reverse"
+                android:text="Cancel"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_quiz__add"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lieverandiver.thesisproject.QuizActivity_Add">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/activity_quiz_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:id="@+id/ddd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@color/colorAccent"
+                android:layout_gravity="left"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="July 1 1991"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginRight="80dp"
+                android:layout_gravity="center"
+                android:id="@+id/activity_quiz_date_textview"/>
+
+
+          <Button
+              android:id="@+id/activity_quiz_submit_button"
+              android:layout_width="wrap_content"
+              android:layout_height="30dp"
+              android:text="Submit"
+              android:textSize="15dp"
+              android:background="@color/colorClouds"
+              android:layout_gravity="right"
+              android:layout_marginTop="10dp"
+              android:layout_marginRight="10dp"
+              android:layout_marginBottom="10dp"/>
+        </FrameLayout>
+
+            <RelativeLayout
+                android:id="@+id/redline"
+                android:layout_below="@+id/ddd"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/colorPrimaryDark">
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_marginTop="5dp"
+              android:layout_below="@+id/redline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Spinner
+                    android:layout_below="@+id/f_gc_text_subjectname"
+                    android:layout_toEndOf="@+id/f_gc_text_gradetype"
+                    android:id="@+id/a_class_f_view_subject_list"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content">
+
+                </Spinner>
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_below="@+id/ddd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total: "
+                android:textSize="18sp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColorHint="@color/colorAccent"
+                android:hint="Tap the spiner to add total"
+                />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fragment_slidebar_recyclerview_clazz"
+        android:layout_gravity="center|top"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/activity_quiz_cardview"
+        android:layout_centerHorizontal="true">
+    </android.support.v7.widget.RecyclerView>
+
+
+</RelativeLayout>

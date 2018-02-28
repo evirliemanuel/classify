@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_clazz__assignment"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    tools:context=".Activity_Class_View_Assignment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include
+            android:id="@+id/activity_main_custom_toolbar"
+            layout="@layout/toolbar_assignment"
+            />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="left"
+                android:id="@+id/btn_back"
+                android:layout_marginTop="28dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_arrow_back_white_24dp"
+                android:clickable="true"/>
+
+            <LinearLayout
+                android:layout_marginLeft="50dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+                <TextView
+                    android:id="@+id/name_assignment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Activity Name"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorWhite"/>
+
+                <TextView
+                    android:layout_marginBottom="16dp"
+                    android:id="@+id/date_assignment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date"
+                    android:textSize="22dp"
+                    android:textColor="@color/colorWhite"
+                    android:layout_marginLeft="30dp"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginRight="25dp"
+                android:orientation="vertical"
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="@color/colorWhite"
+                    android:layout_marginTop="22dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total"
+                    android:textStyle="bold"
+                    android:textSize="18dp"/>
+
+                <TextView
+                    android:id="@+id/totalscore_assignment"
+                    android:layout_gravity="right"
+                    android:textSize="22dp"
+                    android:textColor="@color/colorWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00"/>
+
+            </LinearLayout>
+
+
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_assignment"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

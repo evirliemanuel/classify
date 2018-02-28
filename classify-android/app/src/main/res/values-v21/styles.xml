@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="AppTheme.Base">
+        <item name="android:colorControlActivated">@color/colorActive</item>
+        <item name="android:colorControlHighlight">@color/colorPrimary</item>
+        <item name="android:splitMotionEvents">false</item>
+        <item name="android:windowEnableSplitTouch">false</item>
+    </style>
+
+
+
+    <style name="AppTheme.Base.Button.Normal" parent="@style/Widget.AppCompat.Button.Colored">
+        <item name="android:colorButtonNormal">@color/colorPrimaryDark</item>
+        <item name="android:colorControlHighlight">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="AppTheme.Base.Button.Reverse" parent="@style/Widget.AppCompat.Button.Colored">
+        <item name="android:colorButtonNormal">@color/colorAsbestos</item>
+        <item name="android:colorControlHighlight">@color/colorConcrete</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="AppBaseTheme" parent="android:Theme.Material">
+
+        <!-- Main theme colors -->
+        <!-- your app's branding color (for the app bar) -->
+        <item name="android:colorPrimary">#FFFF4444</item>
+        <!-- darker variant of colorPrimary (for status bar, contextual app bars) -->
+        <item name="android:colorPrimaryDark">#FFCC0000</item>
+        <!-- theme UI controls like checkboxes and text fields -->
+        <item name="android:colorAccent">#FFFF00</item>
+    </style>
+
+
+    <style name="AppTheme.Switch" parent="AppTheme.Base">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">@color/colorWetAsphalt</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">#f1f1f1</item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">#42221f1f
+        </item>
+    </style>
+
+
+    <style name="foodRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ratingstar</item>
+        <item name="android:minHeight">22dip</item>
+        <item name="android:maxHeight">22dip</item>
+    </style>
+
+
+    <style name="ToolBarStyle" parent="ToolBarStyle.Base"/>
+
+    <style name="ToolBarStyle.Base" parent="">
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    </style>
+
+    <style name="ToolBarStyle.Event" parent="ToolBarStyle">
+        <item name="titleTextAppearance">@style/TextAppearance.Widget.Event.Toolbar.Title</item>
+    </style>
+
+    <style name="TextAppearance.Widget.Event.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <!--Any text styling can be done here-->
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/event_title_text_size</item>
+    </style>
+
+
+
+</resources>

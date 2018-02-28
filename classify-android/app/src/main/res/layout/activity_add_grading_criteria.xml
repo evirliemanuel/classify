@@ -1,0 +1,821 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_grading_criteria"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    tools:context=".GradingCriteriaActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/a_class_f_view_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardElevation="3dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:background="@color/colorTweeterBlueDark"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/f_gc_text_subjectname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Subject Name"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:layout_marginLeft="10dp"
+                            android:layout_below="@+id/f_gc_text_subjectname"
+                            android:id="@+id/f_gc_text_gradetype"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="Grade Type"
+                            android:textSize="18dp"
+                            android:textColor="@color/colorWhite"
+                            android:layout_marginTop="10dp"
+                            android:textColorHint="@color/colorAccent"/>
+                    </RelativeLayout>
+                </LinearLayout>
+            </FrameLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/fragment_slidebar_subject_add_subject"
+            android:layout_below="@+id/a_class_f_view_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background"
+            android:clickable="true"
+            card_view:cardElevation="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_gravity="bottom"
+                android:background="@color/colorAccent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:orientation="horizontal"
+                android:layout_margin="5dp">
+
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/icon_button_add"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="16dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/a_add_gc_subject_name_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Save"
+                        android:textColor="@color/colorMoca1"
+                        android:textStyle="bold"
+
+                        android:textSize="20dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tap here to save grading criteria"
+                        android:textColor="@color/colorMoca1"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:text="0%"
+                    android:padding="5dp"
+                    android:textSize="30dp"
+                    android:layout_margin="10dp"
+                    android:id="@+id/total_percent" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+
+
+        <android.support.v7.widget.CardView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                card_view:cardElevation="5dp"
+                android:background="@color/cardview_shadow_start_color">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:background="#FFFFFF">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="#34495e"
+                            />
+                        <TextView
+                            android:layout_marginLeft="10dp"
+                            android:layout_width="210dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Attendance"
+                            android:textSize="22sp"
+                            android:textStyle="bold"/>
+
+                        <Switch
+                            android:layout_marginLeft="10dp"
+                            android:layout_gravity="right"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/attendance_switch"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/switch_btn"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="#ecf0f1"
+                        android:orientation="horizontal">
+
+                        <SeekBar
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/attendance_seekbar"
+                            android:layout_width="280dp"
+                            android:layout_height="wrap_content"
+                            />
+
+
+                        <TextView
+                            android:id="@+id/attendance_percent_text"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:textAlignment="center"
+                            android:hint="0%"
+                            android:textSize="18sp"
+                            />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    card_view:cardElevation="5dp"
+                    android:background="@color/cardview_shadow_start_color">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:background="#FFFFFF">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginRight="16dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="#34495e"
+                                />
+                            <TextView
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="210dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="Activity"
+                                android:textSize="22sp"
+                                android:textStyle="bold"/>
+
+                            <Switch
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="right"
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/activity_switch"
+                                android:layout_marginTop="20dp"
+                                android:background="@drawable/switch_btn"/>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="#ecf0f1"
+                            android:orientation="horizontal">
+
+                            <SeekBar
+                                android:layout_marginTop="10dp"
+                                android:id="@+id/activity_seekbar"
+                                android:layout_width="280dp"
+                                android:layout_height="wrap_content"
+                                />
+
+
+                            <TextView
+                                android:id="@+id/activity_percent_text"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:textAlignment="center"
+                                android:hint="0%"
+                                android:textSize="18sp"
+                                />
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    card_view:cardElevation="5dp"
+                    android:background="@color/cardview_shadow_start_color">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:background="#FFFFFF">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginRight="16dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="#34495e"
+                                />
+                            <TextView
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="210dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="Assignment"
+                                android:textSize="22sp"
+                                android:textStyle="bold"/>
+
+                            <Switch
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="right"
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/assignment_switch"
+                                android:layout_marginTop="20dp"
+                                android:background="@drawable/switch_btn"/>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="#ecf0f1"
+                            android:orientation="horizontal">
+
+                            <SeekBar
+                                android:layout_marginTop="10dp"
+                                android:id="@+id/assignment_seekbar"
+                                android:layout_width="280dp"
+                                android:layout_height="wrap_content"
+                                />
+
+
+                            <TextView
+                                android:id="@+id/assignment_percent_text"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:textAlignment="center"
+                                android:hint="0%"
+                                android:textSize="18sp"
+                                />
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    card_view:cardElevation="5dp"
+                    android:background="@color/cardview_shadow_start_color">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:background="#FFFFFF">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginRight="16dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="#34495e"
+                                />
+                            <TextView
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="210dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="Behavior"
+                                android:textSize="22sp"
+                                android:textStyle="bold"/>
+
+                            <Switch
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="right"
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/behavior_switch"
+                                android:layout_marginTop="20dp"
+                                android:background="@drawable/switch_btn"/>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="#ecf0f1"
+                            android:orientation="horizontal">
+
+                            <SeekBar
+                                android:layout_marginTop="10dp"
+                                android:id="@+id/behavior_seekbar"
+                                android:layout_width="280dp"
+                                android:layout_height="wrap_content"
+                                />
+
+
+                            <TextView
+                                android:id="@+id/behavior_percent_text"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:textAlignment="center"
+                                android:hint="0%"
+                                android:textSize="18sp"
+                                />
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    card_view:cardElevation="5dp"
+                    android:background="@color/cardview_shadow_start_color">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:background="#FFFFFF">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginRight="16dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="#34495e"
+                                />
+                            <TextView
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="210dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="Exam"
+                                android:textSize="22sp"
+                                android:textStyle="bold"/>
+
+                            <Switch
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="right"
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/exam_switch"
+                                android:layout_marginTop="20dp"
+                                android:background="@drawable/switch_btn"/>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="#ecf0f1"
+                            android:orientation="horizontal">
+
+                            <SeekBar
+                                android:layout_marginTop="10dp"
+                                android:id="@+id/exam_seekbar"
+                                android:layout_width="280dp"
+                                android:layout_height="wrap_content"
+                                />
+
+
+                            <TextView
+                                android:id="@+id/exam_percent_text"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:textAlignment="center"
+                                android:hint="0%"
+                                android:textSize="18sp"
+                                />
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    card_view:cardElevation="5dp"
+                    android:background="@color/cardview_shadow_start_color">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:background="#FFFFFF">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginRight="16dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="#34495e"
+                                />
+                            <TextView
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="210dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="Portfolio"
+                                android:textSize="22sp"
+                                android:textStyle="bold"/>
+
+                            <Switch
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="right"
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/portfolio_switch"
+                                android:layout_marginTop="20dp"
+                                android:background="@drawable/switch_btn"/>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="#ecf0f1"
+                            android:orientation="horizontal">
+
+                            <SeekBar
+                                android:layout_marginTop="10dp"
+                                android:id="@+id/portfolio_seekbar"
+                                android:layout_width="280dp"
+                                android:layout_height="wrap_content"
+                                />
+
+
+                            <TextView
+                                android:id="@+id/portfolio_percent_text"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:textAlignment="center"
+                                android:hint="0%"
+                                android:textSize="18sp"
+                                />
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    card_view:cardElevation="5dp"
+                    android:background="@color/cardview_shadow_start_color">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:background="#FFFFFF">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginRight="16dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="#34495e"
+                                />
+                            <TextView
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="210dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="Project"
+                                android:textSize="22sp"
+                                android:textStyle="bold"/>
+
+                            <Switch
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="right"
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/project_switch"
+                                android:layout_marginTop="20dp"
+                                android:background="@drawable/switch_btn"/>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="#ecf0f1"
+                            android:orientation="horizontal">
+
+                            <SeekBar
+                                android:layout_marginTop="10dp"
+                                android:id="@+id/project_seekbar"
+                                android:layout_width="280dp"
+                                android:layout_height="wrap_content"
+                                />
+
+
+                            <TextView
+                                android:id="@+id/project_percent_text"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:textAlignment="center"
+                                android:hint="0%"
+                                android:textSize="18sp"
+                                />
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    card_view:cardElevation="5dp"
+                    android:background="@color/cardview_shadow_start_color">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:background="#FFFFFF">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginRight="16dp"
+                                android:layout_marginBottom="8dp"
+                                android:background="#34495e"
+                                />
+                            <TextView
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="210dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="Quiz"
+                                android:textSize="22sp"
+                                android:textStyle="bold"/>
+
+                            <Switch
+                                android:layout_marginLeft="10dp"
+                                android:layout_gravity="right"
+                                android:layout_width="50dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/quiz_switch"
+                                android:layout_marginTop="20dp"
+                                android:background="@drawable/switch_btn"/>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="#ecf0f1"
+                            android:orientation="horizontal">
+
+                            <SeekBar
+                                android:layout_marginTop="10dp"
+                                android:id="@+id/quiz_seekbar"
+                                android:layout_width="280dp"
+                                android:layout_height="wrap_content"
+                                />
+
+
+                            <TextView
+                                android:id="@+id/quiz_percent_text"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:textAlignment="center"
+                                android:hint="0%"
+                                android:textSize="18sp"
+                                />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</RelativeLayout>

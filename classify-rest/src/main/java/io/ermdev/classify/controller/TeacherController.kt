@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("teachers")
-class TeacherController(@Autowired var teacherService: TeacherService) {
+class TeacherController(@Autowired val teacherService: TeacherService) {
 
     @GetMapping("{teacherId}")
-    fun getById(@PathVariable("teacherId") teacherId: Long): ResponseEntity<TeacherDto> {
+    fun getTeacherById(@PathVariable("teacherId") teacherId: Long): ResponseEntity<TeacherDto> {
         val teacher = teacherService.findById(teacherId)
         val dto = TeacherDto(teacher.id, teacher.name, teacher.email)
         return ResponseEntity(dto, HttpStatus.FOUND)
     }
 
     @GetMapping()
-    fun getById(): ResponseEntity<List<TeacherDto>> {
+    fun getAllTeacher(): ResponseEntity<List<TeacherDto>> {
         val teachers = teacherService.findAll()
         val dto = ArrayList<TeacherDto>()
         teachers.parallelStream().forEach({ t -> dto.add(TeacherDto(t.id, t.name, t.email)) })

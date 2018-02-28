@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <LinearLayout
+        android:id="@+id/activity_login_header"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="horizontal" />
+
+    <ImageView
+        android:id="@+id/activity_ccslogo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/ccslogo"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="75dp" />
+
+    <fragment
+        android:id="@+id/fragment_login_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="70dp"
+        tools:layout="@layout/login_fragment"
+        android:name="com.lieverandiver.thesisproject.fragment.LoginFragment"
+         />
+
+    <FrameLayout
+        android:id="@+id/white_screen_transparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#A6FFFFFF" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressbar_login"
+        android:layout_gravity="center"/>
+
+</FrameLayout>

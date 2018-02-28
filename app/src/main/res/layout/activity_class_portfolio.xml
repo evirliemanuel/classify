@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_clazz__portfolio"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    tools:context="com.lieverandiver.thesisproject.Activity_Class_Portfolio">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include
+            android:id="@+id/activity_main_custom_toolbar"
+            layout="@layout/custom_toolbar_violet"
+            />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_gravity="left"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:text="Portfolio"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="20dp"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorWhite"/>
+            <ImageView
+                android:layout_marginRight="20dp"
+                android:layout_gravity="right"
+                android:id="@+id/btn_cancel"
+                android:layout_marginTop="25dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/cancel_icon"
+                android:clickable="true"/>
+        </FrameLayout>
+    </RelativeLayout>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        card_view:cardElevation="5dp">
+
+        <LinearLayout
+            android:background="@drawable/basic_ripple"
+            android:clickable="true"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:background="@drawable/icon_button_add"
+                android:layout_marginBottom="10dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp">
+
+            </ImageView>
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Portfolio"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tap here to add"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorAccent"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

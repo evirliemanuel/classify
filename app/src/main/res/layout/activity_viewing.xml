@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_clazz__activity"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".Activity_Viewing">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/activity_main_custom_toolbar"
+            layout="@layout/custom_toolbar"
+            />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="left"
+                android:id="@+id/activity_viewing_backbutton"
+                android:layout_marginTop="28dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_arrow_back_white_24dp"
+                android:clickable="true"/>
+
+            <LinearLayout
+                android:layout_marginLeft="50dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+                <TextView
+                    android:id="@+id/activity_viewing_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorWhite"/>
+
+                <TextView
+                    android:layout_marginBottom="16dp"
+                    android:id="@+id/activity_viewing_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date"
+                    android:textSize="22dp"
+                    android:textColor="@color/colorWhite"
+                    android:layout_marginLeft="30dp"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginRight="30dp"
+                android:orientation="vertical"
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="@color/colorWhite"
+                    android:layout_marginTop="22dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total"
+                    android:textStyle="bold"
+                    android:textSize="18dp"/>
+
+                <TextView
+                    android:id="@+id/activity_viewing_total"
+                    android:layout_gravity="right"
+                    android:textSize="22dp"
+                    android:textColor="@color/colorWhite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00"/>
+
+            </LinearLayout>
+
+
+
+        </FrameLayout>
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/grades_view"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

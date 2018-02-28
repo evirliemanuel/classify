@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_quizt__view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.lieverandiver.thesisproject.QuizActivity_View"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+
+    <include
+        android:id="@+id/dsds"
+        layout="@layout/custom_toolbar_green"
+        />
+
+
+    <android.support.v7.widget.CardView
+        android:layout_below="@+id/dsds"
+        android:id="@+id/view_subject_gradingcriteria_cv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        card_view:cardElevation="3dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_marginBottom="10dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp">
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:layout_below="@+id/quizzes_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tap here to add"
+                android:textSize="15sp"
+                android:textColor="@color/colorAccent"/>
+
+            <TextView
+                android:id="@+id/quizzes_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Quizzes"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
+
+
+        </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/icon_button_add"
+                android:layout_marginLeft="35dp">
+
+            </RelativeLayout>
+        </LinearLayout>
+       </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/view_gradingcriteria_cv_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/view_subject_gradingcriteria_cv">
+
+    </android.support.v7.widget.RecyclerView>
+</RelativeLayout>

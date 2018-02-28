@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/f_data_cardview_studentname_slidebar"
+    android:layout_width="match_parent"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    card_view:cardElevation="5dp"
+    android:clickable="true"
+    card_view:cardCornerRadius="5dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite">
+
+        <RelativeLayout
+            android:layout_marginBottom="10dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/student_profile_picture"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/student_profile_male"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp">
+
+            <RatingBar
+                android:layout_below="@+id/f_data_studentname_text"
+                android:id="@+id/f_data_student_ratingbar"
+                android:layout_width="125dp"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:rating="3.5"
+                android:scaleX="1"
+                android:scaleY="1"
+                style="@style/foodRatingBar"
+                android:isIndicator="false"
+                android:transformPivotX="0dp"
+                />
+
+            <TextView
+                android:id="@+id/f_data_studentname_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Manuel, Virlie E."
+                android:textSize="22sp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="@color/colorConcrete">
+
+            <TextView
+                android:id="@+id/f_date_student_slidebar_percent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="75%"
+                android:textColor="@color/colorWhite"
+                android:textSize="25dp"
+                android:layout_centerInParent="true"/>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

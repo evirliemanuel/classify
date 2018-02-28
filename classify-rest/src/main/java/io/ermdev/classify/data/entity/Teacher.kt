@@ -15,4 +15,4 @@ class Teacher(
 
         @OneToOne(cascade = [(CascadeType.ALL)])
         @JoinColumn(name = "user_id", unique = true)
-        var user: User? = null)
+        var user: User = User())

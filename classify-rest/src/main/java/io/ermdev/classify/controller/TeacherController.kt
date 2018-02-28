@@ -38,13 +38,13 @@ class TeacherController(@Autowired val teacherService: TeacherService) {
     }
 
     @GetMapping("{teacherId}/user")
-    fun getUserById(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any> {
-        val user = teacherService.findById(teacherId).user
-        return if (user != null) {
+    fun getUserById(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any?> {
+        return try {
+            val user = teacherService.findById(teacherId).user
             val dto = UserDto(user.id, user.username, user.password)
             ResponseEntity(dto, HttpStatus.FOUND)
-        } else {
-            ResponseEntity("No user found", HttpStatus.NOT_FOUND)
+        } catch (e: EntityException) {
+            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
 
     }

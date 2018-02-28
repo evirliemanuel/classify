@@ -8,6 +8,8 @@ class User(@Id @GeneratedValue(strategy = GenerationType.AUTO) var id: Long,
            var username: String,
            var password: String) {
 
+    constructor() : this(0, "", "")
+
     override fun toString(): String {
         return "Id : ${id}, Username : ${username}, Password : ${password}";
     }

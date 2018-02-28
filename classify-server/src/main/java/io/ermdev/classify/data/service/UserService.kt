@@ -1,8 +1,8 @@
 package io.ermdev.classify.data.service
 
-import io.ermdev.alice.entity.User
-import io.ermdev.alice.exception.EntityException
-import io.ermdev.alice.repository.UserRepository
+import io.ermdev.classify.data.entity.User
+import io.ermdev.classify.data.repository.UserRepository
+import io.ermdev.classify.exception.EntityException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 class UserService(@Autowired var userRepository: UserRepository) {
 
     fun findById(userId: Long): User {
-        var user = userRepository.findById(userId)
+        val user = userRepository.findById(userId)
         if (user != null) {
             return user
         } else {
@@ -18,5 +18,5 @@ class UserService(@Autowired var userRepository: UserRepository) {
         }
     }
 
-    fun findAll(): List<User> = userRepository.findAll()
+    fun findAll(): List<User>? = userRepository.findAll()
 }

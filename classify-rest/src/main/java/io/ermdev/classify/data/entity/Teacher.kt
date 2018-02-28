@@ -13,6 +13,6 @@ class Teacher(
 
         var email: String = "",
 
-        @OneToOne
-        @JoinColumn(name = "user_id")
+        @OneToOne(cascade = [(CascadeType.ALL)])
+        @JoinColumn(name = "user_id", unique = true)
         var user: User? = null)

@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestController
 class UserController(@Autowired var userService: UserService) {
 
     @GetMapping("{userId}")
-    fun getById(@PathVariable("userId") userId: Long): ResponseEntity<User> {
+    fun getUserById(@PathVariable("userId") userId: Long): ResponseEntity<User> {
         return ResponseEntity(userService.findById(userId), HttpStatus.FOUND)
     }
 
     @GetMapping()
-    fun getById(): ResponseEntity<List<User>?> {
+    fun getAllUser(): ResponseEntity<List<User>?> {
         return ResponseEntity(userService.findAll(), HttpStatus.FOUND)
     }
 }

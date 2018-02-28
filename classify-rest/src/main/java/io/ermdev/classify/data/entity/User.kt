@@ -12,5 +12,5 @@ class User(@Id
 
            var password: String = "",
 
-           @OneToOne(mappedBy = "user")
+           @OneToOne(cascade = [(CascadeType.ALL)], mappedBy = "user")
            var teacher: Teacher? = null)

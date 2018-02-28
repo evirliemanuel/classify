@@ -26,4 +26,6 @@ class UserService(@Autowired var userRepository: UserRepository) {
             throw EntityException("No user found")
         }
     }
+
+    fun save(user: User) = userRepository.save(user)
 }

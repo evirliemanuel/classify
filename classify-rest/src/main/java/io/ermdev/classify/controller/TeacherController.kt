@@ -26,7 +26,7 @@ class TeacherController(@Autowired val teacherService: TeacherService) {
         }
     }
 
-    @GetMapping("all")
+    @GetMapping
     fun getAll(): ResponseEntity<Any?> {
         return try {
             val dto = ArrayList<TeacherDto>()
@@ -50,23 +50,48 @@ class TeacherController(@Autowired val teacherService: TeacherService) {
     }
 
     @PostMapping
-    fun add(@RequestBody teacher: Teacher): ResponseEntity<Void> {
-        teacher.user = User(0, teacher.email.split("@")[0].toLowerCase(), "123")
-        teacherService.save(teacher)
-        return ResponseEntity(HttpStatus.CREATED)
+    fun add(@RequestBody teacher: Teacher): ResponseEntity<Any?> {
+        return try {
+            teacher.user = User(0, teacher.email.split("@")[0].toLowerCase(), "123")
+            teacherService.save(teacher)
+            ResponseEntity(HttpStatus.CREATED)
+        } catch (e: EntityException) {
+            ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
+        }
     }
 
     @PutMapping("{teacherId}")
     fun update(@PathVariable("teacherId") teacherId: Long,
-               @RequestBody teacher: Teacher): ResponseEntity<Void> {
-        teacher.id = teacherId
-        teacherService.save(teacher)
-        return ResponseEntity(HttpStatus.OK)
+               @RequestBody teacher: Teacher): ResponseEntity<Any?> {
+        return try {
+            teacher.id = teacherId
+            teacherService.save(teacher)
+            ResponseEntity(HttpStatus.OK)
+        } catch (e: EntityException) {
+            ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
+        }
+    }
+
+    @PutMapping("{teacherId}/user")
+    fun updateUser(@PathVariable("teacherId") teacherId: Long,
+               @RequestBody user: User): ResponseEntity<Any?> {
+        return try {
+            val teacher = teacherService.findById(teacherId)
+            teacher.user = user
+            teacherService.save(teacher)
+            ResponseEntity(HttpStatus.OK)
+        } catch (e: EntityException) {
+            ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
+        }
     }
 
     @DeleteMapping("{teacherId}")
-    fun delete(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Void> {
-        teacherService.delete(teacherId)
-        return ResponseEntity(HttpStatus.OK)
+    fun delete(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any?> {
+        return try {
+            teacherService.delete(teacherId)
+            ResponseEntity(HttpStatus.OK)
+        } catch (e: EntityException) {
+            ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
+        }
     }
 }

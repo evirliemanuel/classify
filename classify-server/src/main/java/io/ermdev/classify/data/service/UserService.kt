@@ -18,5 +18,12 @@ class UserService(@Autowired var userRepository: UserRepository) {
         }
     }
 
-    fun findAll(): List<User>? = userRepository.findAll()
+    fun findAll(): List<User> {
+        val users = userRepository.findAll()
+        if (users != null) {
+            return users
+        } else {
+            throw EntityException("No user found")
+        }
+    }
 }

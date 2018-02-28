@@ -12,4 +12,4 @@ class Teacher(
         var email: String = "",
         @OneToOne
         @JoinColumn(name = "userId")
-        var user: User?)
+        var userId: User? = null)

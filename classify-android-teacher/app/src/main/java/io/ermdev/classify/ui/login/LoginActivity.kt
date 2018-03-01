@@ -23,9 +23,6 @@ class LoginActivity : BasicActivity() {
     @Inject
     lateinit var retrofit: Retrofit
 
-    @Inject
-    lateinit var uri: String
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -45,12 +42,17 @@ class LoginActivity : BasicActivity() {
 
         call.enqueue(object : Callback<Teacher> {
             override fun onResponse(call: Call<Teacher>?, response: Response<Teacher>?) {
+                var succ = response?.isSuccessful()
+                var teacher = response?.body()
+
                 Log.i("retrofit", "${response}")
-                Log.i("retrofit", response!!.body().toString())
+                Log.i("retrofit", "success : ${succ}")
+
+                Log.i("retrofit", "success : ${teacher}")
             }
 
             override fun onFailure(call: Call<Teacher>?, t: Throwable?) {
-                Log.i("retrofit", "error ${uri} ${t.toString()}")
+                Log.i("retrofit", "error")
             }
         })
     }

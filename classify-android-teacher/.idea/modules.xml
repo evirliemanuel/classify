@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:\Users\inteliedoit\Documents\classify\classify-android-teacher\app\app.iml" filepath="C:\Users\inteliedoit\Documents\classify\classify-android-teacher\app\app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/classify-android-teacher.iml" filepath="$PROJECT_DIR$/classify-android-teacher.iml" />
-      <module fileurl="file://C:\Users\inteliedoit\Documents\classify\classify-android-teacher\classify-android-teacher.iml" filepath="C:\Users\inteliedoit\Documents\classify\classify-android-teacher\classify-android-teacher.iml" />
     </modules>
   </component>
 </project>

@@ -20,7 +20,7 @@ class TeacherController(@Autowired val teacherService: TeacherService) {
         return try {
             val teacher = teacherService.findById(teacherId)
             val dto = TeacherDto(teacher.id, teacher.name, teacher.email)
-            ResponseEntity(dto, HttpStatus.FOUND)
+            ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
@@ -31,7 +31,7 @@ class TeacherController(@Autowired val teacherService: TeacherService) {
         return try {
             val dto = ArrayList<TeacherDto>()
             teacherService.findAll().parallelStream().forEach({ t -> dto.add(TeacherDto(t.id, t.name, t.email)) })
-            ResponseEntity(dto, HttpStatus.FOUND)
+            ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
@@ -42,7 +42,7 @@ class TeacherController(@Autowired val teacherService: TeacherService) {
         return try {
             val user = teacherService.findById(teacherId).user
             val dto = UserDto(user.id, user.username, user.password)
-            ResponseEntity(dto, HttpStatus.FOUND)
+            ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }

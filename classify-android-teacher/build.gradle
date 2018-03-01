@@ -31,7 +31,6 @@ ext {
     supportLibVersion = '26.1.0'
     daggerVersion = '2.11'
     retrofitVersion = '2.3.0'
-    gsonConverterVersion = '2.3.0'
 
     supportLibAppCompat = "com.android.support:appcompat-v7:$supportLibVersion"
     supportLibDesign = "com.android.support:design:$supportLibVersion"
@@ -42,5 +41,6 @@ ext {
     daggerCompiler = "com.google.dagger:dagger-compiler:$daggerVersion"
 
     retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    gsonConverter = "com.squareup.retrofit2:converter-gson:$gsonConverterVersion"
+    adapterRxJava = "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    gsonConverter = "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 }

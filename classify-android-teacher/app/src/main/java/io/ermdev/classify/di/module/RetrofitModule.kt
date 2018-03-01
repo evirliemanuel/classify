@@ -9,20 +9,20 @@ import javax.inject.Singleton
 @Module
 class RetrofitModule(private val uri: String) {
 
-    @Singleton
     @Provides
+    @Singleton
     fun providesUri(): String = uri
 
-    @Singleton
     @Provides
+    @Singleton
     fun providesBuilder(uri: String): Retrofit.Builder {
         return Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(uri)
-                .addConverterFactory(GsonConverterFactory.create());
     }
 
-    @Singleton
     @Provides
+    @Singleton
     fun providesRetrofit(builder: Retrofit.Builder): Retrofit {
         return builder.build()
     }

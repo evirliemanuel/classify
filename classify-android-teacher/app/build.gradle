@@ -36,6 +36,7 @@ dependencies {
     kapt rootProject.ext.daggerCompiler
 
     implementation rootProject.ext.retrofit
+    implementation rootProject.ext.adapterRxJava
     implementation rootProject.ext.gsonConverter
 
     testImplementation 'junit:junit:4.12'

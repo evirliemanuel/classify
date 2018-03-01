@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="io.inteliedoit.student_android.ClassDetailActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <FrameLayout
+        android:background="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <Button
+            android:id="@+id/btn_class_back"
+            android:background="@drawable/icon_back"
+            android:layout_marginLeft="14dp"
+            android:layout_gravity="center|left"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+    </FrameLayout>
+
+    <android.support.v7.widget.CardView
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_class_teachername"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Teacher Name"
+                    android:textColor="@color/Black"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"></android.support.v7.widget.CardView>
+
+                <TextView
+                    android:id="@+id/txt_class_subjectname"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Subject name"
+                    android:textColor="@color/Black"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txt_class_description"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Description..."
+                    android:textColor="@color/Black"
+                    android:textSize="16dp" />
+
+                <LinearLayout
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                    <ImageView
+                        android:id="@+id/img_class_sched1"
+                        android:background="@drawable/icon_day_monday"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp" />
+
+                    <TextView
+                        android:id="@+id/txt_class_sched1"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Dateand Time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:text="-"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <ImageView
+                        android:id="@+id/img_class_sched2"
+                        android:background="@drawable/icon_day_monday"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp" />
+
+                    <TextView
+                        android:id="@+id/txt_class_sched2"
+                        android:text="Dateand Time"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </FrameLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.CardView
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:text="Grading Criteria"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_class_gradingcriteria"
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/class_transparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#A6FFFFFF" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressbar_class"
+        android:layout_gravity="center"/>
+</FrameLayout>

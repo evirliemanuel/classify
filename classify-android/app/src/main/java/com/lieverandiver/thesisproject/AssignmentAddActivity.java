@@ -82,7 +82,7 @@ public class AssignmentAddActivity extends AppCompatActivity implements Assignme
             new AssignmentAddThread().start();
 
         }catch (Exception e) {
-            e.printStackTrace();
+
         }
     }
 

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorLightGray"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+  <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+  <FrameLayout
+      android:background="@color/colorPrimaryDark"
+      android:layout_width="match_parent"
+      android:layout_height="60dp">
+
+   <Button
+       android:id="@+id/btn_main_user"
+       android:background="@drawable/icon_user"
+       android:layout_marginRight="14dp"
+       android:layout_gravity="center|right"
+       android:layout_width="40dp"
+       android:layout_height="40dp" />
+
+  </FrameLayout>
+  
+  <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+    <android.support.v7.widget.CardView
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+      <Spinner
+          android:id="@+id/spinner_main_subjetclist"
+          android:entries="@array/semestergrade"
+          android:layout_marginBottom="5dp"
+          android:layout_marginTop="5dp"
+          android:layout_marginLeft="10dp"
+          android:layout_marginRight="10dp"
+          android:layout_width="match_parent"
+          android:layout_height="40dp">
+
+      </Spinner>
+
+    </android.support.v7.widget.CardView>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+      <FrameLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_gravity="center|top"
+            android:background="@color/MiddleBlue"
+            android:layout_width="match_parent"
+            android:layout_height="30sp">
+
+          <TextView
+              android:textColor="@color/colorWhite"
+              android:layout_gravity="center|left"
+              android:layout_marginLeft="10dp"
+              android:textSize="16dp"
+              android:textStyle="bold"
+              android:text="Subject Name"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+
+          <TextView
+              android:textColor="@color/colorWhite"
+              android:layout_gravity="center|right"
+              android:layout_marginRight="10dp"
+              android:textSize="16dp"
+              android:textStyle="bold"
+              android:text="Final Grades"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+        </FrameLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center|top"
+            android:id="@+id/recyclerview_main_subjectlist"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+      </FrameLayout>
+    </LinearLayout>
+  </LinearLayout>
+
+  </LinearLayout>
+
+  <FrameLayout
+      android:id="@+id/main_transparent"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="#A6FFFFFF" />
+
+  <ProgressBar
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:id="@+id/progressbar_main"
+      android:layout_gravity="center"/>
+</FrameLayout>

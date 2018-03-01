@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="io.inteliedoit.student_android.UserActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+    <FrameLayout
+        android:background="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <Button
+            android:id="@+id/btn_user_back"
+            android:background="@drawable/icon_back"
+            android:layout_marginLeft="14dp"
+            android:layout_gravity="center|left"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+    </FrameLayout>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:background="@drawable/icon_user"
+            android:layout_margin="10dp"
+            android:layout_gravity="center|right"
+            android:layout_width="80dp"
+            android:layout_height="80dp" />
+
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center|left"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/txt_user_studentname"
+                    android:textSize="18dp"
+                    android:text="Student Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/txt_user_studentnumber"
+                    android:textSize="16dp"
+                    android:text="Student Number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/txt_user_enrolled"
+                    android:textSize="16dp"
+                    android:text="Enrolled 1st-Semester 2018 "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+        </FrameLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+       android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center|left"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:background="@drawable/icon_star"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp" />
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:text="Active Class"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txt_user_classcount"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center|right"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:text="-/-"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </FrameLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_user_classlist"
+       android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/user_transparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#A6FFFFFF" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressbar_user"
+        android:layout_gravity="center"/>
+
+</FrameLayout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_margin="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|left"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/activiyname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Loading..."
+                android:textColor="@color/Black"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/subjectdesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Loading..."
+                android:textSize="16dp" />
+
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center|right"
+            android:layout_marginRight="16dp">
+
+            <TextView
+                android:layout_marginTop="8dp"
+                android:id="@+id/gradingcriteria_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top"
+                android:text="0.00"
+                android:textColor="@color/Black"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_marginBottom="7dp"
+                android:layout_gravity="center|bottom"
+                android:id="@+id/subject_remark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Loading..."
+                android:textSize="16dp" />
+
+
+
+
+        </FrameLayout>
+
+    </FrameLayout>
+</android.support.v7.widget.CardView>

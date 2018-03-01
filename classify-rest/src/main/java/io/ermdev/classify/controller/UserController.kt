@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("users")
-class UserController(@Autowired var userService: UserService) {
+class UserController(@Autowired val userService: UserService) {
 
     @GetMapping("{userId}")
     fun getById(@PathVariable("userId") userId: Long): ResponseEntity<Any?> {
@@ -19,6 +19,7 @@ class UserController(@Autowired var userService: UserService) {
             val user = userService.findById(userId)
             val dto = UserDto(user.id, user.username, user.password)
             ResponseEntity(dto, HttpStatus.FOUND)
+            ResponseEntity("", HttpStatus.NOT_FOUND)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
@@ -56,7 +57,7 @@ class UserController(@Autowired var userService: UserService) {
         }
     }
 
-    @PutMapping("{userId}")
+    @DeleteMapping("{userId}")
     fun delete(@PathVariable() userId: Long): ResponseEntity<Any?> {
         return try {
             userService.delete(userId)

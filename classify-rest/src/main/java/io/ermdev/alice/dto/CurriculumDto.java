@@ -1,7 +1,7 @@
 package io.ermdev.alice.dto;
 
 import io.ermdev.alice.entity.Term;
-import mapfierj.Excluded;
+import mapfierj.Exclude;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
@@ -12,10 +12,11 @@ public class CurriculumDto {
 
     private Long id;
 
-    @Excluded
+    @Exclude
     private List<Term> terms = new ArrayList<>();
 
-    public CurriculumDto() {}
+    public CurriculumDto() {
+    }
 
     public CurriculumDto(Long id) {
         this.id = id;

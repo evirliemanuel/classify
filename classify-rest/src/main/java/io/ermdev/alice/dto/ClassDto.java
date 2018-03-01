@@ -2,7 +2,7 @@ package io.ermdev.alice.dto;
 
 import io.ermdev.alice.entity.Schedule;
 import io.ermdev.alice.entity.Teacher;
-import mapfierj.Excluded;
+import mapfierj.Exclude;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
@@ -15,10 +15,11 @@ public class ClassDto {
     private StudentDto student;
     private SubjectDto subject;
     private Teacher teacher;
-    @Excluded
+    @Exclude
     private List<Schedule> schedules = new ArrayList<>();
 
-    public ClassDto() {}
+    public ClassDto() {
+    }
 
     public ClassDto(Long id, StudentDto student) {
         this.id = id;

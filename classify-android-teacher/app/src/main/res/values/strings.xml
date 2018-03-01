@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">classify</string>
+
+    <!-- Login -->
+    <string name="username_hint">Enter username</string>
+    <string name="password_hint">Enter password</string>
+</resources>

@@ -18,7 +18,7 @@ class UserController(@Autowired val userService: UserService) {
         return try {
             val user = userService.findById(userId)
             val dto = UserDto(user.id, user.username, user.password)
-            ResponseEntity(dto, HttpStatus.FOUND)
+            ResponseEntity(dto, HttpStatus.OK)
             ResponseEntity("", HttpStatus.NOT_FOUND)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
@@ -30,7 +30,7 @@ class UserController(@Autowired val userService: UserService) {
         return try {
             val dto = ArrayList<UserDto>()
             userService.findAll().parallelStream().forEach({ u -> dto.add(UserDto(u.id, u.username, u.password)) })
-            ResponseEntity(dto, HttpStatus.FOUND)
+            ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }

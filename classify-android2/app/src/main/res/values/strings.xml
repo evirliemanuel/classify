@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">AndroidBase_VClassify</string>
+    <string name="title_Subject">Subject</string>
+    <string name="title_Class">Class</string>
+    <string name="title_Account">Profile</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="semestergrade">
+        <item>Fistyear-Firstsemester</item>
+        <item>Fistyear-Secondsemester</item>
+        <item>Seconyear-Firstsemester</item>
+        <item>Secondyear-Secondsemester</item>
+        <item>Thirdyear-Firstsemester</item>
+        <item>Thirdyear-Secondsemester</item>
+        <item>Fourthyear-Firstsemester</item>
+        <item>Fourthyear-Secondsemester</item>
+    </string-array>
+</resources>

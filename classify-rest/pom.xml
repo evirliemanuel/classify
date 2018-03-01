@@ -20,6 +20,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <kotlin.version>1.2.21</kotlin.version>
+        <start-class>io.ermdev.classify.ClassifyApplication</start-class>
     </properties>
 
     <dependencies>
@@ -74,10 +75,6 @@
                         <goals>
                             <goal>repackage</goal>
                         </goals>
-                        <configuration>
-                            <classifier>spring-boot</classifier>
-                            <mainClass>io.ermdev.classify.ClassifyApplication</mainClass>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

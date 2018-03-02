@@ -132,11 +132,16 @@ class LessonController(@Autowired val lessonService: LessonService,
                    @PathVariable("studentId") studentId: Long): ResponseEntity<Any?> {
         return try {
             val lesson = lessonService.findById(lessonId)
-            val students = lesson.students
-            if (!students.any({ s -> studentId == s.id })) {
-                students.add(studentService.findById(studentId))
+            val isExists = try {
+                lessonService.findStudentById(lessonId, studentId)
+                true
+            } catch (e: EntityException) {
+                false
             }
-            lessonService.save(lesson)
+            if (!isExists) {
+                lesson.students.add(studentService.findById(studentId))
+                lessonService.save(lesson)
+            }
             ResponseEntity(HttpStatus.OK)
         } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
@@ -189,11 +194,11 @@ class LessonController(@Autowired val lessonService: LessonService,
         }
     }
 
-    @PostMapping("{lessonId}/students/{studentId}")
+    @DeleteMapping("{lessonId}/students/{studentId}")
     fun deleteStudent(@PathVariable("lessonId") lessonId: Long,
                       @PathVariable("studentId") studentId: Long): ResponseEntity<Any?> {
         return try {
-            lessonService.delete(lessonId, studentId)
+            lessonService.deleteStudent(lessonId, studentId)
             ResponseEntity(HttpStatus.OK)
         } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)

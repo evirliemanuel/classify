@@ -52,10 +52,8 @@ class LessonService(@Autowired val lessonRepository: LessonRepository,
 
     fun deleteStudent(lessonId: Long, studentId: Long) {
         try {
-            val conn = dataSource.connection
             val sql = "DELETE FROM tbl_student_lesson WHERE lesson_id = ? AND student_id = ?"
-            val ps = conn.prepareStatement(sql)
-
+            val ps = dataSource.connection.prepareStatement(sql)
             ps.setLong(1, lessonId)
             ps.setLong(2, studentId)
             ps.executeUpdate()

@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service
 @Service
 class UserService(@Autowired var userRepository: UserRepository) {
 
-    fun findById(userId: Long): User {
-        val user: User? = userRepository.findById(userId)
+    fun findById(id: Long): User {
+        val user: User? = userRepository.findById(id)
         return user ?: throw EntityException("No user found")
     }
 
@@ -23,5 +23,5 @@ class UserService(@Autowired var userRepository: UserRepository) {
 
     fun delete(user: User) = userRepository.delete(user)
 
-    fun delete(userId: Long) = userRepository.delete(userId)
+    fun delete(id: Long) = userRepository.delete(id)
 }

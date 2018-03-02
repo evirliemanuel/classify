@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service
 @Service
 class TeacherService(@Autowired var teacherRepository: TeacherRepository) {
 
-    fun findById(teacherId: Long): Teacher {
-        val teacher: Teacher? = teacherRepository.findById(teacherId)
+    fun findById(id: Long): Teacher {
+        val teacher: Teacher? = teacherRepository.findById(id)
         return teacher ?: throw EntityException("No teacher found")
     }
 
@@ -23,5 +23,5 @@ class TeacherService(@Autowired var teacherRepository: TeacherRepository) {
 
     fun delete(teacher: Teacher) = teacherRepository.delete(teacher)
 
-    fun delete(teacherId: Long) = teacherRepository.delete(teacherId)
+    fun delete(id: Long) = teacherRepository.delete(id)
 }

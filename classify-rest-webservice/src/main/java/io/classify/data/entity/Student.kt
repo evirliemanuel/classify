@@ -6,9 +6,15 @@ import javax.persistence.*
 @Table(name = "tbl_student")
 class Student(@Id
               @GeneratedValue(strategy = GenerationType.AUTO)
-              var id: Long,
+              var id: Long = 0,
 
-              var name: String,
+              var number: Long = 0,
+
+              var name: String = "",
 
               @ManyToMany(mappedBy = "students")
-              var lessons: List<Lesson> = ArrayList())
+              var lessons: List<Lesson> = ArrayList(),
+
+              @OneToOne(cascade = [(CascadeType.ALL)])
+              @JoinColumn(name = "user_id", unique = true)
+              var user: User = User())

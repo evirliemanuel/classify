@@ -40,8 +40,8 @@ class StudentController(@Autowired val studentService: StudentService) {
     @GetMapping("{studentId}/user")
     fun getUser(@PathVariable("studentId") studentId: Long): ResponseEntity<Any?> {
         return try {
-            val user = studentService.findById(studentId).user
-            val dto = UserDto(user.id, user.username, user.password)
+            val user = studentService.findUser(studentId)
+            val dto = UserDto(id = user.id, username = user.username, password = user.password)
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)

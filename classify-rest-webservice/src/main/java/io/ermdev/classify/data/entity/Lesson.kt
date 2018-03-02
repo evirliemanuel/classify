@@ -14,4 +14,9 @@ class Lesson(@Id
 
              @ManyToOne(cascade = [CascadeType.ALL])
              @JoinColumn(name = "teacher_id")
-             var teacher: Teacher? = null)
+             var teacher: Teacher? = null,
+
+             @ManyToMany(cascade = [CascadeType.ALL])
+             @JoinTable(name = "tbl_lesson_student", joinColumns = [JoinColumn(name = "lesson_id")],
+                     inverseJoinColumns = [(JoinColumn(name = "student_id"))])
+             var students: List<Student> = ArrayList())

@@ -1,10 +1,12 @@
-package io.ermdev.classify.di.module
+package io.classify.di.module
 
 import dagger.Module
 import dagger.Provides
-import io.ermdev.classify.data.remote.retrofit.api.TeacherApi
-import io.ermdev.classify.data.remote.retrofit.service.TeacherService
+import io.classify.data.remote.retrofit.api.TeacherApi
+import io.classify.data.remote.retrofit.service.TeacherService
+import io.reactivex.schedulers.Schedulers
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
@@ -20,6 +22,7 @@ class RetrofitModule(private val uri: String) {
     fun providesBuilder(uri: String): Retrofit.Builder {
         return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .baseUrl(uri)
     }
 

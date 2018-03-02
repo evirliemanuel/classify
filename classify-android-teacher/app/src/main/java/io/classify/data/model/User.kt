@@ -1,4 +1,4 @@
-package io.ermdev.classify.data.model
+package io.classify.data.model
 
 class User(var id: Long = 0,
 

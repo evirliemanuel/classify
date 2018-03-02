@@ -1,4 +1,4 @@
-package io.ermdev.classify.di.module
+package io.classify.di.module
 
 import android.app.Application
 import dagger.Module
@@ -11,4 +11,6 @@ class AppModule(private val application: Application) {
     @Singleton
     @Provides
     fun providesApplication() = application
+
+
 }

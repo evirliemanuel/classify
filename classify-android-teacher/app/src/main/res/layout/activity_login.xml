@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.login.LoginActivity">
+    tools:context="io.classify.ui.login.LoginActivity">
 
     <RelativeLayout
         android:layout_width="wrap_content"

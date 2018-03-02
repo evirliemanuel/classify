@@ -1,8 +1,8 @@
-package io.ermdev.classify.di.component
+package io.classify.di.component
 
 import dagger.Component
-import io.ermdev.classify.MainActivity
-import io.ermdev.classify.di.module.AppModule
+import io.classify.MainActivity
+import io.classify.di.module.AppModule
 import javax.inject.Singleton
 
 @Singleton

@@ -1,4 +1,4 @@
-package io.ermdev.classify;
+package io.classify;
 
 import org.junit.Test;
 

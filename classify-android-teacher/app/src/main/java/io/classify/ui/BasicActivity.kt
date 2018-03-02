@@ -1,10 +1,10 @@
-package io.ermdev.classify.ui
+package io.classify.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import io.ermdev.classify.di.component.AppComponent
-import io.ermdev.classify.di.component.DaggerAppComponent
-import io.ermdev.classify.di.module.AppModule
+import io.classify.di.component.AppComponent
+import io.classify.di.component.DaggerAppComponent
+import io.classify.di.module.AppModule
 
 open class BasicActivity: AppCompatActivity() {
 

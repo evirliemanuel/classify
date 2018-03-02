@@ -1,11 +1,12 @@
-package io.ermdev.classify;
+package io.classify;
 
 import android.app.Application;
 import android.os.Bundle;
 
 import javax.inject.Inject;
 
-import io.ermdev.classify.ui.BasicActivity;
+import io.ermdev.classify.R;
+import io.classify.ui.BasicActivity;
 
 public class MainActivity extends BasicActivity {
 

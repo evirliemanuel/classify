@@ -1,3 +1,3 @@
-package io.ermdev.classify.exception
+package io.classify.exception
 
 class ResourceException(message: String) : Exception(message)

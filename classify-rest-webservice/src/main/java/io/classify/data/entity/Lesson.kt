@@ -10,13 +10,13 @@ class Lesson(@Id
 
              @ManyToOne(cascade = [CascadeType.ALL])
              @JoinColumn(name = "subject_id")
-             var subject: Subject = Subject(),
+             var subject: Subject? = Subject(),
 
              @ManyToOne(cascade = [CascadeType.ALL])
              @JoinColumn(name = "teacher_id")
-             var teacher: Teacher = Teacher(),
+             var teacher: Teacher? = Teacher(),
 
              @ManyToMany(cascade = [CascadeType.ALL])
              @JoinTable(name = "tbl_student_lesson", joinColumns = [JoinColumn(name = "lesson_id")],
                      inverseJoinColumns = [(JoinColumn(name = "student_id"))])
-             var students: List<Student> = ArrayList())
+             var students: MutableList<Student> = ArrayList())

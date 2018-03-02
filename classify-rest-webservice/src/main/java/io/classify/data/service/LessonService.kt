@@ -6,10 +6,13 @@ import io.classify.data.entity.Subject
 import io.classify.data.entity.Teacher
 import io.classify.data.repository.LessonRepository
 import io.classify.exception.EntityException
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import javax.sql.DataSource
 
 @Service
-class LessonService(val lessonRepository: LessonRepository) {
+class LessonService(@Autowired val lessonRepository: LessonRepository,
+                    @Autowired val dataSource: DataSource) {
 
     fun findById(id: Long): Lesson {
         val lesson: Lesson? = lessonRepository.findById(id)
@@ -46,4 +49,16 @@ class LessonService(val lessonRepository: LessonRepository) {
     fun delete(lesson: Lesson) = lessonRepository.delete(lesson)
 
     fun delete(id: Long) = lessonRepository.delete(id)
+
+    fun deleteStudent(lessonId: Long, studentId: Long) {
+        try {
+            val conn = dataSource.connection
+            val sql = "DELETE FROM tbl_student_lesson WHERE lesson_id = ? AND student_id = ?"
+            val ps = conn.prepareStatement(sql)
+
+            ps.setLong(1, lessonId)
+            ps.setLong(2, studentId)
+            ps.executeUpdate()
+        } catch (e: Exception) {}
+    }
 }

@@ -1,6 +1,7 @@
 package io.classify.data.service
 
 import io.classify.data.entity.Teacher
+import io.classify.data.entity.User
 import io.classify.data.repository.TeacherRepository
 import io.classify.exception.EntityException
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,6 +18,11 @@ class TeacherService(@Autowired var teacherRepository: TeacherRepository) {
     fun findAll(): List<Teacher> {
         val teachers: List<Teacher>? = teacherRepository.findAll()
         return teachers ?: throw EntityException("No teacher found")
+    }
+
+    fun findUser(id: Long): User {
+        val user: User? = teacherRepository.findUser(id)
+        return user ?: throw EntityException("No user found")
     }
 
     fun save(teacher: Teacher) = teacherRepository.save(teacher)

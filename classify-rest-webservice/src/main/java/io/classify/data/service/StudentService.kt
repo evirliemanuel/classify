@@ -22,7 +22,7 @@ class StudentService(@Autowired var studentRepository: StudentRepository) {
 
     fun findUser(id: Long): User {
         val user: User? = studentRepository.findUser(id)
-        return user ?: throw EntityException("No student found")
+        return user ?: throw EntityException("No user found")
     }
 
     fun save(student: Student) = studentRepository.save(student)

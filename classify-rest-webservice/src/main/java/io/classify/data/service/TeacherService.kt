@@ -1,8 +1,8 @@
-package io.ermdev.classify.data.service
+package io.classify.data.service
 
-import io.ermdev.classify.data.entity.Teacher
-import io.ermdev.classify.data.repository.TeacherRepository
-import io.ermdev.classify.exception.EntityException
+import io.classify.data.entity.Teacher
+import io.classify.data.repository.TeacherRepository
+import io.classify.exception.EntityException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 

@@ -1,4 +1,4 @@
-package io.ermdev.classify.data.entity
+package io.classify.data.entity
 
 import javax.persistence.*
 

@@ -1,6 +1,6 @@
-package io.ermdev.classify.data.repository
+package io.classify.data.repository
 
-import io.ermdev.classify.data.entity.User
+import io.classify.data.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param

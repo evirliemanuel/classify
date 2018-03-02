@@ -1,9 +1,9 @@
-package io.ermdev.classify.controller
+package io.classify.controller
 
-import io.ermdev.classify.data.entity.User
-import io.ermdev.classify.data.service.UserService
-import io.ermdev.classify.dto.UserDto
-import io.ermdev.classify.exception.EntityException
+import io.classify.data.entity.User
+import io.classify.data.service.UserService
+import io.classify.dto.UserDto
+import io.classify.exception.EntityException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

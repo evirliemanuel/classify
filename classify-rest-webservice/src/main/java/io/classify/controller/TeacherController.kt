@@ -1,11 +1,11 @@
-package io.ermdev.classify.controller
+package io.classify.controller
 
-import io.ermdev.classify.data.entity.Teacher
-import io.ermdev.classify.data.entity.User
-import io.ermdev.classify.data.service.TeacherService
-import io.ermdev.classify.dto.TeacherDto
-import io.ermdev.classify.dto.UserDto
-import io.ermdev.classify.exception.EntityException
+import io.classify.data.entity.Teacher
+import io.classify.data.entity.User
+import io.classify.data.service.TeacherService
+import io.classify.dto.TeacherDto
+import io.classify.dto.UserDto
+import io.classify.exception.EntityException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -74,7 +74,7 @@ class TeacherController(@Autowired val teacherService: TeacherService) {
 
     @PutMapping("{teacherId}/user")
     fun updateUser(@PathVariable("teacherId") teacherId: Long,
-               @RequestBody user: User): ResponseEntity<Any?> {
+                   @RequestBody user: User): ResponseEntity<Any?> {
         return try {
             val teacher = teacherService.findById(teacherId)
             teacher.user = user

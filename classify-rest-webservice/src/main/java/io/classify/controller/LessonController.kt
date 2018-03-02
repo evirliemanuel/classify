@@ -108,7 +108,7 @@ class LessonController(@Autowired val lessonService: LessonService,
             val lesson = lessonService.findById(lessonId)
             lesson.teacher = teacherService.findById(teacherId)
             lessonService.save(lesson)
-            ResponseEntity(HttpStatus.OK)
+            ResponseEntity(HttpStatus.CREATED)
         } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
         }
@@ -121,7 +121,7 @@ class LessonController(@Autowired val lessonService: LessonService,
             val lesson = lessonService.findById(lessonId)
             lesson.subject = subjectService.findById(subjectId)
             lessonService.save(lesson)
-            ResponseEntity(HttpStatus.OK)
+            ResponseEntity(HttpStatus.CREATED)
         } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
         }
@@ -142,7 +142,7 @@ class LessonController(@Autowired val lessonService: LessonService,
                 lesson.students.add(studentService.findById(studentId))
                 lessonService.save(lesson)
             }
-            ResponseEntity(HttpStatus.OK)
+            ResponseEntity(HttpStatus.CREATED)
         } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
         }
@@ -155,7 +155,7 @@ class LessonController(@Autowired val lessonService: LessonService,
             lesson.id = lessonId
             lessonService.save(lesson)
             ResponseEntity(HttpStatus.OK)
-        } catch (e: EntityException) {
+        } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
         }
     }
@@ -165,7 +165,7 @@ class LessonController(@Autowired val lessonService: LessonService,
         return try {
             lessonService.delete(lessonId)
             ResponseEntity(HttpStatus.OK)
-        } catch (e: EntityException) {
+        } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
         }
     }
@@ -177,7 +177,7 @@ class LessonController(@Autowired val lessonService: LessonService,
             lesson.teacher = null
             lessonService.save(lesson)
             ResponseEntity(HttpStatus.OK)
-        } catch (e: EntityException) {
+        } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
         }
     }
@@ -189,7 +189,7 @@ class LessonController(@Autowired val lessonService: LessonService,
             lesson.subject = null
             lessonService.save(lesson)
             ResponseEntity(HttpStatus.OK)
-        } catch (e: EntityException) {
+        } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
         }
     }

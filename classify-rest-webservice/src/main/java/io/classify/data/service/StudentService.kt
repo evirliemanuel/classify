@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class StudentService(@Autowired var studentRepository: StudentRepository) {
+class StudentService(@Autowired val studentRepository: StudentRepository) {
 
     fun findById(id: Long): Student {
         val student: Student? = studentRepository.findById(id)
@@ -30,4 +30,6 @@ class StudentService(@Autowired var studentRepository: StudentRepository) {
     fun delete(student: Student) = studentRepository.delete(student)
 
     fun delete(id: Long) = studentRepository.delete(id)
+
+    fun deleteUser(id: Long) = studentRepository.deleteUser(id)
 }

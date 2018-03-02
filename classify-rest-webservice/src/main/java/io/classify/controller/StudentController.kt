@@ -3,6 +3,7 @@ package io.classify.controller
 import io.classify.data.entity.Student
 import io.classify.data.entity.User
 import io.classify.data.service.StudentService
+import io.classify.data.service.UserService
 import io.classify.dto.StudentDto
 import io.classify.dto.UserDto
 import io.classify.exception.EntityException
@@ -13,7 +14,8 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("students")
-class StudentController(@Autowired val studentService: StudentService) {
+class StudentController(@Autowired val studentService: StudentService,
+                        @Autowired val userService: UserService) {
 
     @GetMapping("{studentId}")
     fun getById(@PathVariable("studentId") studentId: Long): ResponseEntity<Any?> {
@@ -37,7 +39,7 @@ class StudentController(@Autowired val studentService: StudentService) {
         }
     }
 
-    @GetMapping("{studentId}/user")
+    @GetMapping("{studentId}/users")
     fun getUser(@PathVariable("studentId") studentId: Long): ResponseEntity<Any?> {
         return try {
             val user = studentService.findUser(studentId)
@@ -60,6 +62,19 @@ class StudentController(@Autowired val studentService: StudentService) {
         }
     }
 
+    @PostMapping("{studentId}/users/{userId}")
+    fun addUser(@PathVariable("studentId") studentId: Long,
+                @PathVariable("userId") userId: Long): ResponseEntity<Any?> {
+        return try {
+            val student = studentService.findById(studentId)
+            student.user = userService.findById(userId)
+            studentService.save(student)
+            ResponseEntity(HttpStatus.CREATED)
+        } catch (e: EntityException) {
+            ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
+        }
+    }
+
     @PutMapping("{studentId}")
     fun update(@PathVariable("studentId") studentId: Long,
                @RequestBody student: Student): ResponseEntity<Any?> {
@@ -72,13 +87,13 @@ class StudentController(@Autowired val studentService: StudentService) {
         }
     }
 
-    @PutMapping("{studentId}/user")
+    @PutMapping("{studentId}/users")
     fun updateUser(@PathVariable("studentId") studentId: Long,
                    @RequestBody user: User): ResponseEntity<Any?> {
         return try {
             val student = studentService.findById(studentId)
-            student.user = user
-            studentService.save(student)
+            user.id = student.user.id
+            userService.save(user)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
@@ -89,6 +104,16 @@ class StudentController(@Autowired val studentService: StudentService) {
     fun delete(@PathVariable("studentId") studentId: Long): ResponseEntity<Any?> {
         return try {
             studentService.delete(studentId)
+            ResponseEntity(HttpStatus.OK)
+        } catch (e: EntityException) {
+            ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
+        }
+    }
+
+    @DeleteMapping("{studentId}/users")
+    fun deleteUser(@PathVariable("studentId") studentId: Long): ResponseEntity<Any?> {
+        return try {
+            studentService.deleteUser(studentId)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)

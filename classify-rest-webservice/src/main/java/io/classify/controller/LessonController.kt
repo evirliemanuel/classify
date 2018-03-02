@@ -37,7 +37,7 @@ class LessonController(@Autowired val lessonService: LessonService) {
         }
     }
 
-    @GetMapping("{lessonId}")
+    @GetMapping("{lessonId}/teacher")
     fun getTeacher(@PathVariable("lessonId") lessonId: Long): ResponseEntity<Any?> {
         return try {
             val teacher = lessonService.findTeacher(lessonId)
@@ -48,7 +48,7 @@ class LessonController(@Autowired val lessonService: LessonService) {
         }
     }
 
-    @GetMapping("{lessonId}")
+    @GetMapping("{lessonId}/subject")
     fun getSubject(@PathVariable("lessonId") lessonId: Long): ResponseEntity<Any?> {
         return try {
             val subject = lessonService.findSubject(lessonId)

@@ -12,9 +12,9 @@ class Student(@Id
 
               var name: String = "",
 
-              @ManyToMany(mappedBy = "students")
-              var lessons: List<Lesson> = ArrayList(),
-
               @OneToOne(cascade = [(CascadeType.ALL)])
               @JoinColumn(name = "user_id", unique = true)
-              var user: User = User())
+              var user: User = User(),
+
+              @ManyToMany(mappedBy = "students")
+              var lessons: List<Lesson> = ArrayList())

@@ -18,4 +18,4 @@ class Teacher(
         var user: User = User(),
 
         @OneToMany(mappedBy = "teacher")
-        var lesson: List<Lesson> = ArrayList())
+        var lessons: List<Lesson> = ArrayList())

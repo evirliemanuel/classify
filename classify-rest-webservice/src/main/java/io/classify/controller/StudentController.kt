@@ -91,8 +91,8 @@ class StudentController(@Autowired val studentService: StudentService,
     fun updateUser(@PathVariable("studentId") studentId: Long,
                    @RequestBody user: User): ResponseEntity<Any?> {
         return try {
-            val student = studentService.findById(studentId)
-            user.id = student.user.id
+            val oldUser = studentService.findUser(studentId)
+            user.id = oldUser.id
             userService.save(user)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {

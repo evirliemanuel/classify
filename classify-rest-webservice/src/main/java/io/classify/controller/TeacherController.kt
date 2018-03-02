@@ -3,6 +3,7 @@ package io.classify.controller
 import io.classify.data.entity.Teacher
 import io.classify.data.entity.User
 import io.classify.data.service.TeacherService
+import io.classify.data.service.UserService
 import io.classify.dto.TeacherDto
 import io.classify.dto.UserDto
 import io.classify.exception.EntityException
@@ -13,7 +14,8 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("teachers")
-class TeacherController(@Autowired val teacherService: TeacherService) {
+class TeacherController(@Autowired val teacherService: TeacherService,
+                        @Autowired val userService: UserService) {
 
     @GetMapping("{teacherId}")
     fun getById(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any?> {
@@ -37,7 +39,7 @@ class TeacherController(@Autowired val teacherService: TeacherService) {
         }
     }
 
-    @GetMapping("{teacherId}/user")
+    @GetMapping("{teacherId}/users")
     fun getUser(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any?> {
         return try {
             val user = teacherService.findUser(teacherId)
@@ -53,7 +55,20 @@ class TeacherController(@Autowired val teacherService: TeacherService) {
     fun add(@RequestBody teacher: Teacher): ResponseEntity<Any?> {
         return try {
             teacher.user = User(0, teacher.email.split("@")[0].toLowerCase(), "123")
-            teacherService.save(teacher)
+            teacherService.teacherRepository.save(teacher)
+            ResponseEntity(HttpStatus.CREATED)
+        } catch (e: EntityException) {
+            ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
+        }
+    }
+
+    @PostMapping("{teacherId}/users/{userId}")
+    fun addUser(@PathVariable("teacherId") teacherId: Long,
+                @PathVariable("userId") userId: Long): ResponseEntity<Any?> {
+        return try {
+            val teacher = teacherService.findById(teacherId)
+            teacher.user = userService.findById(userId)
+            teacherService.teacherRepository.save(teacher)
             ResponseEntity(HttpStatus.CREATED)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
@@ -65,20 +80,20 @@ class TeacherController(@Autowired val teacherService: TeacherService) {
                @RequestBody teacher: Teacher): ResponseEntity<Any?> {
         return try {
             teacher.id = teacherId
-            teacherService.save(teacher)
+            teacherService.teacherRepository.save(teacher)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
         }
     }
 
-    @PutMapping("{teacherId}/user")
-    fun updateUser(@PathVariable("teacherId") teacherId: Long,
+    @PutMapping("{teacherId}/users")
+    fun updateUser(@PathVariable("teacherId") studentId: Long,
                    @RequestBody user: User): ResponseEntity<Any?> {
         return try {
-            val teacher = teacherService.findById(teacherId)
-            teacher.user = user
-            teacherService.save(teacher)
+            val oldUser = teacherService.findUser(studentId)
+            user.id = oldUser.id
+            userService.save(user)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
@@ -88,7 +103,17 @@ class TeacherController(@Autowired val teacherService: TeacherService) {
     @DeleteMapping("{teacherId}")
     fun delete(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any?> {
         return try {
-            teacherService.delete(teacherId)
+            teacherService.teacherRepository.delete(teacherId)
+            ResponseEntity(HttpStatus.OK)
+        } catch (e: EntityException) {
+            ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
+        }
+    }
+
+    @DeleteMapping("{teacherId}/users")
+    fun deleteUser(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any?> {
+        return try {
+            teacherService.teacherRepository.deleteUser(teacherId)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)

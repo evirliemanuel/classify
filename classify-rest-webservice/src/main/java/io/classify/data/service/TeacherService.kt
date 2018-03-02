@@ -24,10 +24,4 @@ class TeacherService(@Autowired var teacherRepository: TeacherRepository) {
         val user: User? = teacherRepository.findUser(id)
         return user ?: throw EntityException("No user found")
     }
-
-    fun save(teacher: Teacher) = teacherRepository.save(teacher)
-
-    fun delete(teacher: Teacher) = teacherRepository.delete(teacher)
-
-    fun delete(id: Long) = teacherRepository.delete(id)
 }

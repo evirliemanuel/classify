@@ -1,8 +1,8 @@
 package io.classify.controller
 
-import io.classify.data.entity.User
-import io.classify.data.service.UserService
-import io.classify.dto.UserDto
+import io.classify.data.entity.Subject
+import io.classify.data.service.SubjectService
+import io.classify.dto.SubjectDto
 import io.classify.exception.EntityException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -10,14 +10,14 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("users")
-class UserController(@Autowired val userService: UserService) {
+@RequestMapping("subjects")
+class SubjectController(@Autowired val subjectService: SubjectService) {
 
-    @GetMapping("{userId}")
-    fun getById(@PathVariable("userId") userId: Long): ResponseEntity<Any?> {
+    @GetMapping("{subjectId}")
+    fun getById(@PathVariable("subjectId") subjectId: Long): ResponseEntity<Any?> {
         return try {
-            val user = userService.findById(userId)
-            val dto = UserDto(user.id, user.username, user.password)
+            val subject = subjectService.findById(subjectId)
+            val dto = SubjectDto(subject.id, subject.name)
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
@@ -27,8 +27,8 @@ class UserController(@Autowired val userService: UserService) {
     @GetMapping()
     fun getAll(): ResponseEntity<Any?> {
         return try {
-            val dto = ArrayList<UserDto>()
-            userService.findAll().parallelStream().forEach({ u -> dto.add(UserDto(u.id, u.username, u.password)) })
+            val dto = ArrayList<SubjectDto>()
+            subjectService.findAll().parallelStream().forEach({ s -> dto.add(SubjectDto(s.id, s.name)) })
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
@@ -36,30 +36,31 @@ class UserController(@Autowired val userService: UserService) {
     }
 
     @PostMapping
-    fun add(@RequestBody user: User): ResponseEntity<Any?> {
+    fun add(@RequestBody subject: Subject): ResponseEntity<Any?> {
         return try {
-            userService.save(user)
+            subjectService.save(subject)
             ResponseEntity(HttpStatus.CREATED)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
         }
     }
 
-    @PutMapping("{userId}")
-    fun update(@PathVariable("userId") userId: Long, @RequestBody user: User): ResponseEntity<Any?> {
+    @PutMapping("{subjectId}")
+    fun update(@PathVariable("subjectId") subjectId: Long,
+               @RequestBody subject: Subject): ResponseEntity<Any?> {
         return try {
-            user.id = userId
-            userService.save(user)
+            subject.id = subjectId
+            subjectService.save(subject)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
         }
     }
 
-    @DeleteMapping("{userId}")
-    fun delete(@PathVariable("userId") userId: Long): ResponseEntity<Any?> {
+    @DeleteMapping("{subjectId}")
+    fun delete(@PathVariable("subjectId") subjectId: Long): ResponseEntity<Any?> {
         return try {
-            userService.delete(userId)
+            subjectService.delete(subjectId)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)

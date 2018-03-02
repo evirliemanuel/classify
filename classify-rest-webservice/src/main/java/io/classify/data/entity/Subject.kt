@@ -6,10 +6,9 @@ import javax.persistence.*
 @Table(name = "tbl_subject")
 class Subject(@Id
               @GeneratedValue(strategy = GenerationType.AUTO)
-              var id: Long,
+              var id: Long = 0,
 
-              var name: String,
+              var name: String = "",
 
               @OneToMany(mappedBy = "subject")
-              var lessons: List<Lesson> = ArrayList()) {
-}
+              var lessons: List<Lesson> = ArrayList())

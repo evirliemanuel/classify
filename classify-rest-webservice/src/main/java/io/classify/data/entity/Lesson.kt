@@ -10,11 +10,11 @@ class Lesson(@Id
 
              @ManyToOne(cascade = [CascadeType.ALL])
              @JoinColumn(name = "subject_id")
-             var subject: Subject? = null,
+             var subject: Subject = Subject(),
 
              @ManyToOne(cascade = [CascadeType.ALL])
              @JoinColumn(name = "teacher_id")
-             var teacher: Teacher? = null,
+             var teacher: Teacher = Teacher(),
 
              @ManyToMany(cascade = [CascadeType.ALL])
              @JoinTable(name = "tbl_lesson_student", joinColumns = [JoinColumn(name = "lesson_id")],

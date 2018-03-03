@@ -5,6 +5,7 @@ import io.classify.data.service.UserService
 import io.classify.dto.UserDto
 import io.classify.exception.EntityException
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.hateoas.mvc.ControllerLinkBuilder
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -13,22 +14,35 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("users")
 class UserController(@Autowired val userService: UserService) {
 
-    @GetMapping("{userId}")
-    fun getById(@PathVariable("userId") userId: Long): ResponseEntity<Any?> {
+    @GetMapping()
+    fun getAll(): ResponseEntity<Any?> {
         return try {
-            val user = userService.findById(userId)
-            val dto = UserDto(user.id, user.username, user.password)
-            ResponseEntity(dto, HttpStatus.OK)
+            val dtoList = ArrayList<UserDto>()
+            val users = userService.findAll()
+            users.parallelStream().forEach({ user ->
+                val dto = UserDto(id = user.id, username = user.username, password = user.password)
+                val linkSelf = ControllerLinkBuilder
+                        .linkTo(UserController::class.java)
+                        .slash(dto.id)
+                        .withSelfRel()
+                dto.add(linkSelf)
+            })
+            ResponseEntity(dtoList, HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
     }
 
-    @GetMapping()
-    fun getAll(): ResponseEntity<Any?> {
+    @GetMapping("{userId}")
+    fun getById(@PathVariable("userId") userId: Long): ResponseEntity<Any?> {
         return try {
-            val dto = ArrayList<UserDto>()
-            userService.findAll().parallelStream().forEach({ u -> dto.add(UserDto(u.id, u.username, u.password)) })
+            val user = userService.findById(userId)
+            val dto = UserDto(id = user.id, username = user.username, password = user.password)
+            val linkSelf = ControllerLinkBuilder
+                    .linkTo(UserController::class.java)
+                    .slash(dto.id)
+                    .withSelfRel()
+            dto.add(linkSelf)
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
@@ -38,7 +52,7 @@ class UserController(@Autowired val userService: UserService) {
     @PostMapping
     fun add(@RequestBody user: User): ResponseEntity<Any?> {
         return try {
-            userService.save(user)
+            userService.userRepository.save(user)
             ResponseEntity(HttpStatus.CREATED)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
@@ -49,7 +63,7 @@ class UserController(@Autowired val userService: UserService) {
     fun update(@PathVariable("userId") userId: Long, @RequestBody user: User): ResponseEntity<Any?> {
         return try {
             user.id = userId
-            userService.save(user)
+            userService.userRepository.save(user)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
@@ -59,7 +73,7 @@ class UserController(@Autowired val userService: UserService) {
     @DeleteMapping("{userId}")
     fun delete(@PathVariable("userId") userId: Long): ResponseEntity<Any?> {
         return try {
-            userService.delete(userId)
+            userService.userRepository.delete(userId)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)

@@ -57,6 +57,8 @@ class LessonService(@Autowired val lessonRepository: LessonRepository,
             ps.setLong(1, lessonId)
             ps.setLong(2, studentId)
             ps.executeUpdate()
-        } catch (e: Exception) {}
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }

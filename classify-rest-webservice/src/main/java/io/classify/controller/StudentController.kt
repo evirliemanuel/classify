@@ -123,7 +123,7 @@ class StudentController(@Autowired val studentService: StudentService,
         return try {
             val oldUser = studentService.findUser(studentId)
             user.id = oldUser.id
-            userService.save(user)
+            userService.userRepository.save(user)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)

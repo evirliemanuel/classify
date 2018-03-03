@@ -36,13 +36,13 @@ class TeacherController(@Autowired val teacherService: TeacherService,
                         .slash(dto.id)
                         .slash("users")
                         .withRel("user")
-                val linkStudents = ControllerLinkBuilder
+                val linkSubjects = ControllerLinkBuilder
                         .linkTo(TeacherController::class.java)
                         .slash(dto.id)
                         .slash("subjects")
                         .withRel("subjects")
                 dto.add(linkUser)
-                dto.add(linkStudents)
+                dto.add(linkSubjects)
                 dto.add(linkSelf)
                 dtoList.add(dto)
             })
@@ -66,13 +66,13 @@ class TeacherController(@Autowired val teacherService: TeacherService,
                     .slash(dto.id)
                     .slash("users")
                     .withRel("user")
-            val linkStudents = ControllerLinkBuilder
+            val linkSubjects = ControllerLinkBuilder
                     .linkTo(TeacherController::class.java)
                     .slash(dto.id)
                     .slash("subjects")
                     .withRel("subjects")
             dto.add(linkUser)
-            dto.add(linkStudents)
+            dto.add(linkSubjects)
             dto.add(linkSelf)
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
@@ -237,7 +237,7 @@ class TeacherController(@Autowired val teacherService: TeacherService,
         return try {
             val oldUser = teacherService.findUser(studentId)
             user.id = oldUser.id
-            userService.save(user)
+            userService.userRepository.save(user)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)

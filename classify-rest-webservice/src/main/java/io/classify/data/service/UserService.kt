@@ -18,10 +18,4 @@ class UserService(@Autowired var userRepository: UserRepository) {
         val users: List<User>? = userRepository.findAll()
         return users ?: throw EntityException("No user found")
     }
-
-    fun save(user: User) = userRepository.save(user)
-
-    fun delete(user: User) = userRepository.delete(user)
-
-    fun delete(id: Long) = userRepository.delete(id)
 }

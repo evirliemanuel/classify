@@ -69,10 +69,23 @@ class TeacherController(@Autowired val teacherService: TeacherService,
     }
 
     @GetMapping("{teacherId}/subjects/{subjectId}")
-    fun getSubjectById(@PathVariable("teacherId") teacherId: Long,
+    fun getSubject(@PathVariable("teacherId") teacherId: Long,
                        @PathVariable("subjectId") subjectId: Long): ResponseEntity<Any?> {
         return try {
-            val subject = teacherService.findSubjectById(teacherId, subjectId)
+            val subject = teacherService.findSubject(teacherId, subjectId)
+            val dto = SubjectDto(id = subject.id, name = subject.name)
+            ResponseEntity(dto, HttpStatus.OK)
+        } catch (e: Exception) {
+            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+        }
+
+    }
+
+    @GetMapping("{teacherId}/lessons/{lessonId}/subjects")
+    fun getSubjectByLesson(@PathVariable("teacherId") teacherId: Long,
+                   @PathVariable("lessonId") lessonId: Long): ResponseEntity<Any?> {
+        return try {
+            val subject = teacherService.findSubjectByLesson(teacherId, lessonId)
             val dto = SubjectDto(id = subject.id, name = subject.name)
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: Exception) {
@@ -90,6 +103,20 @@ class TeacherController(@Autowired val teacherService: TeacherService,
             students.parallelStream().forEach({ student ->
                 dto.add(StudentDto(id = student.id, number = student.number, name = student.name))
             })
+            ResponseEntity(dto, HttpStatus.OK)
+        } catch (e: Exception) {
+            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+        }
+
+    }
+
+    @GetMapping("{teacherId}/lessons/{lessonId}/students/{studentId}")
+    fun getStudent(@PathVariable("teacherId") teacherId: Long,
+                   @PathVariable("lessonId") lessonId: Long,
+                   @PathVariable("studentId") studentId: Long): ResponseEntity<Any?> {
+        return try {
+            val student = teacherService.findStudent(teacherId, lessonId,studentId)
+            val dto = StudentDto(id = student.id, number = student.number, name = student.name)
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)

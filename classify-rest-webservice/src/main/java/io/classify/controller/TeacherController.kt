@@ -19,24 +19,24 @@ import org.springframework.web.bind.annotation.*
 class TeacherController(@Autowired val teacherService: TeacherService,
                         @Autowired val userService: UserService) {
 
-    @GetMapping("{teacherId}")
-    fun getById(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any?> {
-        return try {
-            val teacher = teacherService.findById(teacherId)
-            val dto = TeacherDto(teacher.id, teacher.name, teacher.email)
-            ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
-        }
-    }
-
     @GetMapping
     fun getAll(): ResponseEntity<Any?> {
         return try {
             val dto = ArrayList<TeacherDto>()
             teacherService.findAll().parallelStream().forEach({ t -> dto.add(TeacherDto(t.id, t.name, t.email)) })
             ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: EntityException) {
+        } catch (e: Exception) {
+            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+        }
+    }
+
+    @GetMapping("{teacherId}")
+    fun getById(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any?> {
+        return try {
+            val teacher = teacherService.findById(teacherId)
+            val dto = TeacherDto(teacher.id, teacher.name, teacher.email)
+            ResponseEntity(dto, HttpStatus.OK)
+        } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
     }
@@ -47,7 +47,7 @@ class TeacherController(@Autowired val teacherService: TeacherService,
             val user = teacherService.findUser(teacherId)
             val dto = UserDto(id = user.id, username = user.username, password = user.password)
             ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: EntityException) {
+        } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
 
@@ -62,7 +62,20 @@ class TeacherController(@Autowired val teacherService: TeacherService,
                 dto.add(SubjectDto(id = subject.id, name = subject.name))
             })
             ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: EntityException) {
+        } catch (e: Exception) {
+            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+        }
+
+    }
+
+    @GetMapping("{teacherId}/subjects/{subjectId}")
+    fun getSubjectById(@PathVariable("teacherId") teacherId: Long,
+                       @PathVariable("subjectId") subjectId: Long): ResponseEntity<Any?> {
+        return try {
+            val subject = teacherService.findSubjectById(teacherId, subjectId)
+            val dto = SubjectDto(id = subject.id, name = subject.name)
+            ResponseEntity(dto, HttpStatus.OK)
+        } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
 
@@ -78,7 +91,7 @@ class TeacherController(@Autowired val teacherService: TeacherService,
                 dto.add(StudentDto(id = student.id, number = student.number, name = student.name))
             })
             ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: EntityException) {
+        } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
 

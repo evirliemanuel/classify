@@ -32,6 +32,11 @@ class TeacherService(@Autowired var teacherRepository: TeacherRepository) {
         return subjects ?: throw EntityException("No subject found")
     }
 
+    fun findSubjectById(teacherId: Long, subjectId: Long): Subject {
+        val subject: Subject? = teacherRepository.findSubjectById(teacherId, subjectId)
+        return subject ?: throw EntityException("No subject found")
+    }
+
     fun findStudents(teacherId: Long, lessonId: Long): List<Student> {
         val students: List<Student>? = teacherRepository.findStudents(teacherId, lessonId)
         return students ?: throw EntityException("No student found")

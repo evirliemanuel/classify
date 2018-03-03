@@ -7,6 +7,8 @@ http:localhost:8080/api/teachers/{id}
 http:localhost:8080/api/teachers/{id}/users
 http:localhost:8080/api/teachers/{id}/subjects
 http:localhost:8080/api/teachers/{id}/subjects/{subjectId}
+http:localhost:8080/api/teachers/{id}/lessons
+http:localhost:8080/api/teachers/{id}/lessons/{lessonId}
 http:localhost:8080/api/teachers/{id}/lessons/{lessonId}/subjects
 http:localhost:8080/api/teachers/{id}/lessons/{lessonId}/students
 http:localhost:8080/api/teachers/{id}/lessons/{lessonId}/students/{studentId}
@@ -21,6 +23,8 @@ http:localhost:8080/api/students/{id}/subjects
 http:localhost:8080/api/students/{id}/subjects/{subjectId}
 http:localhost:8080/api/students/{id}/teachers
 http:localhost:8080/api/students/{id}/teachers/{teacherId}
+http:localhost:8080/api/students/{id}/lessons
+http:localhost:8080/api/students/{id}/lessons/{lessonId}
 http:localhost:8080/api/students/{id}/lessons/{lessonId}/teachers
 http:localhost:8080/api/students/{id}/lessons/{lessonId}/subjects
 ```

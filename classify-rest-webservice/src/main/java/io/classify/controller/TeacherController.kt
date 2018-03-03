@@ -47,7 +47,7 @@ class TeacherController(@Autowired val teacherService: TeacherService,
                 dtoList.add(dto)
             })
             ResponseEntity(dtoList, HttpStatus.OK)
-        } catch (e: Exception) {
+        } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
     }
@@ -75,7 +75,7 @@ class TeacherController(@Autowired val teacherService: TeacherService,
             dto.add(linkStudents)
             dto.add(linkSelf)
             ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: Exception) {
+        } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
     }
@@ -91,7 +91,7 @@ class TeacherController(@Autowired val teacherService: TeacherService,
                     .withSelfRel()
             dto.add(linkSelf)
             ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: Exception) {
+        } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
 
@@ -112,7 +112,7 @@ class TeacherController(@Autowired val teacherService: TeacherService,
                 dtoList.add(dto)
             })
             ResponseEntity(dtoList, HttpStatus.OK)
-        } catch (e: Exception) {
+        } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
 
@@ -130,7 +130,7 @@ class TeacherController(@Autowired val teacherService: TeacherService,
                     .withSelfRel()
             dto.add(linkSelf)
             ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: Exception) {
+        } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
 
@@ -148,7 +148,7 @@ class TeacherController(@Autowired val teacherService: TeacherService,
                     .withSelfRel()
             dto.add(linkSelf)
             ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: Exception) {
+        } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
 
@@ -158,13 +158,19 @@ class TeacherController(@Autowired val teacherService: TeacherService,
     fun getStudents(@PathVariable("teacherId") teacherId: Long,
                     @PathVariable("lessonId") lessonId: Long): ResponseEntity<Any?> {
         return try {
-            val dto = ArrayList<StudentDto>()
+            val dtoList = ArrayList<StudentDto>()
             val students = teacherService.findStudents(teacherId, lessonId)
             students.parallelStream().forEach({ student ->
-                dto.add(StudentDto(id = student.id, number = student.number, name = student.name))
+                val dto = StudentDto(id = student.id, number = student.number, name = student.name)
+                val linkSelf = ControllerLinkBuilder
+                        .linkTo(StudentController::class.java)
+                        .slash(dto.id)
+                        .withSelfRel()
+                dto.add(linkSelf)
+                dtoList.add(dto)
             })
-            ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: Exception) {
+            ResponseEntity(dtoList, HttpStatus.OK)
+        } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
 
@@ -177,8 +183,13 @@ class TeacherController(@Autowired val teacherService: TeacherService,
         return try {
             val student = teacherService.findStudent(teacherId, lessonId, studentId)
             val dto = StudentDto(id = student.id, number = student.number, name = student.name)
+            val linkSelf = ControllerLinkBuilder
+                    .linkTo(StudentController::class.java)
+                    .slash(dto.id)
+                    .withSelfRel()
+            dto.add(linkSelf)
             ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: Exception) {
+        } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
 

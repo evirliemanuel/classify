@@ -5,6 +5,8 @@ import io.classify.data.entity.User
 import io.classify.data.service.StudentService
 import io.classify.data.service.UserService
 import io.classify.dto.StudentDto
+import io.classify.dto.SubjectDto
+import io.classify.dto.TeacherDto
 import io.classify.dto.UserDto
 import io.classify.exception.EntityException
 import org.springframework.beans.factory.annotation.Autowired
@@ -44,6 +46,34 @@ class StudentController(@Autowired val studentService: StudentService,
         return try {
             val user = studentService.findUser(studentId)
             val dto = UserDto(id = user.id, username = user.username, password = user.password)
+            ResponseEntity(dto, HttpStatus.OK)
+        } catch (e: EntityException) {
+            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+        }
+
+    }
+
+    @GetMapping("{studentId}/subjects")
+    fun getSubjects(@PathVariable("studentId") studentId: Long): ResponseEntity<Any?> {
+        return try {
+            val dto = ArrayList<SubjectDto>()
+            val subjects = studentService.findSubjects(studentId)
+            subjects.parallelStream().forEach({ subject -> dto.add(SubjectDto(id = subject.id, name = subject.name)) })
+            ResponseEntity(dto, HttpStatus.OK)
+        } catch (e: EntityException) {
+            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+        }
+
+    }
+
+    @GetMapping("{studentId}/teachers")
+    fun getTeacher(@PathVariable("studentId") studentId: Long): ResponseEntity<Any?> {
+        return try {
+            val dto = ArrayList<TeacherDto>()
+            val teachers = studentService.findTeachers(studentId)
+            teachers.parallelStream().forEach({ teacher ->
+                dto.add(TeacherDto(id = teacher.id, name = teacher.name, email = teacher.email))
+            })
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)

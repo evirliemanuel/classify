@@ -19,7 +19,7 @@ class UserController(@Autowired val userService: UserService) {
         return try {
             val dtoList = ArrayList<UserDto>()
             val users = userService.findAll()
-            users.parallelStream().forEach({ user ->
+            users.forEach({ user ->
                 val dto = UserDto(id = user.id, username = user.username, password = user.password)
                 val linkSelf = ControllerLinkBuilder
                         .linkTo(UserController::class.java)

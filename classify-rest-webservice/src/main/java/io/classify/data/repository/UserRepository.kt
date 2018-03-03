@@ -9,7 +9,4 @@ interface UserRepository : JpaRepository<User, Long> {
 
     @Query("from User where id=:userId")
     fun findById(@Param("userId") userId: Long): User
-
-    @Query("from User")
-    override fun findAll(): List<User>
 }

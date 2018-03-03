@@ -25,7 +25,7 @@ class TeacherController(@Autowired val teacherService: TeacherService,
         return try {
             val dtoList = ArrayList<TeacherDto>()
             val teachers = teacherService.findAll()
-            teachers.parallelStream().forEach({ teacher ->
+            teachers.forEach({ teacher ->
                 val dto = TeacherDto(id = teacher.id, name = teacher.name, email = teacher.email)
                 val linkSelf = ControllerLinkBuilder
                         .linkTo(TeacherController::class.java)
@@ -102,7 +102,7 @@ class TeacherController(@Autowired val teacherService: TeacherService,
         return try {
             val dtoList = ArrayList<SubjectDto>()
             val subjects = teacherService.findSubjects(teacherId)
-            subjects.parallelStream().forEach({ subject ->
+            subjects.forEach({ subject ->
                 val dto = SubjectDto(id = subject.id, name = subject.name)
                 val linkSelf = ControllerLinkBuilder
                         .linkTo(SubjectController::class.java)
@@ -160,7 +160,7 @@ class TeacherController(@Autowired val teacherService: TeacherService,
         return try {
             val dtoList = ArrayList<StudentDto>()
             val students = teacherService.findStudents(teacherId, lessonId)
-            students.parallelStream().forEach({ student ->
+            students.forEach({ student ->
                 val dto = StudentDto(id = student.id, number = student.number, name = student.name)
                 val linkSelf = ControllerLinkBuilder
                         .linkTo(StudentController::class.java)

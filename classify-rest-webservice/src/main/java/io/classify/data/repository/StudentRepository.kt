@@ -21,6 +21,9 @@ interface StudentRepository : JpaRepository<Student, Long> {
     @Query("from Subject as a join a.lessons as b join b.students as c where c.id=:studentId")
     fun findSubjects(@Param("studentId") studentId: Long): List<Subject>
 
+    @Query("from Subject as a join a.lessons as b join b.students as c where c.id=:studentId and a.id=:subjectId")
+    fun findSubject(@Param("studentId") studentId: Long, @Param("subjectId") subjectId: Long): Subject
+
     @Query("from Teacher as a join a.lessons as b join b.students as c where c.id=:studentId group by a.id")
     fun findTeachers(@Param("studentId") studentId: Long): List<Teacher>
 

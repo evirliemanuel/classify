@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*
 class UserController(@Autowired val userService: UserService) {
 
     @GetMapping()
-    fun getAll(@RequestParam(value = "username", required = false) username: String): ResponseEntity<Any?> {
+    fun getAll(@RequestParam(value = "username", required = false) username: String?): ResponseEntity<Any?> {
         return try {
             if (StringUtils.isEmpty(username)) {
                 val dtoList = ArrayList<UserDto>()
@@ -28,10 +28,11 @@ class UserController(@Autowired val userService: UserService) {
                             .slash(dto.id)
                             .withSelfRel()
                     dto.add(linkSelf)
+                    dtoList.add(dto)
                 })
                 ResponseEntity(dtoList, HttpStatus.OK)
             } else {
-                val user = userService.findByUsername(username)
+                val user = userService.findByUsername(username!!)
                 val dto = UserDto(id = user.id, username = user.username, password = user.password)
                 val linkSelf = ControllerLinkBuilder
                         .linkTo(UserController::class.java)

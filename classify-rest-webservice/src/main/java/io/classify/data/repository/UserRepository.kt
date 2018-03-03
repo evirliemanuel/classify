@@ -9,4 +9,7 @@ interface UserRepository : JpaRepository<User, Long> {
 
     @Query("from User where id=:userId")
     fun findById(@Param("userId") userId: Long): User
+
+    @Query("from User where username=:username")
+    fun findByUsername(@Param("username") username: String): User
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.hateoas.mvc.ControllerLinkBuilder
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.util.StringUtils
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -15,19 +16,30 @@ import org.springframework.web.bind.annotation.*
 class UserController(@Autowired val userService: UserService) {
 
     @GetMapping()
-    fun getAll(): ResponseEntity<Any?> {
+    fun getAll(@RequestParam(value = "username", required = false) username: String): ResponseEntity<Any?> {
         return try {
-            val dtoList = ArrayList<UserDto>()
-            val users = userService.findAll()
-            users.forEach({ user ->
+            if (StringUtils.isEmpty(username)) {
+                val dtoList = ArrayList<UserDto>()
+                val users = userService.findAll()
+                users.forEach({ user ->
+                    val dto = UserDto(id = user.id, username = user.username, password = user.password)
+                    val linkSelf = ControllerLinkBuilder
+                            .linkTo(UserController::class.java)
+                            .slash(dto.id)
+                            .withSelfRel()
+                    dto.add(linkSelf)
+                })
+                ResponseEntity(dtoList, HttpStatus.OK)
+            } else {
+                val user = userService.findByUsername(username)
                 val dto = UserDto(id = user.id, username = user.username, password = user.password)
                 val linkSelf = ControllerLinkBuilder
                         .linkTo(UserController::class.java)
                         .slash(dto.id)
                         .withSelfRel()
                 dto.add(linkSelf)
-            })
-            ResponseEntity(dtoList, HttpStatus.OK)
+                ResponseEntity(dto, HttpStatus.OK)
+            }
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
@@ -48,6 +60,7 @@ class UserController(@Autowired val userService: UserService) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
     }
+
 
     @PostMapping
     fun add(@RequestBody user: User): ResponseEntity<Any?> {

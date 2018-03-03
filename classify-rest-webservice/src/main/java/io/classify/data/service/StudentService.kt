@@ -36,12 +36,4 @@ class StudentService(@Autowired val studentRepository: StudentRepository) {
         val teachers: List<Teacher>? = studentRepository.findTeachers(id)
         return teachers ?: throw EntityException("No teacher found")
     }
-
-    fun save(student: Student) = studentRepository.save(student)
-
-    fun delete(student: Student) = studentRepository.delete(student)
-
-    fun delete(id: Long) = studentRepository.delete(id)
-
-    fun deleteUser(id: Long) = studentRepository.deleteUser(id)
 }

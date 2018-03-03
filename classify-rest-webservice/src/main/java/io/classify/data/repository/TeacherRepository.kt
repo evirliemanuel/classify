@@ -1,5 +1,7 @@
 package io.classify.data.repository
 
+import io.classify.data.entity.Student
+import io.classify.data.entity.Subject
 import io.classify.data.entity.Teacher
 import io.classify.data.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
@@ -15,6 +17,12 @@ interface TeacherRepository : JpaRepository<Teacher, Long> {
 
     @Query("from User as u join u.teacher as t where t.id=:teacherId")
     fun findUser(@Param("teacherId") teacherId: Long): User
+
+    @Query("from Subject as a join a.lessons as b join b.teacher as c where c.id=:teacherId")
+    fun findSubjects(@Param("teacherId") teacherId: Long): List<Subject>
+
+    @Query("from Student as a join a.lessons as b join b.teacher as c where c.id=:teacherId and b.id=:lessonId")
+    fun findStudents(@Param("teacherId") teacherId: Long, @Param("lessonId") lessonId: Long): List<Student>
 
     @Transactional
     @Modifying

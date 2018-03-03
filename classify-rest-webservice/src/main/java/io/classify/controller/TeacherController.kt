@@ -4,6 +4,8 @@ import io.classify.data.entity.Teacher
 import io.classify.data.entity.User
 import io.classify.data.service.TeacherService
 import io.classify.data.service.UserService
+import io.classify.dto.StudentDto
+import io.classify.dto.SubjectDto
 import io.classify.dto.TeacherDto
 import io.classify.dto.UserDto
 import io.classify.exception.EntityException
@@ -44,6 +46,37 @@ class TeacherController(@Autowired val teacherService: TeacherService,
         return try {
             val user = teacherService.findUser(teacherId)
             val dto = UserDto(id = user.id, username = user.username, password = user.password)
+            ResponseEntity(dto, HttpStatus.OK)
+        } catch (e: EntityException) {
+            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+        }
+
+    }
+
+    @GetMapping("{teacherId}/subjects")
+    fun getSubjects(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any?> {
+        return try {
+            val dto = ArrayList<SubjectDto>()
+            val subjects = teacherService.findSubjects(teacherId)
+            subjects.parallelStream().forEach({ subject ->
+                dto.add(SubjectDto(id = subject.id, name = subject.name))
+            })
+            ResponseEntity(dto, HttpStatus.OK)
+        } catch (e: EntityException) {
+            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+        }
+
+    }
+
+    @GetMapping("{teacherId}/lessons/{lessonId}/students")
+    fun getStudents(@PathVariable("teacherId") teacherId: Long,
+                    @PathVariable("lessonId") lessonId: Long): ResponseEntity<Any?> {
+        return try {
+            val dto = ArrayList<StudentDto>()
+            val students = teacherService.findStudents(teacherId, lessonId)
+            students.parallelStream().forEach({ student ->
+                dto.add(StudentDto(id = student.id, number = student.number, name = student.name))
+            })
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)

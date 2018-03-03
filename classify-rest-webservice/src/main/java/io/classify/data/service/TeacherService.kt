@@ -1,5 +1,7 @@
 package io.classify.data.service
 
+import io.classify.data.entity.Student
+import io.classify.data.entity.Subject
 import io.classify.data.entity.Teacher
 import io.classify.data.entity.User
 import io.classify.data.repository.TeacherRepository
@@ -23,5 +25,15 @@ class TeacherService(@Autowired var teacherRepository: TeacherRepository) {
     fun findUser(id: Long): User {
         val user: User? = teacherRepository.findUser(id)
         return user ?: throw EntityException("No user found")
+    }
+
+    fun findSubjects(id: Long): List<Subject> {
+        val subjects: List<Subject>? = teacherRepository.findSubjects(id)
+        return subjects ?: throw EntityException("No subject found")
+    }
+
+    fun findStudents(teacherId: Long, lessonId: Long): List<Student> {
+        val students: List<Student>? = teacherRepository.findStudents(teacherId, lessonId)
+        return students ?: throw EntityException("No student found")
     }
 }

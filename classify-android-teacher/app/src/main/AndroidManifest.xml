@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="io.classify.ui.main.HomeActivity">
+        <activity android:name="io.classify.ui.main.GradingCriteriaActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,6 +20,9 @@
         </activity>
         <activity android:name="io.classify.ui.BasicActivity" />
         <activity android:name="io.classify.ui.login.LoginActivity" />
+        <activity android:name="io.classify.ui.main.SubjectDetailsActivity" />
+        <activity android:name="io.classify.ui.main.ClassDetailsActivity" />
+        <activity android:name="io.classify.ui.main.HomeActivity"></activity>
     </application>
 
 </manifest>

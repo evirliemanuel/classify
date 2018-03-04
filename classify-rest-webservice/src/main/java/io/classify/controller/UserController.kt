@@ -2,6 +2,8 @@ package io.classify.controller
 
 import io.classify.data.entity.User
 import io.classify.data.service.UserService
+import io.classify.dto.StudentDto
+import io.classify.dto.TeacherDto
 import io.classify.dto.UserDto
 import io.classify.exception.EntityException
 import org.springframework.beans.factory.annotation.Autowired
@@ -53,6 +55,38 @@ class UserController(@Autowired val userService: UserService) {
             val dto = UserDto(id = user.id, username = user.username, password = user.password)
             val linkSelf = ControllerLinkBuilder
                     .linkTo(UserController::class.java)
+                    .slash(dto.id)
+                    .withSelfRel()
+            dto.add(linkSelf)
+            ResponseEntity(dto, HttpStatus.OK)
+        } catch (e: EntityException) {
+            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+        }
+    }
+
+    @GetMapping("{userId}/students")
+    fun getStudent(@PathVariable("userId") userId: Long): ResponseEntity<Any?> {
+        return try {
+            val student = userService.findStudent(userId)
+            val dto = StudentDto(id = student.id, number = student.number, name = student.name)
+            val linkSelf = ControllerLinkBuilder
+                    .linkTo(StudentController::class.java)
+                    .slash(dto.id)
+                    .withSelfRel()
+            dto.add(linkSelf)
+            ResponseEntity(dto, HttpStatus.OK)
+        } catch (e: EntityException) {
+            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+        }
+    }
+
+    @GetMapping("{userId}/teachers")
+    fun getTeacher(@PathVariable("userId") userId: Long): ResponseEntity<Any?> {
+        return try {
+            val teacher = userService.findTeacher(userId)
+            val dto = TeacherDto(id = teacher.id, name = teacher.name, email = teacher.email)
+            val linkSelf = ControllerLinkBuilder
+                    .linkTo(TeacherController::class.java)
                     .slash(dto.id)
                     .withSelfRel()
             dto.add(linkSelf)

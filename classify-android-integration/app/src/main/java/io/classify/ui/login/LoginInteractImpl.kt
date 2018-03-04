@@ -6,9 +6,10 @@ import io.classify.ui.login.LoginInteract.OnLoginFinishedListener
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class LoginInteractImpl(val userService: UserService) : LoginInteract {
+class LoginInteractImpl(private val userService: UserService) : LoginInteract {
 
     override fun login(username: String, password: String, listener: OnLoginFinishedListener) {
+
         if (TextUtils.isEmpty(username)) {
             listener.onUsernameError()
             return
@@ -25,11 +26,11 @@ class LoginInteractImpl(val userService: UserService) : LoginInteract {
                             if (result?.password?.equals(password)!!) {
                                 listener.onSuccess()
                             } else {
-                                listener.onFailed()
+                                listener.onFailure()
                             }
                         },
                         {
-                            listener.onFailed()
+                            listener.onFailure()
                         })
     }
 }

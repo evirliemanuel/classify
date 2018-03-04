@@ -2,7 +2,7 @@ package io.classify.ui.login
 
 interface LoginInteract {
 
-    interface OnLoginFinishedListener {
+    interface OnFinishedListener {
 
         fun onUsernameError()
 
@@ -10,8 +10,8 @@ interface LoginInteract {
 
         fun onSuccess()
 
-        fun onFailed()
+        fun onFailure()
     }
 
-    fun login(username: String, password: String, listener: OnLoginFinishedListener)
+    fun login(username: String, password: String, listener: OnFinishedListener)
 }

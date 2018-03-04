@@ -2,7 +2,7 @@ package io.classify.ui.login
 
 class LoginPresenterImpl(private var loginView: LoginView,
                          private val loginInteract: LoginInteract)
-    : LoginPresenter, LoginInteract.OnLoginFinishedListener {
+    : LoginPresenter, LoginInteract.OnFinishedListener {
 
     override fun validateCredentials(username: String, password: String) {
         loginView.showProgress()
@@ -27,7 +27,7 @@ class LoginPresenterImpl(private var loginView: LoginView,
         loginView.navigateToHome()
     }
 
-    override fun onFailed() {
+    override fun onFailure() {
         loginView.setLoginError()
         loginView.hideProgress()
     }

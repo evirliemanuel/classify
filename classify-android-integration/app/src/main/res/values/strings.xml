@@ -9,4 +9,6 @@
     <string name="username_error">Username cannot be empty</string>
     <string name="password_error">Password cannot be empty</string>
     <string name="login_error">Incorrect username or password</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

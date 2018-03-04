@@ -11,6 +11,7 @@ import io.classify.MainActivity
 import io.classify.R
 import io.classify.data.remote.service.UserService
 import io.classify.ui.BasicActivity
+import io.classify.ui.home.HomeActivity
 import retrofit2.Retrofit
 import javax.inject.Inject
 
@@ -20,7 +21,7 @@ class LoginActivity : BasicActivity(), LoginView, View.OnClickListener {
     lateinit var retrofit: Retrofit
 
     override fun onClick(view: View?) {
-        presenter?.validateCredentials(username?.getText().toString(), password?.getText().toString());
+        presenter?.validateCredentials(username?.text.toString(), password?.text.toString());
     }
 
     private var message: TextView? = null
@@ -32,16 +33,17 @@ class LoginActivity : BasicActivity(), LoginView, View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_login)
 
         appComponent.inject(this)
 
-        progressBar = findViewById(R.id.progress) as ProgressBar
-        username = findViewById(R.id.username) as EditText
-        password = findViewById(R.id.password) as EditText
-        message = findViewById(R.id.message) as TextView
+        progressBar = findViewById<ProgressBar>(R.id.progress)
+        username = findViewById<EditText>(R.id.username)
+        password = findViewById<EditText>(R.id.password)
+        message = findViewById<TextView>(R.id.message)
 
-        (findViewById(R.id.button) as Button).setOnClickListener(this)
+        (findViewById<Button>(R.id.button)).setOnClickListener(this)
 
         val userService: UserService = retrofit.create(UserService::class.java)
 
@@ -70,7 +72,7 @@ class LoginActivity : BasicActivity(), LoginView, View.OnClickListener {
     }
 
     override fun navigateToHome() {
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, HomeActivity::class.java))
         finish()
     }
 }

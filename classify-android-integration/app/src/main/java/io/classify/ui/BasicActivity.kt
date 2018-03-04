@@ -17,7 +17,7 @@ open class BasicActivity : AppCompatActivity() {
         appComponent = DaggerAppComponent
                 .builder()
                 .appModule(AppModule(application))
-                .retrofitModule(RetrofitModule("http://192.168.0.102:8080/api/"))
+                .retrofitModule(RetrofitModule("http://192.168.0.104:8080/api/"))
                 .build()
     }
 }

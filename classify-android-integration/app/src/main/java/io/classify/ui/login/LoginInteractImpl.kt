@@ -28,7 +28,7 @@ class LoginInteractImpl(val userService: UserService) : LoginInteract {
                                 listener.onFailed()
                             }
                         },
-                        { error ->
+                        {
                             listener.onFailed()
                         })
     }

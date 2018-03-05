@@ -7,7 +7,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
-import io.classify.MainActivity
 import io.classify.R
 import io.classify.data.remote.service.UserService
 import io.classify.ui.BasicActivity

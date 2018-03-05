@@ -61,7 +61,12 @@ class HomeActivity : BasicActivity(), HomeView {
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {
-            return PlaceholderFragment.newInstance(position + 1)
+            return when (position) {
+                0 -> HomeScheduleFragment()
+                else -> {
+                    PlaceholderFragment.newInstance(position + 1)
+                }
+            }
         }
 
         override fun getCount(): Int {

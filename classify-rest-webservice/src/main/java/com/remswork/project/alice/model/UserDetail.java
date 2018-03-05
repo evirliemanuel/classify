@@ -13,8 +13,13 @@ public class UserDetail {
     private long id;
     private String username;
     private String password;
+	
+	@Column(name = "user_type")
     private String userType;
+	
+	@Column(name = "is_enabled")
     private boolean isEnabled;
+	
     private String registrationDate;
     public static final String USER_TEACHER = "user/teacher";
     public static final String USER_STUDENT = "user/student";

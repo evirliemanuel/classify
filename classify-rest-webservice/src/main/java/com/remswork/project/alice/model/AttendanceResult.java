@@ -16,11 +16,13 @@ public class AttendanceResult {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private int status;
+	
     @OneToOne
-    @JoinColumn(name = "attendanceId")
+    @JoinColumn(name = "attendance_id")
     private Attendance attendance;
+	
     @OneToOne
-    @JoinColumn(name = "studentId")
+    @JoinColumn(name = "student_id")
     private Student student;
     @Transient
     private List<Link> links;

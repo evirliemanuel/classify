@@ -16,11 +16,13 @@ public class AssignmentResult {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private int score;
+	
     @OneToOne
-    @JoinColumn(name = "assignmentId")
+    @JoinColumn(name = "assignment_id")
     private Assignment assignment;
+	
     @OneToOne
-    @JoinColumn(name = "studentId")
+    @JoinColumn(name = "student_id")
     private Student student;
     @Transient
     private List<Link> links;

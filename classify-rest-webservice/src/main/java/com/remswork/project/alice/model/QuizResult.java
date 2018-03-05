@@ -17,10 +17,10 @@ public class QuizResult {
     private long id;
     private int score;
     @OneToOne
-    @JoinColumn(name = "quizId")
+    @JoinColumn(name = "quiz_id")
     private Quiz quiz;
     @OneToOne
-    @JoinColumn(name = "studentId")
+    @JoinColumn(name = "student_id")
     private Student student;
     @Transient
     private List<Link> links;

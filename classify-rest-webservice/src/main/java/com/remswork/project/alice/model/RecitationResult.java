@@ -17,10 +17,10 @@ public class RecitationResult {
     private long id;
     private int score;
     @OneToOne
-    @JoinColumn(name = "recitationId")
+    @JoinColumn(name = "recitation_id")
     private Recitation recitation;
     @OneToOne
-    @JoinColumn(name = "studentId")
+    @JoinColumn(name = "student_id")
     private Student student;
     @Transient
     private List<Link> links;

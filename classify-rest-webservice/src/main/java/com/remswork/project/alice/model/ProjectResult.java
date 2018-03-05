@@ -17,10 +17,10 @@ public class ProjectResult {
     private long id;
     private int score;
     @OneToOne
-    @JoinColumn(name = "projectId")
+    @JoinColumn(name = "project_id")
     private Project project;
     @OneToOne
-    @JoinColumn(name = "studentId")
+    @JoinColumn(name = "student_id")
     private Student student;
     @Transient
     private List<Link> links;

@@ -15,22 +15,38 @@ public class Formula {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+	
+	@Column(name = "total_percentage")
     private int totalPercentage;
+	
+	@Column(name = "activity_percentage")
     private int activityPercentage;
+	
+	@Column(name = "assignment_percentage")
     private int assignmentPercentage;
+	
+	@Column(name = "attendance_percentage")
     private int attendancePercentage;
+	
+	@Column(name = "exam_percentage")
     private int examPercentage;
+	
+	@Column(name = "project_percentage")
     private int projectPercentage;
+	
+	@Column(name = "quiz_percentage")
     private int quizPercentage;
+	
+	@Column(name = "recitation_percentage")
     private int recitationPercentage;
     @ManyToOne
-    @JoinColumn(name = "subjectId")
+    @JoinColumn(name = "subject_id")
     private Subject subject;
     @ManyToOne
-    @JoinColumn(name = "teacherId")
+    @JoinColumn(name = "teacher_id")
     private Teacher teacher;
     @ManyToOne
-    @JoinColumn(name = "termId")
+    @JoinColumn(name = "term_id")
     private Term term;
     @Transient
     private List<Link> links;

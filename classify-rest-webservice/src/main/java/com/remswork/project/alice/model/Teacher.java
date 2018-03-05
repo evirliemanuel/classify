@@ -28,11 +28,11 @@ public class Teacher {
 	private String email;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="userDetailId")
+	@JoinColumn(name="user_detail_id")
 	private UserDetail userDetail;
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="departmentId")
+	@JoinColumn(name="department_id")
 	private Department department;
 
 	@Transient

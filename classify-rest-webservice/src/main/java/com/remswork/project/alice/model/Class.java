@@ -19,21 +19,23 @@ public class Class {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @ManyToOne
-    @JoinColumn(name = "teacherId")
+    @JoinColumn(name = "teacher_id")
     private Teacher teacher;
+	
     @OneToOne
-    @JoinColumn(name = "subjectId")
+    @JoinColumn(name = "subject_id")
     private Subject subject;
+	
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "tblschedulelist", joinColumns = @JoinColumn(name = "classId"),
-            inverseJoinColumns = @JoinColumn(name = "scheduleId"))
+    @JoinTable(name = "tblschedulelist", joinColumns = @JoinColumn(name = "class_id"),
+            inverseJoinColumns = @JoinColumn(name = "schedule_id"))
     private Set<Schedule> scheduleList;
     @OneToOne
-    @JoinColumn(name = "sectionId")
+    @JoinColumn(name = "section_id")
     private Section section;
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "tblstudentlist", joinColumns = @JoinColumn(name = "classId"),
-            inverseJoinColumns = @JoinColumn(name = "studentId"))
+    @JoinTable(name = "tblstudentlist", joinColumns = @JoinColumn(name = "class_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
     private Set<Student> studentList;
     @Transient
     private List<Link> links;

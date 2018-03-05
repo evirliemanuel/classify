@@ -17,11 +17,13 @@ public class Attendance {
     private long id;
     private String title;
     private String date;
+	
     @ManyToOne
-    @JoinColumn(name = "classId")
+    @JoinColumn(name = "class_id")
     private Class _class;
+	
     @ManyToOne
-    @JoinColumn(name = "termId")
+    @JoinColumn(name = "term_id")
     private Term term;
     @Transient
     private List<Link> links;

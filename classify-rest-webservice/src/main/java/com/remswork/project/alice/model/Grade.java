@@ -15,21 +15,37 @@ public class Grade {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+	
+	@Column(name = "total_score")
     private double totalScore;
+	
+	@Column(name = "")
     private double activityScore;
+	
+	@Column(name = "activity_score")
     private double assignmentScore;
+	
+	@Column(name = "attendance_score")
     private double attendanceScore;
+	
+	@Column(name = "exam_score")
     private double examScore;
+	
+	@Column(name = "project_score")
     private double projectScore;
+	
+	@Column(name = "quiz_score")
     private double quizScore;
+	
+
     @OneToOne
-    @JoinColumn(name = "termId")
+    @JoinColumn(name = "term_id")
     private Term term;
     @OneToOne
-    @JoinColumn(name = "studentId")
+    @JoinColumn(name = "student_id")
     private Student student;
     @OneToOne
-    @JoinColumn(name = "classId")
+    @JoinColumn(name = "class_id")
     private Class _class;
     @Transient
     private List<Link> links;

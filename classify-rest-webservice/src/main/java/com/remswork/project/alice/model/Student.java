@@ -15,18 +15,30 @@ public class Student {
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Id
     private long id;
+	
+	@Column(name = "student_number")
     private long studentNumber;
+	
+	@Column(name = "first_name")
     private String firstName;
+	
+	@Column(name = "last_name")
     private String lastName;
+	
+	@Column(name = "middle_name")
     private String middleName;
+
     private String gender;
     private int age;
+	
+	@Column(name = "first_name")
     private String imageSrc;
+	
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="userDetailId")
+    @JoinColumn(name="user_detail_id")
     private UserDetail userDetail;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "sectionId")
+    @JoinColumn(name = "section_id")
     private Section section;
     @Transient
     private List<Link> links;

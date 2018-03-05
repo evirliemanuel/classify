@@ -2,13 +2,12 @@ package io.classify.ui.login
 
 import android.text.TextUtils
 import io.classify.data.remote.service.UserService
-import io.classify.ui.login.LoginInteract.OnLoginFinishedListener
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class LoginInteractImpl(private val userService: UserService) : LoginInteract {
 
-    override fun login(username: String, password: String, listener: OnLoginFinishedListener) {
+    override fun login(username: String, password: String, listener: LoginInteract.OnFinishedListener) {
 
         if (TextUtils.isEmpty(username)) {
             listener.onUsernameError()

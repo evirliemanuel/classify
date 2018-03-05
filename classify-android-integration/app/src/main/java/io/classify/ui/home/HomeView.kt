@@ -1,10 +1,12 @@
 package io.classify.ui.home
 
+import io.classify.data.model.Schedule
+
 interface HomeView {
 
-    fun showProgress();
+    fun showProgress()
 
-    fun hideProgress();
+    fun hideProgress()
 
-    fun setSchedules();
+    fun setSchedules(schedules: List<Schedule>)
 }

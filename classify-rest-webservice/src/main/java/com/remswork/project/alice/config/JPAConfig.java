@@ -33,7 +33,7 @@ public class JPAConfig {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
 		sessionFactory.setHibernateProperties(hibernateProperties());
-		sessionFactory.setPackagesToScan("com.remswork.project.alice.entity");
+		sessionFactory.setPackagesToScan("com.remswork.project.alice.model");
 		return sessionFactory;
 	}
 	

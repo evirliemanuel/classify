@@ -30,5 +30,4 @@ public class JerseyConfig extends ResourceConfig {
 		register(UserDetailResource.class);
 		register(GradeResource.class);
 	}
-
 }

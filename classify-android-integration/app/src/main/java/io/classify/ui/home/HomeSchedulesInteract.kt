@@ -2,7 +2,7 @@ package io.classify.ui.home
 
 import io.classify.data.model.Schedule
 
-interface FindSchedulesInteract {
+interface HomeSchedulesInteract {
 
     interface OnFinishedListener {
         fun onFinished(schedules: List<Schedule>)

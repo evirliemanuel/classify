@@ -2,6 +2,7 @@ package io.classify.ui.home
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,13 +25,13 @@ class HomeScheduleAdapter(context: Context, private var schedules: List<Schedule
     }
 
     override fun onBindViewHolder(holder: HomeScheduleViewHolder?, position: Int) {
-        holder?.setView(schedule = schedules.get(position))
+        holder?.setView(schedule = schedules[position])
     }
-
 
     class HomeScheduleViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
 
         fun setView(schedule: Schedule) {
+            Log.i("ScheduleViewHolder", schedule.day)
             itemView.title.text = schedule.day
         }
     }

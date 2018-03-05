@@ -7,4 +7,6 @@ interface HomePresenter {
     fun onScheduleClicked(position: Int);
 
     fun onDestroy()
+
+    fun showSchedules()
 }

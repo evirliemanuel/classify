@@ -5,7 +5,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 @Component
-@PropertySource("classpath:datasource.properties")
+@PropertySource("classpath:ds.properties")
 public class DataSourcePropertiesBean {
 	
 	@Value("${db.driver_classname}")

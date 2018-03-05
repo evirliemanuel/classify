@@ -19,10 +19,10 @@ public class Grade {
 	@Column(name = "total_score")
     private double totalScore;
 	
-	@Column(name = "")
+	@Column(name = "activity_score")
     private double activityScore;
 	
-	@Column(name = "activity_score")
+	@Column(name = "assignment_score")
     private double assignmentScore;
 	
 	@Column(name = "attendance_score")

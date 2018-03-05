@@ -31,12 +31,13 @@ public class Student {
     private String gender;
     private int age;
 	
-	@Column(name = "first_name")
+	@Column(name = "image_src")
     private String imageSrc;
 	
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="user_detail_id")
     private UserDetail userDetail;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "section_id")
     private Section section;

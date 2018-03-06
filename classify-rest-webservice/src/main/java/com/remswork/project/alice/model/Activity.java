@@ -15,7 +15,9 @@ public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
     private String title;
+
     private String date;
 	
 	@Column(name = "item_total")
@@ -24,9 +26,11 @@ public class Activity {
     @ManyToOne
     @JoinColumn(name = "class_id")
     private Class _class;
+
     @ManyToOne
     @JoinColumn(name = "term_id")
     private Term term;
+
     @Transient
     private List<Link> links;
 

@@ -15,9 +15,9 @@ import javax.ws.rs.core.*;
 import java.util.List;
 
 @Component
-@Produces(value = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-@Consumes(value = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-@Path("teacher")
+@Produces(value = {MediaType.APPLICATION_JSON})
+@Consumes(value = {MediaType.APPLICATION_JSON})
+@Path("teachers")
 public class TeacherResource {
 
     @Autowired
@@ -51,7 +51,7 @@ public class TeacherResource {
     }
 
     @GET
-    public Response getTeacherList() {
+    public Response getAll() {
         try {
             TeacherResourceLinks resourceLink = new TeacherResourceLinks(uriInfo);
             DepartmentResourceLinks departmentResourceLinks = new DepartmentResourceLinks(uriInfo);

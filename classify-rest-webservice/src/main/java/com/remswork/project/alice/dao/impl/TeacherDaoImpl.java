@@ -22,25 +22,9 @@ public class TeacherDaoImpl implements TeacherDao {
 
     @Autowired
     private SessionFactory sessionFactory;
+
     @Autowired
     private DepartmentDaoImpl departmentDao;
-
-    @Override
-    public Teacher getTeacherById(long id) throws TeacherException {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        try {
-            Teacher teacher = session.get(Teacher.class, id);
-            if (teacher == null)
-                throw new TeacherDaoException("Teacher with id : " + id + " does not exist");
-            session.getTransaction().commit();
-            session.close();
-            return teacher;
-        } catch (TeacherDaoException e) {
-            session.close();
-            throw new TeacherException(e.getMessage());
-        }
-    }
 
     @Override
     public List<Teacher> getTeacherList() throws TeacherException {
@@ -55,6 +39,23 @@ public class TeacherDaoImpl implements TeacherDao {
             session.getTransaction().commit();
             session.close();
             return teacherList;
+        } catch (TeacherDaoException e) {
+            session.close();
+            throw new TeacherException(e.getMessage());
+        }
+    }
+
+    @Override
+    public Teacher getTeacherById(long id) throws TeacherException {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        try {
+            Teacher teacher = session.get(Teacher.class, id);
+            if (teacher == null)
+                throw new TeacherDaoException("Teacher with id : " + id + " does not exist");
+            session.getTransaction().commit();
+            session.close();
+            return teacher;
         } catch (TeacherDaoException e) {
             session.close();
             throw new TeacherException(e.getMessage());

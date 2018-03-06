@@ -16,6 +16,10 @@ public class UserDetailServiceImpl implements UserDetailService {
     @Autowired
     private UserDetailDaoImpl userDetailDao;
 
+    public UserDetail getByUsername(String username) throws UserDetailException {
+        return userDetailDao.getByUsername(username);
+    }
+
     @Override
     public UserDetail getUserDetailById(long id) throws UserDetailException {
         return userDetailDao.getUserDetailById(id);

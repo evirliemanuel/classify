@@ -5,26 +5,29 @@ import com.remswork.project.alice.model.UserDetail;
 import com.remswork.project.alice.service.impl.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
+import javax.ws.rs.core.Response;
 
 @Component
-@Produces(value = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-@Consumes(value = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+@Produces(value = {MediaType.APPLICATION_JSON})
+@Consumes(value = {MediaType.APPLICATION_JSON})
 @Path("userDetail")
-@Deprecated
 public class UserDetailResource {
 
     @Autowired
     private UserDetailServiceImpl userDetailService;
 
     @GET
-    @Path("{userDetailId}")
-    public UserDetail getUserDetailById(@PathParam("userDetailId") long userDetailId) {
+    public Response getAll(@QueryParam("username") String username) {
         try {
-            return userDetailService.getUserDetailById(userDetailId);
+            if (StringUtils.isEmpty(username)) {
+                return Response.status(200).entity(userDetailService.getUserDetailList()).build();
+            } else {
+                return Response.status(200).entity(userDetailService.getByUsername(username)).build();
+            }
         } catch (UserDetailException e) {
             e.printStackTrace();
             return null;
@@ -32,9 +35,10 @@ public class UserDetailResource {
     }
 
     @GET
-    public List<UserDetail> getUserDetailList() {
+    @Path("{userDetailId}")
+    public UserDetail getUserDetailById(@PathParam("userDetailId") long userDetailId) {
         try {
-            return userDetailService.getUserDetailList();
+            return userDetailService.getUserDetailById(userDetailId);
         } catch (UserDetailException e) {
             e.printStackTrace();
             return null;

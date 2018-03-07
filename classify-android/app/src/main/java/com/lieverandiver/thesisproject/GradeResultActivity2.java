@@ -1,6 +1,7 @@
 package com.lieverandiver.thesisproject;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.lieverandiver.thesisproject.adapter.GradeAdapter2;
 import com.remswork.project.alice.model.Class;
@@ -37,6 +40,12 @@ import com.remswork.project.alice.service.impl.StudentServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.classify.DI;
+import io.classify.model.User;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class GradeResultActivity2 extends AppCompatActivity {
 
@@ -106,49 +115,74 @@ public class GradeResultActivity2 extends AppCompatActivity {
             final Formula formula = formulaService.getFormulaBySubjectAndTeacherId(subjectId, teacherId, termId);
 
             Log.i("SOMETHINGGG", "CLASSID" + classId + " FORMULAID" + formula.getId());
+            final io.classify.service.GradeService gr = new DI().getRetrofit().create(io.classify.service.GradeService.class);
             for (final Student student : classService.getStudentList(classId)) {
-                final Student cStudent = student;
-                Log.i("SOMETHINGGG", "Student" + student.getId());
-                Log.i("FORMULA",formula.getId()+ "");
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            long studentId = cStudent.getId();
-                            List<Grade> temp = gradeService.getGradeListByClass(classId, studentId, termId);
-                            Grade grade = temp.size() > 0 ? temp.get(0) : new Grade();
+                Log.i("TATATE",
+                        String.format("test/total/class/{%d}/term/{%d}/teacher/{%d}/subject/{%d}/student/{%d}", classId, termId, teacherId, subjectId, student.getId()));
+                gr.findTotal(classId, termId, teacherId, subjectId, student.getId())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<String>() {
+                            @Override
+                            public void accept(String result) throws Exception {
+                                Log.i("TAETAE", result);
+                                if (!result.equals("NaN")) {
+                                    Grade grade = new Grade();
+                                    grade.setStudent(student);
+                                    grade.setTotalScore(Double.parseDouble(result));
+                                    gradeList.add(grade);
+                                    notifyChange();
+                                }
+                            }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                                Log.i("TAETAE", throwable.toString());
+                            }
+                        });
 
-                            Log.i("GRADE",grade.getId()+ "");
-
-                            double actScore = ((double) formula.getActivityPercentage() / 100) * grade.getActivityScore();
-                            double assScore = ((double) formula.getAssignmentPercentage() / 100) * grade.getAssignmentScore();
-                            double attScore = ((double) formula.getAttendancePercentage() / 100) * grade.getAttendanceScore();
-                            double exaScore = ((double) formula.getExamPercentage() / 100) * grade.getExamScore();
-                            double proScore = ((double) formula.getProjectPercentage() / 100) * grade.getProjectScore();
-                            double quiScore = ((double) formula.getQuizPercentage() / 100) * grade.getQuizScore();
-
-                            grade.setTotalScore(
-                                    actScore + assScore + attScore + exaScore + proScore + quiScore
-                            );
-
-                            grade.setStudent(student);
-
-                            Log.i("SOMETHINGGG", "actScore" + formula.getActivityPercentage());
-                            Log.i("SOMETHINGGG", "assScore" + formula.getAssignmentPercentage());
-                            Log.i("SOMETHINGGG", "attScore" + formula.getAttendancePercentage());
-                            Log.i("SOMETHINGGG", "exaScore" + formula.getExamPercentage());
-                            Log.i("SOMETHINGGG", "proScore" + formula.getProjectPercentage());
-                            Log.i("SOMETHINGGG", "quiScore" + formula.getQuizPercentage());
-                            Log.i("SOMETHINGGG", "Student" + studentId);
-                            Log.i("SOMETHINGGG", "Grade" + grade.getId());
-
-                            gradeList.add(grade);
-                            notifyChange();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
+//                final Student cStudent = student;
+//                Log.i("SOMETHINGGG", "Student" + student.getId());
+//                Log.i("FORMULA",formula.getId()+ "");
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            long studentId = cStudent.getId();
+//                            List<Grade> temp = gradeService.getGradeListByClass(classId, studentId, termId);
+//                            Grade grade = temp.size() > 0 ? temp.get(0) : new Grade();
+//
+//                            Log.i("GRADE",grade.getId()+ "");
+//
+//                            double actScore = ((double) formula.getActivityPercentage() / 100) * grade.getActivityScore();
+//                            double assScore = ((double) formula.getAssignmentPercentage() / 100) * grade.getAssignmentScore();
+//                            double attScore = ((double) formula.getAttendancePercentage() / 100) * grade.getAttendanceScore();
+//                            double exaScore = ((double) formula.getExamPercentage() / 100) * grade.getExamScore();
+//                            double proScore = ((double) formula.getProjectPercentage() / 100) * grade.getProjectScore();
+//                            double quiScore = ((double) formula.getQuizPercentage() / 100) * grade.getQuizScore();
+//
+//                            grade.setTotalScore(
+//                                    actScore + assScore + attScore + exaScore + proScore + quiScore
+//                            );
+//
+//                            grade.setStudent(student);
+//
+//                            Log.i("SOMETHINGGG", "actScore" + formula.getActivityPercentage());
+//                            Log.i("SOMETHINGGG", "assScore" + formula.getAssignmentPercentage());
+//                            Log.i("SOMETHINGGG", "attScore" + formula.getAttendancePercentage());
+//                            Log.i("SOMETHINGGG", "exaScore" + formula.getExamPercentage());
+//                            Log.i("SOMETHINGGG", "proScore" + formula.getProjectPercentage());
+//                            Log.i("SOMETHINGGG", "quiScore" + formula.getQuizPercentage());
+//                            Log.i("SOMETHINGGG", "Student" + studentId);
+//                            Log.i("SOMETHINGGG", "Grade" + grade.getId());
+//
+//                            gradeList.add(grade);
+//                            notifyChange();
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }).start();
             }
 
         } catch (Exception e) {

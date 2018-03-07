@@ -42,6 +42,8 @@ import com.remswork.project.alice.service.impl.StudentServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.classify.model.Mark;
+
 @Deprecated
 public class GradeResultActivity extends AppCompatActivity{
 
@@ -72,7 +74,7 @@ public class GradeResultActivity extends AppCompatActivity{
 
     private RecyclerView recyclerView;
     private GradeAdapter2 gradeAdapter;
-    final List<Grade> gradeList = new ArrayList<>();
+    final List<Mark> gradeList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -327,7 +329,9 @@ public class GradeResultActivity extends AppCompatActivity{
                 Grade grade = new Grade();
                 grade.setTotalScore(activityGrade + assignmentGrade + attendanceGrade +
                         examGrade + projectGrade + quizGrade);
-                gradeList.add(grade);
+                Mark mark = new Mark();
+                mark.setFinalterm(grade);
+                gradeList.add(mark);
                 gradeAdapter.notifyItemInserted(gradeList.size());
             }
         });

@@ -55,62 +55,76 @@
                 android:layout_gravity="right"
                 android:orientation="horizontal">
 
-                <RelativeLayout
-                    android:layout_width="30dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="3dp">
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/icon_mic_off" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="30dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="3dp">
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/icon_pencil" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="30dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="5dp">
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/icon_setting" />
-                </RelativeLayout>
-
-
-                <RelativeLayout
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_margin="5dp"
-                    android:background="@color/colorTweeterBlue"
-                    android:orientation="vertical">
+                <LinearLayout
+                    android:layout_marginTop="2dp"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/grade_score_part"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
                         android:layout_gravity="center"
-                        android:text="00"
-                        android:textSize="16dp"
-                        android:textColor="@color/colorWhite"/>
+                        android:text="Midterm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-                </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:background="@color/colorTweeterBlue"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/grade_score_part"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:text="00"
+                            android:textSize="16dp"
+                            android:textColor="@color/colorWhite"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_marginRight="3dp"
+                    android:layout_marginTop="2dp"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_gravity="center"
+                        android:text="Finalterm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <RelativeLayout
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:background="@color/colorTweeterBlue"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/grade_score_part2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:text="0.0"
+                            android:textSize="16dp"
+                            android:textColor="@color/colorWhite"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
 
             </LinearLayout>
 

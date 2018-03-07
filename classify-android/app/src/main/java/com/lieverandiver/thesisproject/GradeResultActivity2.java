@@ -42,6 +42,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.classify.DI;
+import io.classify.model.Mark;
+import io.classify.model.MarkDto;
 import io.classify.model.User;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -76,7 +78,7 @@ public class GradeResultActivity2 extends AppCompatActivity {
 
     private RecyclerView rvData;
     private GradeAdapter2 gradeAdapter;
-    final List<Grade> gradeList = new ArrayList<>();
+    final List<Mark> gradeList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -119,18 +121,23 @@ public class GradeResultActivity2 extends AppCompatActivity {
             for (final Student student : classService.getStudentList(classId)) {
                 Log.i("TATATE",
                         String.format("test/total/class/{%d}/term/{%d}/teacher/{%d}/subject/{%d}/student/{%d}", classId, termId, teacherId, subjectId, student.getId()));
-                gr.findTotal(classId, termId, teacherId, subjectId, student.getId())
+                gr.findAll(classId, teacherId, subjectId, student.getId())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Consumer<String>() {
+                        .subscribe(new Consumer<MarkDto>() {
                             @Override
-                            public void accept(String result) throws Exception {
-                                Log.i("TAETAE", result);
-                                if (!result.equals("NaN")) {
+                            public void accept(MarkDto result) throws Exception {
+                                if (!result.getMidterm().equals("NaN")) {
                                     Grade grade = new Grade();
                                     grade.setStudent(student);
-                                    grade.setTotalScore(Double.parseDouble(result));
-                                    gradeList.add(grade);
+                                    grade.setTotalScore(Double.parseDouble(result.getMidterm()));
+                                    Grade grade2 = new Grade();
+                                    grade2.setStudent(student);
+                                    grade2.setTotalScore(Double.parseDouble(result.getFinalterm()));
+                                    Mark mark = new Mark();
+                                    mark.setMidterm(grade);
+                                    mark.setFinalterm(grade2);
+                                    gradeList.add(mark);
                                     notifyChange();
                                 }
                             }

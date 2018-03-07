@@ -15,13 +15,15 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
 
+import io.classify.model.Mark;
+
 public class GradeAdapter2 extends RecyclerView.Adapter<GradeAdapter2.GradeViewHolder> {
 
     private Context context;
-    private List<Grade> gradeList;
+    private List<Mark> gradeList;
     private LayoutInflater layoutInflater;
 
-    public GradeAdapter2(Context context, List<Grade> gradeList, long termId) {
+    public GradeAdapter2(Context context, List<Mark> gradeList, long termId) {
         this.gradeList = gradeList;
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
@@ -46,30 +48,29 @@ public class GradeAdapter2 extends RecyclerView.Adapter<GradeAdapter2.GradeViewH
     class GradeViewHolder extends RecyclerView.ViewHolder {
 
         private TextView txtGrdScore;
+        private TextView txtGrdScore2;
         private TextView txName;
         private TextView txDate;
 
         public GradeViewHolder(View itemView) {
             super(itemView);
             txtGrdScore = (TextView) itemView.findViewById(R.id.grade_score_part);
+            txtGrdScore2 = (TextView) itemView.findViewById(R.id.grade_score_part2);
             txName = (TextView) itemView.findViewById(R.id.grade_studentname);
             txDate = (TextView) itemView.findViewById(R.id.grade_update_date);
         }
 
-        public void setView(final Grade grade, final int position) {
-            String name = String.format("%s, %s %s", grade.getStudent().getLastName(),
-                    grade.getStudent().getFirstName(),
-                    grade.getStudent().getMiddleName().substring(0, 1)) + ".";
-            DecimalFormat format = new DecimalFormat(".##");
+        public void setView(final Mark mark, final int position) {
+            String name = String.format("%s, %s %s", mark.getMidterm().getStudent().getLastName(),
+                    mark.getMidterm().getStudent().getFirstName(),
+                    mark.getMidterm().getStudent().getMiddleName().substring(0, 1)) + ".";
+            DecimalFormat format = new DecimalFormat("#.##");
             format.setRoundingMode(RoundingMode.UP);
-            String score = String.format(Locale.ENGLISH, "%s", format.format(grade.getTotalScore()));
+            String score = String.format(Locale.ENGLISH, "%s", format.format(mark.getMidterm().getTotalScore()));
+            String score2 = String.format(Locale.ENGLISH, "%s", format.format(mark.getFinalterm().getTotalScore()));
             txName.setText(name);
             txtGrdScore.setText(score);
+            txtGrdScore2.setText(score2);
         }
-
-        public void setScore(double score) {
-            txtGrdScore.setText(score + "");
-        }
-
     }
 }

@@ -11,11 +11,14 @@ import android.widget.Toast;
 
 import com.lieverandiver.thesisproject.fragment.LoginFragment;
 import com.lieverandiver.thesisproject.helper.TeacherHelper;
-import com.remswork.project.alice.exception.TeacherException;
-import com.remswork.project.alice.model.Teacher;
 import com.remswork.project.alice.service.impl.TeacherServiceImpl;
 
-import java.util.List;
+import io.classify.DI;
+import io.classify.model.User;
+import io.classify.service.UserService;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class LoginActivity extends AppCompatActivity implements LoginFragment.LoginFragmentListener {
 
@@ -28,38 +31,6 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
     private boolean isVaild;
     private String username;
     private String password;
-
-    private class DoLoginThread extends Thread {
-        @Override
-        public void run() {
-            try {
-                final List<Teacher> teacherList = teacherService.getTeacherList();
-                for (Teacher teacher : teacherList) {
-                    if (teacher.getUserDetail().getUsername().equals(username.trim()) &&
-                            teacher.getUserDetail().getPassword().equals(password.trim())) {
-                        teacherHelper.saveUser(teacher.getId());
-
-                        Intent intent = new Intent(getApplicationContext(), MainActivity2.class);
-                        intent.putExtra("teacherId", teacher.getId());
-                        isVaild = true;
-                        startActivity(intent);
-                    }
-                }
-            } catch (TeacherException e) {
-                e.printStackTrace();
-            }
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (!isVaild)
-                        Toast.makeText(LoginActivity.this, "Incorrect username or password",
-                                Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.INVISIBLE);
-                    screen.setVisibility(View.INVISIBLE);
-                }
-            });
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +87,37 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
         username = _username;
         password = _password;
 
-        DoLoginThread doLoginThread = new DoLoginThread();
-        doLoginThread.start();
+        UserService userService = new DI().getRetrofit().create(UserService.class);
+        userService.getByUsername(username)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<User>() {
+                    @Override
+                    public void accept(User user) throws Exception {
+                        if (user.getPassword().equals(password)) {
+                            teacherHelper.saveUser(user.getTeacherId());
+
+                            Intent intent = new Intent(getApplicationContext(), MainActivity2.class);
+                            intent.putExtra("teacherId", user.getTeacherId());
+                            isVaild = true;
+                            startActivity(intent);
+                        } else {
+                            if (!isVaild)
+                                Toast.makeText(LoginActivity.this, "Incorrect username or password",
+                                        Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.INVISIBLE);
+                            screen.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        if (!isVaild)
+                            Toast.makeText(LoginActivity.this, "Incorrect username or password",
+                                    Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.INVISIBLE);
+                        screen.setVisibility(View.INVISIBLE);
+                    }
+                });
     }
 }

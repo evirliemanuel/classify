@@ -32,6 +32,13 @@ dependencies {
     compile 'com.github.erafaelmanuel:alice-core:30cf652286'
     compile 'com.google.code.gson:gson:2.6.2'
 
+    implementation rootProject.ext.retrofit
+    implementation rootProject.ext.adapterRxJava
+    implementation rootProject.ext.gsonConverter
+
+    implementation rootProject.ext.rxJava2
+    implementation rootProject.ext.rxAndroid
+
     testCompile 'junit:junit:4.12'
     compile 'com.google.firebase:firebase-appindexing:10.0.0'
 }

@@ -17,7 +17,7 @@ import java.util.List;
 @Component
 @Produces(value = {MediaType.APPLICATION_JSON})
 @Consumes(value = {MediaType.APPLICATION_JSON})
-@Path("teachers")
+@Path("teacher")
 public class TeacherResource {
 
     @Autowired

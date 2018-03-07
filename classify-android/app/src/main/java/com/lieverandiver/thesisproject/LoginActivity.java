@@ -13,12 +13,11 @@ import com.lieverandiver.thesisproject.fragment.LoginFragment;
 import com.lieverandiver.thesisproject.helper.TeacherHelper;
 import com.remswork.project.alice.exception.TeacherException;
 import com.remswork.project.alice.model.Teacher;
-import com.remswork.project.alice.service.impl.IP;
 import com.remswork.project.alice.service.impl.TeacherServiceImpl;
 
 import java.util.List;
 
-public class LoginActivity extends AppCompatActivity implements LoginFragment.LoginFragmentListener{
+public class LoginActivity extends AppCompatActivity implements LoginFragment.LoginFragmentListener {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
 
@@ -36,8 +35,8 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
         public void run() {
             try {
                 final List<Teacher> teacherList = teacherService.getTeacherList();
-                for(Teacher teacher : teacherList ) {
-                    if(teacher.getUserDetail().getUsername().equals(username.trim()) &&
+                for (Teacher teacher : teacherList) {
+                    if (teacher.getUserDetail().getUsername().equals(username.trim()) &&
                             teacher.getUserDetail().getPassword().equals(password.trim())) {
                         teacherHelper.saveUser(teacher.getId());
 
@@ -54,7 +53,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if(!isVaild)
+                    if (!isVaild)
                         Toast.makeText(LoginActivity.this, "Incorrect username or password",
                                 Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.INVISIBLE);
@@ -90,7 +89,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
                 intent.putExtra("teacherId", teacherHelper.loadUser().get().getId());
                 startActivity(intent);
             }
-        }catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             e.printStackTrace();
         }
     }

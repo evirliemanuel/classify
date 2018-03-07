@@ -88,7 +88,7 @@ public class SubjectDaoImpl implements SubjectDao {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         try {
-            Query query = session.createQuery("from SubjectDto");
+            Query query = session.createQuery("from Subject");
             for(Object subjectObj : query.list())
                 subjectList.add((Subject) subjectObj);
             session.getTransaction().commit();

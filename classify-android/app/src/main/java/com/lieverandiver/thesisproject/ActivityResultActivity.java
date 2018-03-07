@@ -39,6 +39,7 @@ public class ActivityResultActivity extends AppCompatActivity implements View.On
     private Activity activity;
 
     private TextView textViewDate;
+
     private TextView textViewName;
     private TextView textViewTotal;
     private RecyclerView recyclerViewView;

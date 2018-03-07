@@ -1,5 +1,6 @@
 package com.remswork.project.alice.resource;
 
+import com.remswork.project.alice.dto.MarkDto;
 import com.remswork.project.alice.model.*;
 import com.remswork.project.alice.service.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -173,6 +174,89 @@ public class TestConrtoller {
         } catch (Exception e) {
             e.printStackTrace();
             return Response.accepted().entity(0).build();
+        }
+    }
+
+    @GET
+    @Path("all/class/{classId}/teacher/{teacherId}/subject/{subjectId}/student/{studentId}")
+    public Response all(@PathParam("classId") long classId,@PathParam("teacherId") long teacherId,@PathParam("subjectId") long subjectId,@PathParam("studentId") long studentId) {
+        try {
+            MarkDto markDto = new MarkDto();
+            double m1 = midterm(classId, teacherId, subjectId, studentId);
+            double f1 = finalterm(classId, teacherId, subjectId, studentId);
+            String m = m1 + "";
+            if (m.equalsIgnoreCase("NaN")) {
+                m = "0.0";
+            }
+            String f = f1 + "";
+            if (f.equalsIgnoreCase("NaN") || f.equalsIgnoreCase("0")) {
+                f = "0.0";
+            }
+            if (!f.equalsIgnoreCase("0.0")) {
+                f = ((m1 + f1) / 2) + "";
+            }
+            markDto.setMidterm(m);
+            markDto.setFinalterm(f);
+            return Response.accepted().entity(markDto).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.accepted().entity(0).build();
+        }
+    }
+
+    public double midterm(long classId,long teacherId,long subjectId,long studentId) {
+        try {
+        Formula formula = formulaService.getFormulaBySubjectAndTeacherId(subjectId, teacherId, 1);
+        double act_ = getActivity(studentId, activityService.getActivityListByClassId(classId, 1));
+        double att_ =   getAttendance(studentId, attendanceService.getAttendanceListByClassId(classId, 1));
+        double ass_ = getAssignment(studentId, assignmentService.getAssignmentListByClassId(classId, 1));
+        double exa_ = getExam(studentId, examService.getExamListByClassId(classId, 1));
+        double pro_ = getProject(studentId, projectService.getProjectListByClassId(classId, 1));
+        double rec_ = getRecitation(studentId, recitationService.getRecitationListByClassId(classId, 1));
+        double qui_ = getQuiz(studentId, quizService.getQuizListByClassId(classId, 1));
+
+
+
+        double act = formula.getActivityPercentage() == 0 ? 0 :  act_ == 0 ? 0 : (act_ * ((double)formula.getActivityPercentage() / 100.0));
+        double att = formula.getAttendancePercentage() == 0 ? 0 : att_ == 0 ? 0 : (att_ * ((double) formula.getAttendancePercentage() / 100.0));
+        double ass = formula.getAssignmentPercentage() == 0 ? 0 : ass_ == 0 ? 0 : (ass_ *
+                (formula.getAssignmentPercentage() / 100.0));
+        double exa = formula.getExamPercentage() == 0 ? 0 : exa_ == 0 ? 0 : (exa_ * ((double)formula.getExamPercentage() / 100.0));
+        double pro = formula.getProjectPercentage() == 0 ? 0 : pro_ == 0 ? 0 :(pro_ * ((double)formula.getProjectPercentage() / 100.0));
+        double rec = formula.getRecitationPercentage() == 0 ? 0 : rec_ == 0 ? 0 : ( rec_ * ((double)formula.getRecitationPercentage() / 100.0));
+        double qui = formula.getQuizPercentage() == 0 ? 0 : qui_ == 0 ? 0 :  (qui_ * ((double)formula.getQuizPercentage() / 100.0));
+
+        return act + att + ass + exa + pro + rec + qui;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    public double finalterm(long classId,long teacherId,long subjectId,long studentId) {
+        try {
+            Formula formula = formulaService.getFormulaBySubjectAndTeacherId(subjectId, teacherId, 2);
+            double act_ = getActivity(studentId, activityService.getActivityListByClassId(classId, 2));
+            double att_ =   getAttendance(studentId, attendanceService.getAttendanceListByClassId(classId, 2));
+            double ass_ = getAssignment(studentId, assignmentService.getAssignmentListByClassId(classId, 2));
+            double exa_ = getExam(studentId, examService.getExamListByClassId(classId, 2));
+            double pro_ = getProject(studentId, projectService.getProjectListByClassId(classId, 2));
+            double rec_ = getRecitation(studentId, recitationService.getRecitationListByClassId(classId, 2));
+            double qui_ = getQuiz(studentId, quizService.getQuizListByClassId(classId, 2));
+
+
+
+            double act = formula.getActivityPercentage() == 0 ? 0 :  act_ == 0 ? 0 : (act_ * ((double)formula.getActivityPercentage() / 100.0));
+            double att = formula.getAttendancePercentage() == 0 ? 0 : att_ == 0 ? 0 : (att_ * ((double) formula.getAttendancePercentage() / 100.0));
+            double ass = formula.getAssignmentPercentage() == 0 ? 0 : ass_ == 0 ? 0 : (ass_ *
+                    (formula.getAssignmentPercentage() / 100.0));
+            double exa = formula.getExamPercentage() == 0 ? 0 : exa_ == 0 ? 0 : (exa_ * ((double)formula.getExamPercentage() / 100.0));
+            double pro = formula.getProjectPercentage() == 0 ? 0 : pro_ == 0 ? 0 :(pro_ * ((double)formula.getProjectPercentage() / 100.0));
+            double rec = formula.getRecitationPercentage() == 0 ? 0 : rec_ == 0 ? 0 : ( rec_ * ((double)formula.getRecitationPercentage() / 100.0));
+            double qui = formula.getQuizPercentage() == 0 ? 0 : qui_ == 0 ? 0 :  (qui_ * ((double)formula.getQuizPercentage() / 100.0));
+
+            return act + att + ass + exa + pro + rec + qui;
+        } catch (Exception e) {
+            return 0;
         }
     }
 

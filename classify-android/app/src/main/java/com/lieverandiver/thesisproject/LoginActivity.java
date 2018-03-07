@@ -25,7 +25,6 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
     private TeacherHelper teacherHelper;
     private ProgressBar progressBar;
     private FrameLayout screen;
-    private DoLoginThread doLoginThread;
     private boolean isVaild;
     private String username;
     private String password;
@@ -49,7 +48,6 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Lo
             } catch (TeacherException e) {
                 e.printStackTrace();
             }
-
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

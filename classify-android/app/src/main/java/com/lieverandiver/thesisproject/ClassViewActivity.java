@@ -313,7 +313,9 @@ public class ClassViewActivity extends AppCompatActivity implements View.OnClick
                     public void run() {
                         String subjectName = (_class.getSubject() != null ? _class.getSubject().getName() : "None");
                         String sectionName = (_class.getSection() != null ? _class.getSection().getName() : "None");
-                        String departmentName = (_class.getSection() != null ? _class.getSection().getDepartment().getName() : "None");
+                        String departmentName = (_class.getSection() != null ?
+                                (_class.getSection().getDepartment() != null ? _class.getSection().getDepartment().getName() : "None")
+                                : "None");
 
                         if(mFormula != null) {
 

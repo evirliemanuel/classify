@@ -1,26 +1,30 @@
 package com.remswork.project.alice.model;
 
-import javax.persistence.*;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@XmlRootElement
+import javax.persistence.*;
+
 @Entity
-@Table(name="tbluserdetail")
+@Table(name = "tbluserdetail")
 public class UserDetail {
 
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     private long id;
     private String username;
     private String password;
-	
-	@Column(name = "user_type")
+
+    @Column(name = "user_type")
     private String userType;
-	
-	@Column(name = "is_enabled")
+
+    @Column(name = "is_enabled")
     private boolean isEnabled;
-	
+
     private String registrationDate;
+
+    @OneToOne(mappedBy = "userDetail", cascade = CascadeType.ALL)
+    private Teacher teacher;
+
     public static final String USER_TEACHER = "user/teacher";
     public static final String USER_STUDENT = "user/student";
     public static final String USER_ADMIN = "user/admin";
@@ -39,8 +43,8 @@ public class UserDetail {
 
     public UserDetail(long id, String username, String password, String userType, boolean isEnabled,
                       String registerDate) {
-       this(username, password, userType, isEnabled, registerDate);
-       this.id = id;
+        this(username, password, userType, isEnabled, registerDate);
+        this.id = id;
     }
 
     public long getId() {
@@ -91,4 +95,12 @@ public class UserDetail {
         this.registrationDate = registrationDate;
     }
 
+    @JsonIgnore
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
 }

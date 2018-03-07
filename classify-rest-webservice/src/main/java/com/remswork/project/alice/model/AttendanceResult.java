@@ -7,7 +7,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlRootElement
 @Entity
 @Table(name = "tblattendanceresult")
 public class AttendanceResult {
@@ -24,6 +23,7 @@ public class AttendanceResult {
     @OneToOne
     @JoinColumn(name = "student_id")
     private Student student;
+
     @Transient
     private List<Link> links;
 

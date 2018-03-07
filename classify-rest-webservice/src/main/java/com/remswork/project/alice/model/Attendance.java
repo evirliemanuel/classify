@@ -25,6 +25,7 @@ public class Attendance {
     @ManyToOne
     @JoinColumn(name = "term_id")
     private Term term;
+
     @Transient
     private List<Link> links;
 

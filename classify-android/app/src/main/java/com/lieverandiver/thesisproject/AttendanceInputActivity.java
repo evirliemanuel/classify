@@ -234,7 +234,7 @@ public class AttendanceInputActivity extends AppCompatActivity {
                 studentList.add(s);
 
             attendanceInputAdapter = new AttendanceInputAdapter(this, studentList);
-            listener = (AttendanceInputListener) attendanceInputAdapter;
+            listener = attendanceInputAdapter;
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 

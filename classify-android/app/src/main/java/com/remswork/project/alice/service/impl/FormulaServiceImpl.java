@@ -333,7 +333,7 @@ public class FormulaServiceImpl implements FormulaService, IP {
     }
 
     @Override
-    public Formula addFormula(final Formula formula, final long subjectId, final  long teacherId)
+    public Formula addFormula(final Formula formula, final long subjectId, final long teacherId)
             throws GradingFactorException {
         try {
             return new AsyncTask<String, Formula, Formula>() {

@@ -103,7 +103,7 @@ public class ActivityInputActivityF extends AppCompatActivity implements View.On
                     studentAdapter.onValidate(true);
 
                     if (studentAdapter.isNoError()) {
-                        activity = activityService.addActivity(activity, classId, 1L);
+                        activity = activityService.addActivity(activity, classId, 2L);
                         for (int i = 0; i < studentList.size(); i++) {
                             //Student id
                             final long studentId = studentList.get(i).getId();

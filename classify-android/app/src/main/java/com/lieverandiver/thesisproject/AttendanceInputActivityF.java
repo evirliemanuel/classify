@@ -63,7 +63,7 @@ public class AttendanceInputActivityF extends AppCompatActivity {
 
 
     private boolean toggleMark = true;
-    private AttendanceInputListener listener;
+    private AttendanceInputActivity.AttendanceInputListener listener;
     private long classId;
     private long termId;
     private Grade grade;
@@ -235,7 +235,7 @@ public class AttendanceInputActivityF extends AppCompatActivity {
                 studentList.add(s);
 
             attendanceInputAdapter = new AttendanceInputAdapter(this, studentList);
-            listener = (AttendanceInputListener) attendanceInputAdapter;
+            listener = attendanceInputAdapter;
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
@@ -267,9 +267,9 @@ public class AttendanceInputActivityF extends AppCompatActivity {
         }
     }
 
-    public interface AttendanceInputListener {
-        void onValidate();
-
-        void onSelect(boolean isSelected);
-    }
+//    public interface AttendanceInputListener {
+//        void onValidate();
+//
+//        void onSelect(boolean isSelected);
+//    }
 }

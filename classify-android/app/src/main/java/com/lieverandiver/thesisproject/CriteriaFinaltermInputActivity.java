@@ -128,7 +128,7 @@ public class CriteriaFinaltermInputActivity extends AppCompatActivity implements
 
         cardViewFailed = (CardView) findViewById(R.id.criteria_failed);
         laSave = (LinearLayout) findViewById(R.id.midterm_save);
-//        txtSubjectName = (TextView) findViewById(R.id.midterm_subjectname);
+        txtSubjectName = (TextView) findViewById(R.id.midterm_subjectname);
         txtTotalPercent = (TextView) findViewById(R.id.total_percentm);
 //        txTermTitle = (TextView) findViewById(R.id.term_type_cri);
 //        spinnerm = (Spinner) findViewById(R.id.midterm_spinner_percent);
@@ -206,7 +206,7 @@ public class CriteriaFinaltermInputActivity extends AppCompatActivity implements
         swQuiz.setOnCheckedChangeListener(this);
 
         txtSubjectName.setText(subject.getName());
-        txTermTitle.setText("Finalterm");
+//        txTermTitle.setText("Finalterm");
 
         if(isExist) {
             if(formula.getActivityPercentage() > 0)
@@ -290,9 +290,12 @@ public class CriteriaFinaltermInputActivity extends AppCompatActivity implements
                 cardViewFailed.setVisibility(View.VISIBLE);
                 return;
             }
+
+            Log.i("LAPTOP", teacher.getId() + "");
+            Log.i("LAPTOP", subject.getId() + "");
+            Log.i("LAPTOP", isExist + "");
             if(!isExist)
-                _formula = new FormulaServiceImpl().addFormula(_formula, subject.getId(),
-                        teacher.getId(), 2);
+                _formula = new FormulaServiceImpl().addFormula(_formula, subject.getId(), teacher.getId(), 2);
             else
                 _formula = new FormulaServiceImpl().updateFormulaById(formula.getId(), _formula,
                         0, 0, 0);

@@ -43,6 +43,12 @@
         <activity android:name=".ActivityAddActivityF" android:launchMode="singleTask" />
         <activity android:name=".ActivityInputActivityF" android:launchMode="singleTask" />
         <activity android:name=".ActivityResultActivityF" android:launchMode="singleTask"/>
+
+        <activity android:name=".AttendanceAddActivityF" android:launchMode="singleTask"/>
+        <activity android:name=".AttendanceInputActivityF" android:launchMode="singleTask"/>
+        <activity android:name=".AttendanceResultViewActivityF" android:launchMode="singleTask"/>
+
+
         <activity android:name=".AssignmentAddActivityF" android:launchMode="singleTask"/>
         <activity android:name=".AssignmentInputActivityF" android:launchMode="singleTask"/>
         <activity android:name=".AssignmentResultActivityF" android:launchMode="singleTask"/>

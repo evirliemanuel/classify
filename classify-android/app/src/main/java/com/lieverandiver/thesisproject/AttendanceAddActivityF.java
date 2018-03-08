@@ -43,7 +43,7 @@ public class AttendanceAddActivityF extends AppCompatActivity implements Attenda
         public void run() {
 
             try {
-                final List<Attendance> attendanceList = attendanceService.getAttendanceListByClassId(classId);
+                final List<Attendance> attendanceList = attendanceService.getAttendanceListByClassId(classId, termId);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

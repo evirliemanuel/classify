@@ -1,13 +1,15 @@
 package io.classify;
 
+import com.remswork.project.alice.service.impl.IP;
+
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class DI {
+public class DI implements IP {
 
-    final String url = "http:192.168.0.102:8080/api/";
+    final String url = DOMAIN + "/api/";
 
     final Retrofit retrofit;
 

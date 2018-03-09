@@ -6,7 +6,7 @@
     android:orientation="vertical"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
-    tools:context="com.lieverandiver.thesisproject.Activity_Class_Portfolio">
+ >
 
     <RelativeLayout
         android:layout_width="match_parent"

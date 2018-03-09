@@ -12,8 +12,7 @@
     android:layout_marginBottom="2dp"
     card_view:cardElevation="1dp"
     android:clickable="true"
-    card_view:cardCornerRadius="1dp"
-    tools:context=".Activity_All_Result_Cardview">
+    card_view:cardCornerRadius="1dp">
 
     <LinearLayout
         android:orientation="vertical"

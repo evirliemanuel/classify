@@ -15,6 +15,7 @@
     </android.support.v7.widget.RecyclerView>
 
     <ProgressBar
+        android:indeterminateTint="@color/colorAccent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/class_progressbar"

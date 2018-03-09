@@ -15,33 +15,33 @@ import com.lieverandiver.thesisproject.adapter.SubjectAdapter;
 import com.remswork.project.alice.exception.SubjectException;
 import com.remswork.project.alice.model.Subject;
 import com.remswork.project.alice.model.Teacher;
-import com.remswork.project.alice.service.SubjectService;
 import com.remswork.project.alice.service.TeacherService;
 import com.remswork.project.alice.service.impl.SubjectServiceImpl;
 import com.remswork.project.alice.service.impl.TeacherServiceImpl;
 
 public class TeacherViewActivity extends AppCompatActivity implements
-        SubjectAdapter.OnViewClickListener{
+        SubjectAdapter.OnViewClickListener {
 
     private static final String TAG = TeacherViewActivity.class.getSimpleName();
 
     private TeacherService teacherService = new TeacherServiceImpl();
-    private SubjectService subjectService = new SubjectServiceImpl();
-    private Teacher teacher;;
+    private SubjectServiceImpl subjectService = new SubjectServiceImpl();
+    private Teacher teacher;
+    ;
     private TextView txtName;
     private TextView txtDept;
     private Button btnBack;
     private RecyclerView rView;
 
     private void init() {
-        txtName = (TextView)findViewById(R.id.txtv_fullname);
-        txtDept = (TextView)findViewById(R.id.txtv_dept);
-        btnBack = (Button)findViewById(R.id.add_backsubject);
+        txtName = (TextView) findViewById(R.id.txtv_fullname);
+        txtDept = (TextView) findViewById(R.id.txtv_dept);
+        btnBack = (Button) findViewById(R.id.add_backsubject);
         rView = (RecyclerView) findViewById(R.id.recyclerview_view_subject);
 
         try {
             SubjectAdapter subjectAdapter = new SubjectAdapter(this,
-                    subjectService.getSubjectListByTeacherId(teacher.getId()));
+                    subjectService.getSubjectListByTeacherIdUnique(teacher.getId()));
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
             rView.setAdapter(subjectAdapter);
@@ -58,7 +58,7 @@ public class TeacherViewActivity extends AppCompatActivity implements
                     finish();
                 }
             });
-        }catch (SubjectException e) {
+        } catch (SubjectException e) {
             e.printStackTrace();
         }
     }

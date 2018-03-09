@@ -105,6 +105,25 @@ public class SubjectResource {
         }
     }
 
+    @GET
+    @Path("1/unique")
+    @Deprecated
+    public Response getSubjectListByTeacherIdUnique(@QueryParam("teacherId") long teacherId) {
+        try {
+            SubjectResourceLinks resourceLinks = new SubjectResourceLinks(uriInfo);
+            List<Subject> subjectList = subjectService.getSubjectListByTeacherIdUnique(teacherId);
+            for (Subject subject : subjectList)
+                subject.addLink(resourceLinks.self(subject.getId()));
+            GenericEntity<List<Subject>> entity = new GenericEntity<List<Subject>>(subjectList) {
+            };
+            return Response.status(Response.Status.OK).entity(entity).build();
+        } catch (SubjectException e) {
+            e.printStackTrace();
+            Message message = new Message(404, "Not Found", e.getMessage());
+            return Response.status(Response.Status.NOT_FOUND).entity(message).build();
+        }
+    }
+
     @POST
     public Response addSubject(Subject subject) {
         try {

@@ -41,6 +41,11 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public List<Subject> getSubjectListByTeacherIdUnique(long teacherId) throws SubjectException {
+        return subjectDao.getSubjectListByTeacherIdUnique(teacherId);
+    }
+
+    @Override
     public List<Subject> getSubjectListByStudentId(long studentId) throws SubjectException {
         return subjectDao.getSubjectListByStudentId(studentId);
     }

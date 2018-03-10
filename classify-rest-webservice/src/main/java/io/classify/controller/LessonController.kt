@@ -11,16 +11,28 @@ import io.classify.dto.SubjectDto
 import io.classify.dto.TeacherDto
 import io.classify.exception.EntityException
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.hateoas.mvc.ControllerLinkBuilder
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("lessons")
-class LessonController(@Autowired val lessonService: LessonService,
-                       @Autowired val teacherService: TeacherService,
-                       @Autowired val subjectService: SubjectService,
-                       @Autowired val studentService: StudentService) {
+class LessonController(@Autowired private val lessonService: LessonService,
+                       @Autowired private val teacherService: TeacherService,
+                       @Autowired private val subjectService: SubjectService,
+                       @Autowired private val studentService: StudentService) {
+
+    @GetMapping
+    fun getAll(): ResponseEntity<Any?> {
+        return try {
+            val dto = ArrayList<LessonDto>()
+            lessonService.findAll().parallelStream().forEach({ lesson -> dto.add(LessonDto(id = lesson.id)) })
+            ResponseEntity(dto, HttpStatus.OK)
+        } catch (e: Exception) {
+            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+        }
+    }
 
     @GetMapping("{lessonId}")
     fun getById(@PathVariable("lessonId") lessonId: Long): ResponseEntity<Any?> {
@@ -33,22 +45,16 @@ class LessonController(@Autowired val lessonService: LessonService,
         }
     }
 
-    @GetMapping
-    fun getAll(): ResponseEntity<Any?> {
-        return try {
-            val dto = ArrayList<LessonDto>()
-            lessonService.findAll().parallelStream().forEach({ l -> dto.add(LessonDto(id = l.id)) })
-            ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: Exception) {
-            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
-        }
-    }
-
     @GetMapping("{lessonId}/teachers")
     fun getTeacher(@PathVariable("lessonId") lessonId: Long): ResponseEntity<Any?> {
         return try {
             val teacher = lessonService.findTeacher(lessonId)
             val dto = TeacherDto(teacher.id, teacher.name, teacher.email)
+            val linkSelf = ControllerLinkBuilder
+                    .linkTo(TeacherController::class.java)
+                    .slash(dto.id)
+                    .withSelfRel()
+            dto.add(linkSelf)
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
@@ -60,6 +66,11 @@ class LessonController(@Autowired val lessonService: LessonService,
         return try {
             val subject = lessonService.findSubject(lessonId)
             val dto = SubjectDto(id = subject.id, name = subject.name)
+            val linkSelf = ControllerLinkBuilder
+                    .linkTo(SubjectController::class.java)
+                    .slash(dto.id)
+                    .withSelfRel()
+            dto.add(linkSelf)
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
@@ -69,11 +80,17 @@ class LessonController(@Autowired val lessonService: LessonService,
     @GetMapping("{lessonId}/students")
     fun getStudents(@PathVariable("lessonId") lessonId: Long): ResponseEntity<Any?> {
         return try {
-            val dto = ArrayList<StudentDto>()
+            val dtoList = ArrayList<StudentDto>()
             lessonService.findStudents(lessonId).parallelStream().forEach({ student ->
-                dto.add(StudentDto(id = student.id, number = student.number, name = student.name))
+                val dto = StudentDto(id = student.id, number = student.number, name = student.name)
+                val linkSelf = ControllerLinkBuilder
+                        .linkTo(StudentController::class.java)
+                        .slash(dto.id)
+                        .withSelfRel()
+                dto.add(linkSelf)
+                dtoList.add(dto)
             })
-            ResponseEntity(dto, HttpStatus.OK)
+            ResponseEntity(dtoList, HttpStatus.OK)
         } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
@@ -85,6 +102,11 @@ class LessonController(@Autowired val lessonService: LessonService,
         return try {
             val student = lessonService.findStudentById(lessonId, studentId)
             val dto = StudentDto(id = student.id, number = student.number, name = student.name)
+            val linkSelf = ControllerLinkBuilder
+                    .linkTo(StudentController::class.java)
+                    .slash(dto.id)
+                    .withSelfRel()
+            dto.add(linkSelf)
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)

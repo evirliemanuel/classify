@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("users")
-class UserController(@Autowired val userService: UserService) {
+class UserController(@Autowired private val userService: UserService) {
 
     @GetMapping()
     fun getAll(@RequestParam(value = "username", required = false) username: String?): ResponseEntity<Any?> {

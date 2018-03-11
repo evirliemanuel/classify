@@ -10,5 +10,5 @@ class Subject(@Id
 
               var name: String = "",
 
-              @OneToMany(mappedBy = "subject")
+              @OneToMany(cascade = [CascadeType.ALL], mappedBy = "subject")
               var lessons: List<Lesson> = ArrayList())

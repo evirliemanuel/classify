@@ -6,20 +6,20 @@ import javax.persistence.*
 @Table(name = "tbl_lesson")
 class Lesson(@Id
              @GeneratedValue(strategy = GenerationType.AUTO)
-             val id: Long = 0,
+             var id: Long = 0,
 
-             @ManyToOne(cascade = [CascadeType.ALL])
+             @ManyToOne
              @JoinColumn(name = "subject_id")
-             val subject: Subject? = Subject(),
+             var subject: Subject? = Subject(),
 
-             @ManyToOne(cascade = [CascadeType.ALL])
+             @ManyToOne
              @JoinColumn(name = "teacher_id")
-             val teacher: Teacher? = Teacher(),
+             var teacher: Teacher? = Teacher(),
 
              @ManyToMany(cascade = [CascadeType.ALL])
              @JoinTable(name = "tbl_student_lesson", joinColumns = [JoinColumn(name = "lesson_id")],
                      inverseJoinColumns = [JoinColumn(name = "student_id")])
-             val students: MutableList<Student> = ArrayList(),
+             var students: MutableList<Student> = ArrayList(),
 
              @OneToMany(mappedBy = "lesson")
-             val schedules: MutableList<Schedule> = ArrayList())
+             var schedules: MutableList<Schedule> = ArrayList())

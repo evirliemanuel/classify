@@ -7,9 +7,9 @@ import javax.persistence.*
 @Table(name = "tbl_schedule")
 class Schedule(@Id
                @GeneratedValue
-               val id: Long = 0,
-               val date: Date = Date(),
-               val room: String = "",
+               var id: Long = 0,
+               var date: Date = Date(),
+               var room: String = "",
                @ManyToOne(cascade = [CascadeType.ALL])
                @JoinColumn(name = "lesson_id")
-               val lesson: Lesson = Lesson())
+               var lesson: Lesson = Lesson())

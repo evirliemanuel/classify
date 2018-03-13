@@ -1,5 +1,6 @@
 package com.remswork.project.alice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.remswork.project.alice.model.support.Link;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class Class {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
@@ -64,6 +66,8 @@ public class Class {
         this.id = id;
     }
 
+    @JsonIgnore
+    @XmlTransient
     public Teacher getTeacher() {
         return teacher;
     }

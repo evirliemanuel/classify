@@ -31,9 +31,15 @@ public class Teacher {
 	@JoinColumn(name="user_detail_id")
 	private UserDetail userDetail;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="department_id")
 	private Department department;
+
+	@OneToMany(mappedBy = "teacher", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Class> classes = new ArrayList<>();
+
+	@OneToOne(mappedBy = "teacher", orphanRemoval = true)
+	private Formula formula;
 
 	@Transient
 	private List<Link> links;
@@ -130,5 +136,21 @@ public class Teacher {
 		}
 		if(!isExist)
 			links.add(link);
+	}
+
+	public List<Class> getClasses() {
+		return classes;
+	}
+
+	public void setClasses(List<Class> classes) {
+		this.classes = classes;
+	}
+
+	public Formula getFormula() {
+		return formula;
+	}
+
+	public void setFormula(Formula formula) {
+		this.formula = formula;
 	}
 }

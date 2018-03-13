@@ -1,12 +1,12 @@
 package com.remswork.project.alice.dao.impl;
 
 import com.remswork.project.alice.dao.TeacherDao;
-import com.remswork.project.alice.dao.exception.StudentDaoException;
 import com.remswork.project.alice.dao.exception.TeacherDaoException;
 import com.remswork.project.alice.exception.DepartmentException;
 import com.remswork.project.alice.exception.TeacherException;
-import com.remswork.project.alice.model.*;
-import com.remswork.project.alice.model.Class;
+import com.remswork.project.alice.model.Department;
+import com.remswork.project.alice.model.Teacher;
+import com.remswork.project.alice.model.UserDetail;
 import com.remswork.project.alice.model.support.Date;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -29,11 +29,10 @@ public class TeacherDaoImpl implements TeacherDao {
     @Override
     public List<Teacher> getTeacherList() throws TeacherException {
         final List<Teacher> teacherList = new ArrayList<>();
-        Query query = null;
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         try {
-            query = session.createQuery("from Teacher");
+            final Query query = session.createQuery("from Teacher");
             for (Object teacherObj : query.list())
                 teacherList.add((Teacher) teacherObj);
             session.getTransaction().commit();
@@ -86,13 +85,13 @@ public class TeacherDaoImpl implements TeacherDao {
             if (teacher.getEmail().trim().equals(""))
                 throw new TeacherDaoException("Teacher can't have an empty email");
 
-            if(teacher.getDepartment() != null) {
+            if (teacher.getDepartment() != null) {
                 Department department = teacher.getDepartment();
-                if(department.getName() == null)
+                if (department.getName() == null)
                     throw new TeacherDaoException("Teacher's department name is required");
                 if (department.getName().trim().equals(""))
                     throw new TeacherDaoException("Teacher's department can't have an empty name");
-                if(department.getDescription() == null)
+                if (department.getDescription() == null)
                     throw new TeacherDaoException("Teacher's department description is required");
                 if (department.getDescription().trim().equals(""))
                     throw new TeacherDaoException("Teacher's department can't have an empty description");
@@ -102,7 +101,7 @@ public class TeacherDaoImpl implements TeacherDao {
             userDetail.setIsEnabled(true);
             userDetail.setRegistrationDate(new Date().now().toString());
             userDetail.setUsername(teacher.getEmail());
-            userDetail.setPassword((teacher.getFirstName() + teacher.getLastName()+"123").toLowerCase());
+            userDetail.setPassword((teacher.getFirstName() + teacher.getLastName() + "123").toLowerCase());
             userDetail.setUserType(UserDetail.USER_TEACHER);
             teacher.setUserDetail(userDetail);
 
@@ -149,7 +148,7 @@ public class TeacherDaoImpl implements TeacherDao {
             userDetail.setIsEnabled(true);
             userDetail.setRegistrationDate(new Date().now().toString());
             userDetail.setUsername(teacher.getEmail());
-            userDetail.setPassword((teacher.getFirstName() + teacher.getLastName()+"123").toLowerCase());
+            userDetail.setPassword((teacher.getFirstName() + teacher.getLastName() + "123").toLowerCase());
             userDetail.setUserType(UserDetail.USER_TEACHER);
             teacher.setUserDetail(userDetail);
 
@@ -213,7 +212,7 @@ public class TeacherDaoImpl implements TeacherDao {
                 teacher.setMiddleName(newTeacher.getMiddleName());
             if (departmentId > 0) {
                 Department department = departmentDao.getDepartmentById(departmentId);
-                if(department.getId() == (teacher.getDepartment() != null  ? teacher.getDepartment().getId() : 0))
+                if (department.getId() == (teacher.getDepartment() != null ? teacher.getDepartment().getId() : 0))
                     throw new TeacherDaoException("Can't update teacher's department with same department");
                 teacher.setDepartment(department);
                 teacher = (Teacher) session.merge(teacher);
@@ -227,33 +226,51 @@ public class TeacherDaoImpl implements TeacherDao {
         }
     }
 
+//    @Override
+//    public Teacher deleteTeacherById(long id) throws TeacherException {
+//        Session session = sessionFactory.openSession();
+//        session.beginTransaction();
+//        try {
+//            Teacher teacher = session.get(Teacher.class, id);
+//            String[] table = new String[2];
+//            table[0] = Class.class.getSimpleName();
+//            table[1] = Formula.class.getSimpleName();
+//
+//            if (teacher == null) {
+//                throw new TeacherDaoException("Teacher with id : " + id + " does not exist.");
+//            }
+//            for(String cell : table) {
+//                String hql = "delete from "
+//                        .concat(cell)
+//                        .concat(" where teacher.id = :teacherId");
+//                Query query = session.createQuery(hql);
+//                query.setParameter("teacherId", id);
+//                query.executeUpdate();
+//            }
+//
+//            teacher.setDepartment(null);
+//            session.delete(teacher);
+//            session.getTransaction().commit();
+//            session.close();
+//            return teacher;
+//        } catch (TeacherDaoException e) {
+//            session.close();
+//            throw new TeacherException(e.getMessage());
+//        }
+//    }
+
     @Override
     public Teacher deleteTeacherById(long id) throws TeacherException {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         try {
-            Teacher teacher = session.get(Teacher.class, id);
-            String[] table = new String[2];
-            table[0] = Class.class.getSimpleName();
-            table[1] = Formula.class.getSimpleName();
-
-            if (teacher == null)
-                throw new TeacherDaoException("Teacher with id : " + id + " does not exist.");
-
-            for(String cell : table) {
-                String hql = "delete from "
-                        .concat(cell)
-                        .concat(" where teacher.id = :teacherId");
-                Query query = session.createQuery(hql);
-                query.setParameter("teacherId", id);
-                query.executeUpdate();
-            }
-
-            teacher.setDepartment(null);
-            session.delete(teacher);
+            String sql = "delete from Teacher where id = :teacherId";
+            Query query = session.createQuery(sql);
+            query.setParameter("teacherId", id);
+            query.executeUpdate();
             session.getTransaction().commit();
             session.close();
-            return teacher;
+            return new Teacher();
         } catch (TeacherDaoException e) {
             session.close();
             throw new TeacherException(e.getMessage());

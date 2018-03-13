@@ -161,8 +161,6 @@ public class Formula {
         this.subject = subject;
     }
 
-    @JsonIgnore
-    @XmlTransient
     public Teacher getTeacher() {
         return teacher;
     }

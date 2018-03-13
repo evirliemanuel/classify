@@ -1,9 +1,11 @@
 package com.remswork.project.alice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.remswork.project.alice.model.support.Link;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -138,6 +140,8 @@ public class Teacher {
 			links.add(link);
 	}
 
+	@JsonIgnore
+	@XmlTransient
 	public List<Class> getClasses() {
 		return classes;
 	}
@@ -146,6 +150,8 @@ public class Teacher {
 		this.classes = classes;
 	}
 
+	@JsonIgnore
+	@XmlTransient
 	public Formula getFormula() {
 		return formula;
 	}

@@ -66,8 +66,6 @@ public class Class {
         this.id = id;
     }
 
-    @JsonIgnore
-    @XmlTransient
     public Teacher getTeacher() {
         return teacher;
     }

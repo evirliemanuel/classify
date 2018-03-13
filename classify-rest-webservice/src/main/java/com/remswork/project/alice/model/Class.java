@@ -1,6 +1,5 @@
 package com.remswork.project.alice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.remswork.project.alice.model.support.Link;
 
 import javax.persistence.*;
@@ -23,22 +22,26 @@ public class Class {
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
-	
+
     @OneToOne
     @JoinColumn(name = "subject_id")
     private Subject subject;
-	
-    @OneToMany(fetch = FetchType.EAGER)
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "tblschedulelist", joinColumns = @JoinColumn(name = "class_id"),
             inverseJoinColumns = @JoinColumn(name = "schedule_id"))
     private Set<Schedule> scheduleList;
+
     @OneToOne
     @JoinColumn(name = "section_id")
     private Section section;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tblstudentlist", joinColumns = @JoinColumn(name = "class_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id"))
     private Set<Student> studentList;
+
+
     @Transient
     private List<Link> links;
 
@@ -121,12 +124,12 @@ public class Class {
     public void addLink(Link link) {
         boolean isExist = false;
         for (Link eachLink : links) {
-            if(eachLink.getRel().equalsIgnoreCase(link.getRel())) {
+            if (eachLink.getRel().equalsIgnoreCase(link.getRel())) {
                 isExist = true;
                 break;
             }
         }
-        if(!isExist)
+        if (!isExist)
             links.add(link);
     }
 }

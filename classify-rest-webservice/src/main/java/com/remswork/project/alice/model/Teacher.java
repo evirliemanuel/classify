@@ -37,8 +37,8 @@ public class Teacher {
 	@JoinColumn(name="department_id")
 	private Department department;
 
-	@OneToMany(mappedBy = "teacher", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Class> classes = new ArrayList<>();
+	@OneToMany(mappedBy = "teacher", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<com.remswork.project.alice.model.Class> classes = new ArrayList<>();
 
 	@OneToOne(mappedBy = "teacher", orphanRemoval = true)
 	private Formula formula;

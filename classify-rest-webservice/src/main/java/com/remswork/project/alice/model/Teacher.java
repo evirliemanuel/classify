@@ -2,12 +2,15 @@ package com.remswork.project.alice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.remswork.project.alice.model.support.Link;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @XmlRootElement
 @Entity
@@ -37,8 +40,8 @@ public class Teacher {
 	@JoinColumn(name="department_id")
 	private Department department;
 
-	@OneToMany(mappedBy = "teacher", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<com.remswork.project.alice.model.Class> classes = new ArrayList<>();
+	@OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Class> classes = new HashSet<>();
 
 	@OneToOne(mappedBy = "teacher", orphanRemoval = true)
 	private Formula formula;
@@ -142,11 +145,11 @@ public class Teacher {
 
 	@JsonIgnore
 	@XmlTransient
-	public List<Class> getClasses() {
+	public Set<Class> getClasses() {
 		return classes;
 	}
 
-	public void setClasses(List<Class> classes) {
+	public void setClasses(Set<Class> classes) {
 		this.classes = classes;
 	}
 

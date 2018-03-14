@@ -259,20 +259,46 @@ public class TeacherDaoImpl implements TeacherDao {
 //        }
 //    }
 
+//    @Override
+//    public Teacher deleteTeacherById(long id) throws TeacherException {
+//        Session session = sessionFactory.openSession();
+//        session.beginTransaction();
+//        try {
+//            final int result;
+//            String sql = "delete from Teacher where id = :teacherId";
+//            Query query = session.createQuery(sql);
+//            query.setParameter("teacherId", id);
+//            result = query.executeUpdate();
+//            session.getTransaction().commit();
+//            session.close();
+//            if (result > 0) {
+//                return new Teacher();
+//            } else {
+//                throw new TeacherDaoException("No teacher found");
+//            }
+//        } catch (Exception e) {
+//            throw new TeacherException(e.getMessage());
+//        }
+//    }
+
     @Override
     public Teacher deleteTeacherById(long id) throws TeacherException {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         try {
-            String sql = "delete from Teacher where id = :teacherId";
-            Query query = session.createQuery(sql);
-            query.setParameter("teacherId", id);
-            query.executeUpdate();
+            final Teacher teacher = session.get(Teacher.class, id);
+            if (teacher != null) {
+                teacher.getClasses().forEach(c -> {
+                    c.setTeacher(null);
+                    session.delete(c);
+                    System.out.println("tae");
+                });
+            }
+            session.delete(teacher);
             session.getTransaction().commit();
             session.close();
             return new Teacher();
-        } catch (TeacherDaoException e) {
-            session.close();
+        } catch (Exception e) {
             throw new TeacherException(e.getMessage());
         }
     }

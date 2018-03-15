@@ -7,20 +7,30 @@ import com.remswork.project.alice.model.support.Time;
 
 public class ScheduleHelper {
 
+//    public String display(String room, String time, String period) {
+//        TimeHelper timeHelper = new TimeHelper();
+//        Log.i("myTAG", timeHelper.convert(time).getTime().toString(Time.Style.NORMAL));
+//        Log.i("myTAG", timeHelper.convert(time).addHour(new TimeHelper().convert(period).getTime().getHour()).getTime().toString(Time.Style.NORMAL));
+//        Log.i("myTAG", timeHelper.convert(time).addHour(new TimeHelper().convert(period).getTime().getHour()).addMinute(new TimeHelper().convert(period).getTime().getMinute()).getTime().toString(Time.Style.NORMAL));
+//        Log.i("myTAG", new TimeHelper().convert(period).getTime().getHour() + "");
+//        Log.i("myTAG", new TimeHelper().convert(period).getTime().getMinute() + "");
+//
+//        Time t = timeHelper
+//                .convert(time)
+//                .addHour(new TimeHelper().convert(period).getTime().getHour())
+//                .addMinute(new TimeHelper().convert(period).getTime().getMinute())
+//                .getTime();
+//        return "Room " + room + " / " + time + " - " + t.toString(Time.Style.NORMAL);
+//    }
+
     public String display(String room, String time, String period) {
         TimeHelper timeHelper = new TimeHelper();
-        Log.i("myTAG", timeHelper.convert(time).getTime().toString(Time.Style.NORMAL));
-        Log.i("myTAG", timeHelper.convert(time).addHour(new TimeHelper().convert(period).getTime().getHour()).getTime().toString(Time.Style.NORMAL));
-        Log.i("myTAG", timeHelper.convert(time).addHour(new TimeHelper().convert(period).getTime().getHour()).addMinute(new TimeHelper().convert(period).getTime().getMinute()).getTime().toString(Time.Style.NORMAL));
-        Log.i("myTAG", new TimeHelper().convert(period).getTime().getHour() + "");
-        Log.i("myTAG", new TimeHelper().convert(period).getTime().getMinute() + "");
-
         Time t = timeHelper
                 .convert(time)
                 .addHour(new TimeHelper().convert(period).getTime().getHour())
                 .addMinute(new TimeHelper().convert(period).getTime().getMinute())
                 .getTime();
-        return "Room " + room + " / " + time + " - " + t.toString(Time.Style.NORMAL);
+        return "Room " + room + " / " + time + " - " + period;
     }
 
 

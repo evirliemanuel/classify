@@ -39,6 +39,7 @@
                     android:textColor="#000"/>
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/grade_update_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -112,6 +113,41 @@
 
                         <TextView
                             android:id="@+id/grade_score_part2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:text="0.0"
+                            android:textSize="16dp"
+                            android:textColor="@color/colorWhite"/>
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginRight="3dp"
+                    android:layout_marginTop="2dp"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_gravity="center"
+                        android:text="Finalterm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <RelativeLayout
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
+                        android:layout_margin="5dp"
+                        android:background="@color/colorTweeterBlue"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/grade_score_part3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"

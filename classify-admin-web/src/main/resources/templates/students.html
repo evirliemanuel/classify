@@ -286,7 +286,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Teachers</h1>
+                    <h1 class="page-header">Students</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -303,19 +303,25 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>First name</th>
-                                    <th>Middle name</th>
-                                    <th>Last name</th>
-                                    <th>Email</th>
+                                    <th>StudentNumber</th>
+                                    <th>FirstName</th>
+                                    <th>MiddleName</th>
+                                    <th>LastName</th>
+                                    <th>Gender</th>
+                                    <th>Age</th>
+                                    <th>Section</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="teacher, iterStat : ${teacherList}" style="cursor: pointer;" class='clickable-row' th:href="'/teacher/view?id=' + ${teacher.id}">
-                                    <td th:text="${teacher.id}" />
-                                    <td th:text="${teacher.firstName}" />
-                                    <td th:text="${teacher.middleName}" />
-                                    <td th:text="${teacher.lastName}" />
-                                    <td th:text="${teacher.email}"></td>
+                                <tr th:each="student, iterStat : ${studentList}" style="cursor: pointer;" class='clickable-row' href="#">
+                                    <td th:text="${student.id}" />
+                                    <td th:text="${student.studentNumber}" />
+                                    <td th:text="${student.firstName}" />
+                                    <td th:text="${student.middleName}" />
+                                    <td th:text="${student.lastName}" />
+                                    <td th:text="${student.gender}" />
+                                    <td th:text="${student.age}" />
+                                    <td th:text="(${student.section} != null ? ${student.section.name} : 'none')" />
                                 </tr>
                                 </tbody>
                             </table>

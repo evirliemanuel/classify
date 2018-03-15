@@ -87,14 +87,20 @@
 										Browse (or) Drop your file here
 									</label>
 								</div>
-								<div class="form-group" style="width:625px;float:left;margin-top:30px;position:relative;">
-									<label for="button-add-schedule" style="cursor:pointer;">
-										Schedule <span class="glyphicon glyphicon-plus"></span>
-									</label>
-									<br />
-									<div style="border: 3px dotted #ecf0f1; padding: 5px;" id="schedule-parent"><button class="btn btn-default">None</button></div>
-									<button id="button-add-schedule" data-toggle="modal" data-target="#scheduleDialog" style="display:none">Add Schedule</button>
-								</div>								
+								<!--<div class="form-group" style="width:625px;float:left;margin-top:30px;position:relative;">-->
+									<!--<label for="button-add-schedule" style="cursor:pointer;">-->
+										<!--Schedule <span class="glyphicon glyphicon-plus"></span>-->
+									<!--</label>-->
+									<!--<br />-->
+									<!--<div style="border: 3px dotted #ecf0f1; padding: 5px;" id="schedule-parent"><button class="btn btn-default">None</button></div>-->
+									<!--<button id="button-add-schedule" data-toggle="modal" data-target="#scheduleDialog" style="display:none">Add Schedule</button>-->
+								<!--</div>								-->
+							<div class="form-group" style="width:625px;float:left;margin-top:30px;position:relative;">
+								<label for="button-add-schedule" style="cursor:pointer;">Schedule</label>
+								<br />
+								<div style="border: 3px dotted #ecf0f1; padding: 5px;" id="schedule-parent"><button class="btn btn-default" disabled="disabled">None</button></div>
+								<button id="button-add-schedule" data-toggle="modal" data-target="#scheduleDialog" style="margin-top: 10px;">+ Add Schedule</button>
+							</div>
 							<div style="margin-top:350px;"></div>
 						</div>
 						<div class="tab-pane fade" id="list-class">
@@ -127,7 +133,7 @@
 						<div class="selecter  cover closed" tabindex="0">
 							<div class="selecter  closed" tabindex="0" id="day-list">
 								<input type="hidden" name="day"/>
-								<span class="selecter-selected placeholder">Select a day</span>
+								<span class="selecter-selected placeholder">Monday</span>
 								<div class="selecter-options" style="display: none;position:absolute;z-index:3;">
 									<span id="day-item" class="selecter-item" data-value="Monday">Monday</span>
 									<span id="day-item" class="selecter-item" data-value="Tuesday">Tuesday</span>
@@ -143,8 +149,8 @@
 							<label class="control-label" for="room">Room</label>
 							<br />
 							<select id="put">
-								<option selected="selected" disabled="disabled">Select a room</option>
-								<option value="CS 101">CS 101</option>
+								<option disabled="disabled">Select a room</option>
+								<option selected="selected" value="CS 101">CS 101</option>
 								<option value="CS 102">CS 102</option>
 								<option value="CS 103">CS 103</option>
 							</select>
@@ -230,7 +236,7 @@
 				});	
 				
 				//
-				//$("#day-list .selecter-item:first").addClass("selected");
+				$("#day-list .selecter-item:first").addClass("selected");
 				$("input[name='day']").val($("#day-list .selecter-item:first").attr("data-value"));
 				$("#day-list .selecter-selected").click(function() {
 					if($("#day-list .selecter-options").css("display") == "none") {
@@ -313,18 +319,33 @@
 						$("#from-time-group").append('<span class="glyphicon glyphicon-remove form-control-feedback" style="position:absolute;z-index:0;"></span>');
 						noError = false;
 					}else {
-						$("#from-time-group").removeClass("has-error has-feedback");
-						$("#from-time-group").addClass("has-success has-feedback");
-						$("#from-time-group").children("span:last").remove();
-						$("#from-time-group").append('<span class="glyphicon glyphicon-ok form-control-feedback" style="position:absolute;z-index:0;"></span>');
+						var mnt = Date.parse('01 Jan 1999 7:30 AM');
+						var mxt = Date.parse('01 Jan 1999 7:30 PM');
+						var tf = Date.parse('01 Jan 1999 ' + $("#from-time-group input").val().trim());
+
+						if (tf-mnt >= 0 && mxt-tf >= 0) {
+							$("#from-time-group").removeClass("has-error has-feedback");
+							$("#from-time-group").addClass("has-success has-feedback");
+							$("#from-time-group").children("span:last").remove();
+							$("#from-time-group").append('<span class="glyphicon glyphicon-ok form-control-feedback" style="position:absolute;z-index:0;"></span>');
+						}
+						else {
+							$("#from-time-group").removeClass("has-success has-feedback");
+							$("#from-time-group").addClass("has-error has-feedback");
+							$("#from-time-group").children("span:last").remove();
+							$("#from-time-group").append('<span class="glyphicon glyphicon-remove form-control-feedback" style="position:absolute;z-index:0;"></span>');
+							noError = false;
+						}
 					}
 					//to
 					
 					if($("#from-time-group input").val().trim() != "" && $("#to-time-group input").val().trim() != ""){
 						var tf = Date.parse('01 Jan 1999 ' + $("#from-time-group input").val().trim());
 						var tt = Date.parse('01 Jan 1999 ' + $("#to-time-group input").val().trim());
-						
-						if(tf >= tt) {
+						var mnt = Date.parse('01 Jan 1999 7:30 AM');
+						var mxt = Date.parse('01 Jan 1999 7:30 PM');
+
+						if(tf >= tt || mxt-tt < 0 || tt-mnt < 0) {
 							$("#to-time-group").removeClass("has-success has-feedback");
 							$("#to-time-group").addClass("has-error has-feedback");
 							$("#to-time-group").children("span:last").remove();

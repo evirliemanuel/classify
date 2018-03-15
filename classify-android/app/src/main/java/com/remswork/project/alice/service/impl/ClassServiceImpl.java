@@ -22,6 +22,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -691,6 +693,91 @@ public class ClassServiceImpl implements ClassService, IP {
                             Log.i("ServiceTAG", "Status : " + message.getStatus());
                             Log.i("ServiceTAG", "Type : " + message.getType());
                             Log.i("ServiceTAG", "Message : " + message.getMessage());
+                            return studentSet;
+                        } else
+                            throw new ClassException("Server Error");
+
+                    } catch (ClassException e) {
+                        e.printStackTrace();
+                        return null;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return null;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }
+            }.execute((String) null).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Deprecated
+    public List<Student> getStudentListOrdered(final long classId) throws ClassException {
+        final List<Student> studentSet = new ArrayList<>();
+        try {
+            return new AsyncTask<String, List<Student>, List<Student>>() {
+                @Override
+                protected List<Student> doInBackground(String... args) {
+                    try {
+                        String link = ""
+                                .concat(domain)
+                                .concat("/")
+                                .concat(baseUri)
+                                .concat("/")
+                                .concat(payload)
+                                .concat("/")
+                                .concat(String.valueOf(classId))
+                                .concat("/")
+                                .concat("student");
+                        URL url = new URL(link);
+                        Gson gson = new Gson();
+                        HttpURLConnection httpURLConnection =
+                                (HttpURLConnection) url.openConnection();
+                        httpURLConnection.setRequestMethod("GET");
+                        httpURLConnection.setRequestProperty("Content-Type", "application/json");
+                        httpURLConnection.setRequestProperty("Accept", "application/json");
+                        httpURLConnection.connect();
+
+                        if (httpURLConnection.getResponseCode() == 200) {
+                            InputStream inputStream = httpURLConnection.getInputStream();
+                            String jsonData = "";
+                            int data;
+                            while ((data = inputStream.read()) != -1) {
+                                jsonData += (char) data;
+                            }
+                            JSONArray jsonArray = new JSONArray(jsonData);
+                            for (int ctr = 0; ctr < jsonArray.length(); ctr++) {
+                                studentSet.add(gson.fromJson(
+                                        jsonArray.get(ctr).toString(), Student.class));
+                            }
+                            Collections.sort(studentSet, new Comparator<Student>() {
+                                @Override
+                                public int compare(final Student object1, final Student object2) {
+                                    return object1.getLastName().compareTo(object2.getLastName());
+                                }
+                            });
+                            return studentSet;
+                        } else if (httpURLConnection.getResponseCode() == 404) {
+                            InputStream inputStream = httpURLConnection.getInputStream();
+                            String jsonData = "";
+                            int data;
+                            while ((data = inputStream.read()) != -1) {
+                                jsonData += (char) data;
+                            }
+                            Message message = gson.fromJson(jsonData, Message.class);
+                            Collections.sort(studentSet, new Comparator<Student>() {
+                                @Override
+                                public int compare(final Student object1, final Student object2) {
+                                    return object1.getLastName().compareTo(object2.getLastName());
+                                }
+                            });
                             return studentSet;
                         } else
                             throw new ClassException("Server Error");

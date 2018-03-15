@@ -39,6 +39,8 @@ import com.remswork.project.alice.service.impl.QuizServiceImpl;
 import com.remswork.project.alice.service.impl.StudentServiceImpl;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import io.classify.DI;
@@ -58,7 +60,7 @@ public class GradeResultActivity2 extends AppCompatActivity {
     final ProjectService projectService = new ProjectServiceImpl();
     final QuizService quizService = new QuizServiceImpl();
 
-    final ClassService classService = new ClassServiceImpl();
+    final ClassServiceImpl classService = new ClassServiceImpl();
     final FormulaService formulaService = new FormulaServiceImpl();
     final StudentService studentService = new StudentServiceImpl();
 
@@ -118,7 +120,7 @@ public class GradeResultActivity2 extends AppCompatActivity {
 
             Log.i("SOMETHINGGG", "CLASSID" + classId + " FORMULAID" + formula.getId());
             final io.classify.service.GradeService gr = new DI().getRetrofit().create(io.classify.service.GradeService.class);
-            for (final Student student : classService.getStudentList(classId)) {
+            for (final Student student : classService.getStudentListOrdered(classId)) {
                 Log.i("TATATE",
                         String.format("test/total/class/{%d}/term/{%d}/teacher/{%d}/subject/{%d}/student/{%d}", classId, termId, teacherId, subjectId, student.getId()));
                 gr.findAll(classId, teacherId, subjectId, student.getId())

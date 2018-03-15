@@ -111,10 +111,12 @@ public class AttendanceAddActivity extends AppCompatActivity implements Attendan
             case add_add3:
                 Intent intent = getIntent().setClass(this, AttendanceInputActivity.class);
                 startActivity(intent);
+                this.finish();
                 break;
             case add_back3:
                 intent = getIntent().setClass(this, AttendanceInputActivity.class);
                 startActivity(intent);
+                this.finish();
                 break;
         }
     }

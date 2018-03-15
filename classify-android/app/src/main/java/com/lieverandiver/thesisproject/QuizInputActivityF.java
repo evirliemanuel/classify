@@ -184,10 +184,12 @@ public class QuizInputActivityF extends AppCompatActivity implements View.OnClic
             case input_back6:
                 Intent intent = getIntent().setClass(this, QuizAddActivityF.class);
                 startActivity(intent);
+                this.finish();
                 break;
             case input_ok6:
                intent = getIntent().setClass(this, QuizAddActivityF.class);
                 startActivity(intent);
+                this.finish();
                 break;
             case input_tryagainemp6:
 

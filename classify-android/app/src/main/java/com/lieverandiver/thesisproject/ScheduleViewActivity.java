@@ -1,5 +1,6 @@
 package com.lieverandiver.thesisproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.lieverandiver.thesisproject.adapter.ActivityAdapter;
 import com.lieverandiver.thesisproject.adapter.ScheduleAdapter;
 import com.remswork.project.alice.exception.ClassException;
 import com.remswork.project.alice.model.Schedule;
@@ -24,7 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class ScheduleViewActivity extends AppCompatActivity {
+public class ScheduleViewActivity extends AppCompatActivity implements
+        View.OnClickListener {
 
     private RecyclerView recyclerView;
     private Button btnBack;
@@ -52,6 +55,8 @@ public class ScheduleViewActivity extends AppCompatActivity {
         editTextSearch = (EditText) findViewById(R.id.etxt_search_schedule);
         frameLayoutSearch = (FrameLayout) findViewById(R.id.frame_search_schedule);
         txtMsgContent = (TextView) findViewById(R.id.message_label_sc1);
+
+        btnBack.setOnClickListener(this);
 
         frameLayoutSearch.setVisibility(View.GONE);
         txtMsgContent.setVisibility(View.INVISIBLE);
@@ -103,5 +108,16 @@ public class ScheduleViewActivity extends AppCompatActivity {
             }
         }).start();
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_back_schedule :
+                Intent intent = getIntent().setClass(this, ClassViewActivity.class);
+                startActivity(intent);
+                this.finish();
+                break;
+        }
     }
 }

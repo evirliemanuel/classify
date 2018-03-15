@@ -183,10 +183,12 @@ public class ProjectInputActivityF extends AppCompatActivity implements View.OnC
             case input_back5:
                 Intent intent = getIntent().setClass(this, ProjectAddActivityF.class);
                 startActivity(intent);
+                this.finish();
                 break;
             case input_ok5:
                intent = getIntent().setClass(this, ProjectAddActivityF.class);
                 startActivity(intent);
+                this.finish();
                 break;
 
             case input_tryagainemp5:

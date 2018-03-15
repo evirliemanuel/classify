@@ -417,52 +417,62 @@ public class ClassViewActivity extends AppCompatActivity implements View.OnClick
             case view_schedule :
                 Intent intent = getIntent().setClass(this, ScheduleViewActivity.class);
                 startActivity(intent);
+                this.finish();
                 break;
             case view_student :
                 intent = getIntent().setClass(this, StudentViewActivity.class);
                 startActivity(intent);
+                this.finish();
                 break;
             case view_grade :
                 intent = getIntent().setClass(this, GradeResultActivity2.class);
                 intent.putExtra("termId", 1L);
                 startActivity(intent);
+                this.finish();
                 break;
             case viewactivitym :
                 intent = getIntent().setClass(this, ActivityAddActivity.class);
                 intent.putExtra("termId", 1L);
                 startActivity(intent);
+                this.finish();
                 break;
             case viewassignmentm :
                 intent = getIntent().setClass(this, AssignmentAddActivity.class);
                 intent.putExtra("termId", 1L);
                 startActivity(intent);
+                this.finish();
                 break;
             case viewattendancem :
                 intent = getIntent().setClass(this, AttendanceAddActivity.class);
                 intent.putExtra("termId", 1L);
                 startActivity(intent);
+                this.finish();
                 break;
             case viewexamm :
                 intent = getIntent().setClass(this, ExamAddActivity.class);
                 intent.putExtra("termId", 1L);
                 startActivity(intent);
+                this.finish();
                 break;
             case viewprojectm :
                 intent = getIntent().setClass(this, ProjectAddActivity.class);
                 intent.putExtra("termId", 1L);
                 startActivity(intent);
+                this.finish();
                 break;
 
             case viewquizm :
                 intent = getIntent().setClass(this, QuizAddActivity.class);
                 intent.putExtra("termId", 1L);
                 startActivity(intent);
+                this.finish();
                 break;
 
             case viewactivityf :
                 intent = getIntent().setClass(this, ActivityAddActivityF.class);
                 intent.putExtra("termId", 2L);
                 startActivity(intent);
+                this.finish();
                 break;
             case viewassignmentf :
                 intent = getIntent().setClass(this, AssignmentAddActivityF.class);
@@ -473,6 +483,7 @@ public class ClassViewActivity extends AppCompatActivity implements View.OnClick
                 intent = getIntent().setClass(this, AttendanceAddActivityF.class);
                 intent.putExtra("termId",2L);
                 startActivity(intent);
+                this.finish();
                 break;
             case viewexamf :
                 intent = getIntent().setClass(this, ExamAddActivityF.class);
@@ -483,6 +494,7 @@ public class ClassViewActivity extends AppCompatActivity implements View.OnClick
                 intent = getIntent().setClass(this, ProjectAddActivityF.class);
                 intent.putExtra("termId", 2L);
                 startActivity(intent);
+                this.finish();
                 break;
 
             case viewquizf :
@@ -494,6 +506,7 @@ public class ClassViewActivity extends AppCompatActivity implements View.OnClick
             case class_backbutton :
                 intent = getIntent().setClass(this, MainActivity2.class);
                 startActivity(intent);
+                this.finish();
                 break;
             case R.id.card_toggle_part :
                 toggleButtonShowandHideM.setChecked(!toggleButtonShowandHideM.isChecked());

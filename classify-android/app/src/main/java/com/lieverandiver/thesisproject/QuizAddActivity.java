@@ -104,9 +104,10 @@ public class QuizAddActivity extends AppCompatActivity implements QuizAdapter.On
                 Intent intent = getIntent().setClass(this,QuizInputActivity.class);
                 startActivity(intent);
                 break;
-            case btn_backaddactivity :
+            case R.id.add_back6 :
                 intent = getIntent().setClass(this,ClassViewActivity.class);
                 startActivity(intent);
+                this.finish();
                 break;
 
 

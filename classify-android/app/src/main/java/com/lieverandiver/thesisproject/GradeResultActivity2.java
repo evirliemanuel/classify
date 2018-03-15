@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.lieverandiver.thesisproject.adapter.GradeAdapter2;
@@ -49,7 +50,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class GradeResultActivity2 extends AppCompatActivity {
+public class GradeResultActivity2 extends AppCompatActivity implements
+        View.OnClickListener {
+
+    private Button btnback;
 
     final ActivityService activityService = new ActivityServiceImpl();
     final AssignmentService assignmentService = new AssignmentServiceImpl();
@@ -84,6 +88,8 @@ public class GradeResultActivity2 extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.custom_layout_activity_grade);
+        btnback = (Button) findViewById(R.id.grade_back);
+        btnback.setOnClickListener(this);
     }
 
     @Override
@@ -205,5 +211,16 @@ public class GradeResultActivity2 extends AppCompatActivity {
                 gradeAdapter.notifyItemInserted(gradeList.size());
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.grade_back :
+                Intent intent = getIntent().setClass(this, ClassViewActivity.class);
+                startActivity(intent);
+                this.finish();
+                break;
+        }
     }
 }

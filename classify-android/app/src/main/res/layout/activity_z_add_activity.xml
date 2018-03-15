@@ -42,17 +42,6 @@
                     android:textStyle="bold"
                     android:textColor="@color/colorWhite"/>
 
-                <ToggleButton
-                    android:layout_gravity="right|center"
-                    android:id="@+id/btn_search_class"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:textOn=""
-                    android:textOff=""
-                    android:layout_marginRight="16dp"
-                    android:background="@drawable/btn_search"/>
-
-
             </FrameLayout>
 
 
@@ -69,6 +58,7 @@
         card_view:cardElevation="5dp">
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/add_grade1"
             android:background="@drawable/primarydark_ripple"
             android:clickable="true"

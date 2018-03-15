@@ -179,7 +179,7 @@
                             android:id="@+id/input_name2"
                             android:hint="Assignment"
                             android:textSize="16dp"
-                            android:textColorHint="#000000"
+                            android:textColorHint="@color/colorLightGray"
                             android:layout_width="180dp"
                             android:layout_height="wrap_content" />
 
@@ -187,8 +187,8 @@
                             android:id="@+id/input_total2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:hint="Total"
-                            android:textColorHint="#000000"
+                            android:hint="0"
+                            android:textColorHint="@color/colorLightGray"
                             android:inputType="number"
                             android:textSize="16dp"
                             />
@@ -197,10 +197,6 @@
 
 
                 </LinearLayout>
-
-
-
-
 
             </FrameLayout>
             <FrameLayout

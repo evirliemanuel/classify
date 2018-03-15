@@ -104,6 +104,8 @@ public class AssignmentAddActivityF extends AppCompatActivity implements Assignm
                 this.finish();
                 break;
             case add_back2 :
+                intent = getIntent().setClass(this, ClassViewActivity.class);
+                startActivity(intent);
                 this.finish();
                 break;
 

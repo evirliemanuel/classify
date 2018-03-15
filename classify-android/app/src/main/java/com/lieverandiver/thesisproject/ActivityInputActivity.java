@@ -199,10 +199,12 @@ public class ActivityInputActivity extends AppCompatActivity implements View.OnC
             case input_back1:
                 Intent intent = getIntent().setClass(this, ActivityAddActivity.class);
                 startActivity(intent);
+                this.finish();
                 break;
             case input_ok1:
                 intent = getIntent().setClass(this, ActivityAddActivity.class);
                 startActivity(intent);
+                this.finish();
                 break;
 
             case input_tryagainemp1:

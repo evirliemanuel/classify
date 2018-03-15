@@ -1,5 +1,6 @@
 package com.lieverandiver.thesisproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -24,7 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class StudentViewActivity extends AppCompatActivity {
+public class StudentViewActivity extends AppCompatActivity implements
+        View.OnClickListener {
 
     private RecyclerView recyclerView;
     private Button btnBack;
@@ -53,6 +55,8 @@ public class StudentViewActivity extends AppCompatActivity {
         editTextSearch =(EditText)findViewById(R.id.etxt_search_student);
         frameLayoutSearch = (FrameLayout)findViewById(R.id.frame_search_student);
         txtMsgContent = (TextView) findViewById(R.id.message_label_stud);
+
+        btnBack.setOnClickListener(this);
 
         frameLayoutSearch.setVisibility(View.GONE);
         txtMsgContent.setVisibility(View.INVISIBLE);
@@ -103,5 +107,16 @@ public class StudentViewActivity extends AppCompatActivity {
                 }
             }
         }).start();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_back_student :
+                Intent intent = getIntent().setClass(this, ClassViewActivity.class);
+                startActivity(intent);
+                this.finish();
+                break;
+        }
     }
 }

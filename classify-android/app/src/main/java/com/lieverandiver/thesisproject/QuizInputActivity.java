@@ -48,10 +48,6 @@ import static com.lieverandiver.thesisproject.R.id.input_tryagain6;
 import static com.lieverandiver.thesisproject.R.id.input_tryagainemp1;
 import static com.lieverandiver.thesisproject.R.id.input_tryagainemp6;
 
-/**
- * Created by Verlie on 8/31/2017.
- */
-
 public class QuizInputActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final ClassService classService = new ClassServiceImpl();
@@ -187,10 +183,12 @@ public class QuizInputActivity extends AppCompatActivity implements View.OnClick
             case input_back6:
                 Intent intent = getIntent().setClass(this, QuizAddActivity.class);
                 startActivity(intent);
+                this.finish();
                 break;
             case input_ok6:
                intent = getIntent().setClass(this, QuizAddActivity.class);
                 startActivity(intent);
+                this.finish();
                 break;
             case input_tryagainemp6:
 

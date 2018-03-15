@@ -104,7 +104,9 @@ public class ProjectAddActivity extends AppCompatActivity implements ProjectAdap
                 startActivity(intent);
                 break;
             case add_back5 :
-                finish();
+                intent = getIntent().setClass(this, ClassViewActivity.class);
+                startActivity(intent);
+                this.finish();
                 break;
 
             case add_grade5 :

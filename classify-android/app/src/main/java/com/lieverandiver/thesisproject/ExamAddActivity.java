@@ -102,9 +102,12 @@ public class ExamAddActivity extends AppCompatActivity implements ExamAdapter.On
             case add_add4 :
                 Intent intent = getIntent().setClass(this,ExamInputActivity.class);
                 startActivity(intent);
+                this.finish();
                 break;
             case add_back4 :
-                finish();
+                intent = getIntent().setClass(this, ClassViewActivity.class);
+                startActivity(intent);
+                this.finish();
                 break;
 
             case add_grade4 :

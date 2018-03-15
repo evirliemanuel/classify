@@ -50,6 +50,7 @@
                 </LinearLayout>
 
                 <ToggleButton
+                    android:visibility="gone"
                     android:id="@+id/btn_search_student"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
@@ -67,6 +68,7 @@
 
 
     <FrameLayout
+        android:visibility="gone"
         android:id="@+id/frame_search_student"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -111,10 +113,12 @@
     </FrameLayout>
 
     <android.support.v7.widget.CardView
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <FrameLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

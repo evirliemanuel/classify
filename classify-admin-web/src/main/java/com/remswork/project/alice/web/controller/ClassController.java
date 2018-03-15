@@ -132,14 +132,25 @@ public class ClassController {
     }
 
     @PostMapping("student-delete")
-    public String deleteStudents(@RequestParam(value = "studentIds", required = false) String studentIds,
-                                 @RequestParam(value = "classId", required = false) long classId, ModelMap modelMap) {
+    public String deleteStudents(@RequestParam(value = "studentIds") String studentIds,
+                                 @RequestParam(value = "classId") long classId, ModelMap modelMap) {
         try {
-            System.out.println(studentIds);
-//            for (long studentId : studentIds) {
-//                System.out.println(studentId);
-//                //classService.deleteStudentById(classId, studentId);
-//            }
+            for (String id : studentIds.split(":")) {
+                if (!id.isEmpty()) {
+                    classService.deleteStudentById(classId, Long.parseLong(id));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return showStudents(classId, modelMap);
+    }
+
+    @PostMapping("student-add")
+    public String addStudents(@RequestParam(value = "studentId") String studentId,
+                              @RequestParam(value = "classId") long classId, ModelMap modelMap) {
+        try {
+            classService.addStudentById(classId, Long.parseLong(studentId));
         } catch (Exception e) {
             e.printStackTrace();
         }

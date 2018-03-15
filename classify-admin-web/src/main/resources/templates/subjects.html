@@ -157,7 +157,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Teachers</h1>
+                    <h1 class="page-header">Subjects</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -166,7 +166,7 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Manage the teachers
+                            Manage the subjects
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -174,19 +174,19 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>First name</th>
-                                    <th>Middle name</th>
-                                    <th>Last name</th>
-                                    <th>Email</th>
+                                    <th>Name</th>
+                                    <th>Code</th>
+                                    <th>Description</th>
+                                    <th>Unit</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="teacher, iterStat : ${teacherList}" style="cursor: pointer;" class='clickable-row' th:href="'/teacher/view?id=' + ${teacher.id}">
-                                    <td th:text="${teacher.id}" />
-                                    <td th:text="${teacher.firstName}" />
-                                    <td th:text="${teacher.middleName}" />
-                                    <td th:text="${teacher.lastName}" />
-                                    <td th:text="${teacher.email}"></td>
+                                <tr  th:each="subject, iterStat : ${subjectList}">
+                                    <td th:text="${subject.id}" />
+                                    <td th:text="${subject.name}" />
+                                    <td th:text="${subject.code}" />
+                                    <td th:text="${subject.description}" />
+                                    <td th:text="${subject.unit}" />
                                 </tr>
                                 </tbody>
                             </table>

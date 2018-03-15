@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="ISO-8859-1" />
+		<title>CCS Class Manager</title>
+	</head>
+<body>
+	<div id="container" class="container  col-md-5 col-md-offset-4 col-lg-4 col-lg-offset-4 col-sm-6 col-sm-offset-3 col-xs-10 col-xs-offset-1" th:fragment="content">
+		
+  			<div class="well" id="response-message" th:if="${param.error}">Invalid username or password</div>		
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">Login Panel</h3>
+				</div>
+				<div class="panel-body">
+					<form method="post" action="/login">
+						<div class="form-group">
+							<input type="email" name="username" id="username" placeholder="Email" class="form-control" required="required"/>
+						</div>
+						<div class="form-group">
+							<input type="password" name="password" id="password" placeholder="Password" class="form-control" required="required"/>
+						</div>
+						<div class="form-group">
+							<button class="btn btn-warning" type="submit" style="width:100%">Login</button>
+						</div>
+					</form>
+				</div>
+            </div>
+			
+		</div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="ISO-8859-1" />
+		<title>CCS Class Manager</title>
+	</head>
+	<body>
+		<div th:fragment="table">
+			<div class="well" id="response-message" th:text="${responseMessage}" style="display:none"></div>
+			<div class="panel panel-warning">
+					<div class="panel-heading">
+						<h3 class="panel-title">Teacher List</h3>
+					</div>
+					<div class="panel-body">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>FirstName</th>
+									<th>MiddleName</th>
+									<th>LastName</th>
+									<th>Email</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr  th:each="teacher, iterStat : ${teacherList}" th:class="${iterStat.even} ? 'active' : 'default'">
+									<td th:text="${teacher.id}" />
+									<td th:text="${teacher.firstName}" />
+									<td th:text="${teacher.middleName}" />
+									<td th:text="${teacher.lastName}" />
+									<td th:text="${teacher.email}"></td>
+									<td>
+										<button type="button" class="btn btn-default" data-toggle="modal" th:attr="data-target='#update-teacher-modal-' + ${teacher.id}">
+											<span class="glyphicon glyphicon-pencil"></span> Update
+										</button>
+										<button th:value="${teacher.id}" type="submit" class="btn btn-default" id="btn-delete"> 
+											<span class="glyphicon glyphicon-remove"></span> Delete
+										</button>
+										<a th:href="'/teacher/view?id=' + ${teacher.id}">
+											<button type="button" class="btn btn-default" id="btn-view">
+													<span class="glyphicon glyphicon-zoom-in"></span> View
+											</button>
+										</a>
+									</td>
+									<td>
+										<!-- Modal -->
+										<div class="modal fade" th:id="'update-teacher-modal-' + ${teacher.id}" role="dialog">
+											<div class="modal-dialog">
+												<!-- Modal content-->
+												<div class="modal-content">
+													<div class="modal-header">
+														<h4 class="modal-title">Update a Teacher</h4>
+													</div>
+													<div class="modal-body">
+														<form action="/teacher/update" method="post" class="form-update-teacher">
+															<input type="hidden" name="id" th:value="${teacher.id}" />
+															<div class="form-group">
+																<label for="firstName">FirstName:</label>
+																<input name="firstName" type="text" class="form-control" id="firstName" th:value="${teacher.firstName}"/>
+															</div>
+															<div class="form-group">
+																<label for="middleName">MiddleName:</label>
+																<input name="middleName" type="text" class="form-control" id="middleName" th:value="${teacher.middleName}"/>
+															</div>
+															<div class="form-group">
+																<label for="lastName">LastName:</label>
+																<input name="lastName" type="text" class="form-control" id="lastName" th:value="${teacher.lastName}"/>
+															</div>
+															<div class="form-group">
+																<label for="email">Email:</label>
+																<input name="email" type="email" class="form-control" id="email" th:value="${teacher.email}"/>
+															</div>
+															<div class="form-group">
+																<label>Department</label>
+																<div>
+																	<select class="form-control" name="departmentId">
+																		<option value="0">None</option>
+																		<option th:each="department, iterStat : ${departmentList}" 
+																		th:selected="${teacher.department} != null ? (${teacher.department.id} == ${department.id} ? 'selected' : 'no') :'no'" 
+																		th:value="${department.id}" th:text="${department.name}" />
+																	</select>
+																</div>
+															</div>
+															<button type="submit" class="btn btn-default">Update</button>
+														</form>
+													</div>
+													<div class="modal-footer">
+													  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</body>
+</html>

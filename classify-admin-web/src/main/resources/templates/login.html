@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org">
+<head>
+	<th:block th:include="fragment/head :: head" />
+	<link rel="stylesheet" href="../css/login.css" th:href="@{/css/login.css}"/>
+</head>
+<body>
+	<div th:replace="fragment/login-content :: content"></div> 
+	<th:block th:include="fragment/footer :: footer" />
+</body>
+</html>

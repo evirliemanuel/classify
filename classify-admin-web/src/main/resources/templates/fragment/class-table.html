@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="ISO-8859-1" />
+		<title>CCS Class Manager</title>
+	</head>
+	<body>
+		<div th:fragment="class-table">
+			<div class="panel panel-default" style="width:25%;height:30%;float:left;margin-left:4%;margin-right:3%;" th:each="cclass : ${cclassList}">
+				<div class="panel-heading">
+					<div style="width:100%;height:15px;margin:0px;">
+						<div class="col-md-10">
+							<h3 class="panel-title" style="color:#7f8c8d;font-weight:bold;" th:text="${cclass.subject} != null ? ${cclass.subject.name} : 'None'"></h3>
+						</div>
+						<div class="col-md-2">
+							<span id="button-cdelete" class="glyphicon glyphicon-remove" th:attr="data-value=${cclass.id}" style="cursor:pointer;"></span>
+						</div>
+					</div>
+				</div>
+				  <div class="panel-body">
+						<p><th:block 
+							th:text="${cclass.subject} !=null ? 
+							(${#strings.length(cclass.subject.description)} > 35 ? ${#strings.substring(cclass.subject.description, 0, 35)} + '...' 
+							: ${cclass.subject.description})
+							: 'none'" /></p>
+						<p><th:block th:text="${cclass.section} != null ? ${cclass.section.name} : 'none'" /></p>
+						<p>Student List &nbsp;&nbsp;<a th:href="'/student/clist?classId=' + ${cclass.id}"><span id="student-list-link" class="glyphicon glyphicon-share"></span></a></p>
+						<p>Schedule List &nbsp;&nbsp;<a th:href="'/schedule?classId=' + ${cclass.id}"><span id="student-list-link" class="glyphicon glyphicon-share"></span></a></p>
+				  </div>
+			</div>
+		</div>
+	</body>
+</html>

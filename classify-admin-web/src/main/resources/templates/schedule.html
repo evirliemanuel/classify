@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<th:block th:include="fragment/head :: head" />
+		<link rel="stylesheet" href="../css/schedule.css" th:href="@{/css/schedule.css}"/>
+	</head>
+	<body>
+		<div class="loading-pane">
+			<img th:src="@{/image/simple-loading.gif}" id="image-loading" align="middle"/>
+		</div>
+		<th:block th:include="fragment/header :: header" />
+		<div id="table-container">
+			<div id="table-nav">
+				<h3 id="label-title">Schedule</h3>
+				<div class="row">
+					<div class="col-md-9">
+						<button type="button" class="btn btn-warning" id="btn-add-schedule" data-toggle="modal" data-target="#scheduleDialog">
+							<span class="glyphicon glyphicon-plus"></span> Add Schedule
+						</button>
+					</div>
+					<div class="col-md-3">
+						<form class="form-inline">
+							<div class="form-group">
+								<label class="sr-only" for="exampleInputAmount">Schedule</label>
+								<div id="search-group" class="input-group">
+									<input type="text" class="form-control" id="schedule-query" placeholder="Schedule id, name or email" />
+									<div class="input-group-addon" id="btn-search"><span class="glyphicon glyphicon-search"></span></div>
+								</div>
+							  </div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<br />
+			<br />
+			
+			<div id="table-cus">
+				<th:block th:include="fragment/schedule-table :: table" />
+			</div>
+		</div>
+		<div id="scheduleDialog" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Create a schedule</h4>
+					</div>
+					<div class="modal-body">
+						<form action="/schedule/c/add" method="post" id="form-add">
+							<div class="form-group" style="width:300px;">
+								<label for="day">Day</label>
+								<div class="selecter  cover closed" tabindex="0">
+									<div class="selecter  closed" tabindex="0" id="day-list">
+										<input type="hidden" name="day"/>
+										<input type="hidden" name="classId" th:value="${param.classId[0]}" />
+										<span class="selecter-selected placeholder">Monday</span>
+										<div class="selecter-options" style="display: none;position:absolute;z-index:3;">
+											<span id="day-item" class="selecter-item" data-value="Monday">Monday</span>
+											<span id="day-item" class="selecter-item" data-value="Tuesday">Tuesday</span>
+											<span id="day-item" class="selecter-item" data-value="Wednesday">Wednesday</span>
+											<span id="day-item" class="selecter-item" data-value="Thursday">Thursday</span>
+											<span id="day-item" class="selecter-item" data-value="Friday">Friday</span>
+											<span id="day-item" class="selecter-item" data-value="Saturday">Saturday</span>
+											<span id="day-item" class="selecter-item" data-value="Sunday">Sunday</span>
+										</div>
+									</div>
+								</div>
+								<div id="room-group" class="form-group" style="margin-top:10px">
+									<label class="control-label" for="room">Room</label>
+									<input name="room" type="text" class="form-control" id="room"/>
+								</div>
+								<div class="bootstrap-timepicker" style="margin-top:20px;">
+									<label for="time">Time</label>
+									<div style="margin-top:5px;">
+										<div id="from-time-group" class="input-group">
+											<span class="input-group-addon">From</span>
+											<input id="fromTime" name="time" type="text" class="form-control" style="position:relative;z-index:0"/>
+											<span style="display:none"></span>
+										</div>
+									</div>
+									<div style="margin-top:10px;">
+										<div id="to-time-group" class="input-group">
+											<span class="input-group-addon">To&nbsp;&nbsp;&nbsp;&nbsp;</span>
+											<input id="toTime" name="period" type="text" class="form-control" style="position:relative;z-index:0" />
+											<span style="display:none"></span>
+										</div>
+									</div>
+								</div>
+								<button  id="button-add" type="submit" class="btn btn-warning" style="margin-top:15px;">Add</button>
+							</div>
+						</form>
+					</div>
+				  <div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				  </div>
+				</div>
+
+			</div>
+		</div>
+	<th:block th:include="fragment/footer :: footer" />
+	<script src="../js/bootstrap/timepicker.js" th:src="@{/js/bootstrap/timepicker.js}"></script>
+	<script>
+		/*<![CDATA[*/
+		
+		$(document).ready(function(){
+			var loading = $(".loading-pane");
+			var element = $('.modal').detach();
+			$('body').append(element);
+
+			$(document).on('click', 'button[id="btn-delete"]', function() {
+				var id = $(this).val();
+				var classId = $("input[name='classId']").val();
+				if (confirm('Are you sure you want to delete the schedule with id : ' + id)) {
+					loading.show();
+					$.post("/schedule/delete", {id : id, classId : classId}, function(data, status) {
+						$("#table-cus").html(data);
+						$('#response-message').css("display","block");
+						loading.hide();
+						hideMessage(8000);
+					});	
+				}
+			});
+
+			$('#fromTime').timepicker({
+					template: false,
+					showInputs: false,
+					minuteStep: 5
+				});
+			$('#toTime').timepicker({
+				template: false,
+				showInputs: false,
+				minuteStep: 5
+			});
+			//DAY
+			$("#day-list .selecter-item:first").addClass("selected");
+			$("input[name='day']").val($("#day-list .selecter-item:first").attr("data-value"));
+			$("#day-list .selecter-selected").click(function() {
+				if($("#day-list .selecter-options").css("display") == "none") {
+					$("#day-list .selecter-options").css("display","block");
+				} 
+				else {
+					$("#day-list .selecter-options").css("display","none");
+				}
+			});
+			$("#day-list .selecter-item").click(function() {
+				$("[id='day-item']").removeClass("selected");
+				$(this).addClass("selected");
+				$("#day-list .selecter-selected").text($(this).text());
+				$("#day-list .selecter-options").css("display","none");
+				$("input[name='day']").val($(this).attr("data-value"));
+			});	
+
+			$("#form-add").submit(function() {
+					var day = $("input[name='day']").val();
+					var room = $("input[name='room']").val();
+					var time = $("input[name='time']").val();
+					var period = $("input[name='period']").val();
+					var classId = $("input[name='classId']").val();
+					var pttr = /^[a-zA-Z0-9_ ]+$/;
+					var noError = true;
+
+					if($("#room-group input").val().trim() == "") {
+						$("#room-group").removeClass("has-success has-feedback");
+						$("#room-group").addClass("has-error has-feedback");
+						$("#room-group label").text("Room is empty");
+						$("#room-group").children("span:last").remove();
+						$("#room-group").append('<span class="glyphicon glyphicon-remove form-control-feedback" style="position:absolute;z-index:0;"></span>');
+						noError = false;
+					}else if(!pttr.test($("#room-group input").val().trim())){
+						$("#room-group").removeClass("has-success has-feedback");
+						$("#room-group").addClass("has-error has-feedback");
+						$("#room-group label").text("Invalid room");
+						$("#room-group").children("span:last").remove();
+						$("#room-group").append('<span class="glyphicon glyphicon-remove form-control-feedback" style="position:absolute;z-index:0;"></span>');
+						noError = false;
+					}else {
+						$("#room-group").removeClass("has-error has-feedback");
+						$("#room-group").addClass("has-success has-feedback");
+						$("#room-group label").text("Room looks great.");
+						$("#room-group").children("span:last").remove();
+						$("#room-group").append('<span class="glyphicon glyphicon-ok form-control-feedback" style="position:absolute;z-index:0;"></span>');
+					}
+					//from
+					if($("#from-time-group input").val().trim() == ""){
+						$("#from-time-group").removeClass("has-success has-feedback");
+						$("#from-time-group").addClass("has-error has-feedback");
+						$("#from-time-group").children("span:last").remove();
+						$("#from-time-group").append('<span class="glyphicon glyphicon-remove form-control-feedback" style="position:absolute;z-index:0;"></span>');
+						noError = false;
+					}else {
+						$("#from-time-group").removeClass("has-error has-feedback");
+						$("#from-time-group").addClass("has-success has-feedback");
+						$("#from-time-group").children("span:last").remove();
+						$("#from-time-group").append('<span class="glyphicon glyphicon-ok form-control-feedback" style="position:absolute;z-index:0;"></span>');
+					}
+					//to					
+					if($("#from-time-group input").val().trim() != "" && $("#to-time-group input").val().trim() != ""){
+						var tf = Date.parse('01 Jan 1999 ' + $("#from-time-group input").val().trim());
+						var tt = Date.parse('01 Jan 1999 ' + $("#to-time-group input").val().trim());
+						
+						if(tf >= tt) {
+							$("#to-time-group").removeClass("has-success has-feedback");
+							$("#to-time-group").addClass("has-error has-feedback");
+							$("#to-time-group").children("span:last").remove();
+							$("#to-time-group").append('<span class="glyphicon glyphicon-remove form-control-feedback" style="position:absolute;z-index:0;"></span>');
+							noError = false;
+						}else {
+							$("#to-time-group").removeClass("has-error has-feedback");
+							$("#to-time-group").addClass("has-success has-feedback");
+							$("#to-time-group").children("span:last").remove();
+							$("#to-time-group").append('<span class="glyphicon glyphicon-ok form-control-feedback" style="position:absolute;z-index:0;"></span>');
+						}
+					} else if($("#to-time-group input").val().trim() == ""){
+						$("#to-time-group").removeClass("has-success has-feedback");
+						$("#to-time-group").addClass("has-error has-feedback");
+						$("#to-time-group").children("span:last").remove();
+						$("#to-time-group").append('<span class="glyphicon glyphicon-remove form-control-feedback" style="position:absolute;z-index:0;"></span>');
+						noError = false;
+					}else {
+						$("#to-time-group").removeClass("has-error has-feedback");
+						$("#to-time-group").addClass("has-success has-feedback");
+						$("#to-time-group").children("span:last").remove();
+						$("#to-time-group").append('<span class="glyphicon glyphicon-ok form-control-feedback" style="position:absolute;z-index:0;"></span>');
+					}
+					if(noError) {
+						return true;
+					}else {
+						return false;
+					}
+				});
+				
+				$('#fromTime-update').timepicker({
+					template: false,
+					showInputs: false,
+					minuteStep: 5
+				});
+				$('#toTime-update').timepicker({
+					template: false,
+					showInputs: false,
+					minuteStep: 5
+				});
+				//DAY
+				$("#day-list-update .selecter-selected").click(function() {
+					if($("#day-list-update .selecter-options").css("display") == "none") {
+						$("#day-list-update .selecter-options").css("display","block");
+					} 
+					else {
+						$("#day-list-update .selecter-options").css("display","none");
+					}
+				});
+				
+				$("#day-list-update .selecter-item").click(function() {
+					$("[id='day-item-update']").removeClass("selected");
+					$(this).addClass("selected");
+					$("#day-list-update .selecter-selected").text($(this).text());
+					$("#day-list-update .selecter-options").css("display","none");
+					$("input[name='day-update']").val($(this).attr("data-value"));
+				});
+				
+				$("form[id='form-update']").submit(function() {
+						var pttr = /^[a-zA-Z0-9_ ]+$/;
+						var noError = true;
+						
+						if($(this).find("#room-group-update input").val().trim() == "") {
+							$(this).find("#room-group-update").removeClass("has-success has-feedback");
+							$(this).find("#room-group-update").addClass("has-error has-feedback");
+							$(this).find("#room-group-update label").text("Room is empty");
+							$(this).find("#room-group-update").children("span:last").remove();
+							$(this).find("#room-group-update").append('<span class="glyphicon glyphicon-remove form-control-feedback" style="position:absolute;z-index:0;"></span>');
+							noError = false;
+						}else if(!pttr.test($(this).find("#room-group-update input").val().trim())){
+							$(this).find("#room-group-update").removeClass("has-success has-feedback");
+							$(this).find("#room-group-update").addClass("has-error has-feedback");
+							$(this).find("#room-group-update label").text("Invalid room");
+							$(this).find("#room-group-update").children("span:last").remove();
+							$(this).find("#room-group-update").append('<span class="glyphicon glyphicon-remove form-control-feedback" style="position:absolute;z-index:0;"></span>');
+							noError = false;
+						}else {
+							$(this).find("#room-group-update").removeClass("has-error has-feedback");
+							$(this).find("#room-group-update").addClass("has-success has-feedback");
+							$(this).find("#room-group-update label").text("Room looks great.");
+							$(this).find("#room-group-update").children("span:last").remove();
+							$(this).find("#room-group-update").append('<span class="glyphicon glyphicon-ok form-control-feedback" style="position:absolute;z-index:0;"></span>');
+						}
+						
+						//from
+						if($(this).find("#from-time-group-update input").val().trim() == ""){
+							$(this).find("#from-time-group-update").removeClass("has-success has-feedback");
+							$(this).find("#from-time-group-update").addClass("has-error has-feedback");
+							$(this).find("#from-time-group-update").children("span:last").remove();
+							$(this).find("#from-time-group-update").append('<span class="glyphicon glyphicon-remove form-control-feedback" style="position:absolute;z-index:0;"></span>');
+							noError = false;
+						}else {
+							$(this).find("#from-time-group-update").removeClass("has-error has-feedback");
+							$(this).find("#from-time-group-update").addClass("has-success has-feedback");
+							$(this).find("#from-time-group-update").children("span:last").remove();
+							$(this).find("#from-time-group-update").append('<span class="glyphicon glyphicon-ok form-control-feedback" style="position:absolute;z-index:0;"></span>');
+						}
+						//to
+						if($(this).find("#from-time-group-update input").val().trim() != "" && $(this).find("#to-time-group-update input").val().trim() != ""){
+							var tf = Date.parse('01 Jan 1999 ' + $(this).find("#from-time-group-update input").val().trim());
+							var tt = Date.parse('01 Jan 1999 ' + $(this).find("#to-time-group-update input").val().trim());
+							if(tf >= tt) {
+								$(this).find("#to-time-group-update").removeClass("has-success has-feedback");
+								$(this).find("#to-time-group-update").addClass("has-error has-feedback");
+								$(this).find("#to-time-group-update").children("span:last").remove();
+								$(this).find("#to-time-group-update").append('<span class="glyphicon glyphicon-remove form-control-feedback" style="position:absolute;z-index:0;"></span>');
+								noError = false;
+							}else {
+								$(this).find("#to-time-group-update").removeClass("has-error has-feedback");
+								$(this).find("#to-time-group-update").addClass("has-success has-feedback");
+								$(this).find("#to-time-group-update").children("span:last").remove();
+								$(this).find("#to-time-group-update").append('<span class="glyphicon glyphicon-ok form-control-feedback" style="position:absolute;z-index:0;"></span>');
+							}
+						}else if($(this).find("#to-time-group-update input").val().trim() == ""){
+							$(this).find("#to-time-group-update").removeClass("has-success has-feedback");
+							$(this).find("#to-time-group-update").addClass("has-error has-feedback");
+							$(this).find("#to-time-group-update").children("span:last").remove();
+							$(this).find("#to-time-group-update").append('<span class="glyphicon glyphicon-remove form-control-feedback" style="position:absolute;z-index:0;"></span>');
+							noError = false;
+						}else {
+							$(this).find("#to-time-group-update").removeClass("has-error has-feedback");
+							$(this).find("#to-time-group-update").addClass("has-success has-feedback");
+							$(this).find("#to-time-group-update").children("span:last").remove();
+							$(this).find("#to-time-group-update").append('<span class="glyphicon glyphicon-ok form-control-feedback" style="position:absolute;z-index:0;"></span>');
+						}
+						return noError;
+				});
+		});
+		
+		function hideMessage(duration) {
+			setTimeout(function() {
+				$('#response-message').fadeOut(2000);
+			},duration);
+		}
+		/*]]>*/
+		</script>
+	</body>
+</html>

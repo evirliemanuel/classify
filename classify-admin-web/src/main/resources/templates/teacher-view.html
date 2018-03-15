@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<th:block th:include="fragment/head :: head" />
+		<link rel="stylesheet" href="../css/teacher-display.css" th:href="@{/css/teacher-display.css}"/>
+	</head>
+	<body>
+		<div class="loading-pane">
+			<img th:src="@{/image/simple-loading.gif}" id="image-loading" align="middle"/>
+		</div>
+		<th:block th:include="fragment/header :: header" />
+		<div id="teacher-wrapper">
+			<div class="container">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title" style="font-weight:bold;color:#34495e;">Teacher Detail</h3>
+					</div>
+					<div class="panel-body">
+						<img  width="100px" height="100px" style="margin-bottom:10px;" src="../image/user_img.png" th:src="@{/image/user_img.png}"/>
+						<input id="teacher-detail-id" type="hidden" th:value="${teacher.id}" />
+						<p>ID : <b><th:block th:text="${teacher.id}" /></b></p>
+						<p>First Name : <b><th:block th:text="${teacher.firstName}" /></b></p>
+						<p>Last Name : <b><th:block th:text="${teacher.lastName}" /></b></p>
+						<p>Middle Name : <b><th:block th:text="${teacher.middleName}" /></b></p>
+						<p>Email : <b><th:block th:text="${teacher.email}" /></b></p>
+						<p>Department : <b><th:block th:text="(${teacher.department} != null ? ${teacher.department.name} : 'n/a')" /></b></p>
+					</div>
+				</div>
+            </div>
+			<div class="container" id="class-tab">
+				<div class="panel">
+					<ul id="myTab1" class="nav nav-tabs nav-justified">
+						<li class="active"><a href="#add-class" data-toggle="tab">Add Class</a></li>
+						<li><a href="#list-class" data-toggle="tab">Class List</a></li>
+						<li class="dropdown">
+							<a href="#" id="myTabDrop1-1" class="dropdown-toggle" data-toggle="dropdown">User detail <b class="caret"></b></a>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+								<li><a href="#dropdown1-1" tabindex="-1" data-toggle="tab">todo</a></li>
+								<li><a href="#dropdown1-2" tabindex="-1" data-toggle="tab">todo</a></li>
+							</ul>
+						</li>
+					</ul>
+					<div id="myTabContent" class="tab-content">
+						<div class="tab-pane fade active in" id="add-class">
+							<h4>All inputs are required.</h4>
+							<div style="float:left;width:400px;position:relative;margin-left:20px;margin-top:5px;">
+								<form method="post" action="/class/add" enctype="multipart/form-data">
+									<input type="hidden" name="teacherId" th:value="${teacher.id}" />
+									<input type="hidden" name="scheduleId" />
+									<div class="form-group" style="width:300px">
+										<label for="subject">Subject</label>
+										<div class="selecter  cover closed" tabindex="0">
+											<div class="selecter  closed" tabindex="0" id="subject-list">
+												<input type="hidden" name="subjectId"/>
+												<span class="selecter-selected placeholder" th:text="${allSubject[0].name}"></span>
+												<div class="selecter-options" style="display:none; position:absolute;z-index:3;">
+													<span id="subject-item" th:each="subject, iterStat : ${allSubject}" class="selecter-item" th:attr="data-value=${subject.id}" th:text="${subject.name}"></span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-group" style="width:300px;">
+										<label for="section">Section</label>
+										<div class="selecter  cover closed" tabindex="0" style="position:relative;z-index:0;">
+											<div class="selecter  closed" tabindex="0" id="section-list">
+												<input type="hidden" name="sectionId"/>
+												<span class="selecter-selected placeholder" th:text="${sectionList[0].name}"></span>
+												<div class="selecter-options" style="display:none; position:absolute;z-index:2;">
+													<span id="section-item" th:each="section, iterStat : ${sectionList}" class="selecter-item" th:attr="data-value=${section.id}" th:text="${section.name}"></span>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									<div class="form-group" style="display:none;">
+										<input id="file" name="file" type="file"/>
+									</div>
+									<div class="form-group" style="width:300px;">
+										<button type="submit" class="btn btn-warning" style="float:left">Save</button>
+									</div>
+								</form>
+							</div>
+								<label for="parent-file-label">Import student</label>
+								<div id="parent-file-label">
+									<label for="file" id="file-label">
+										Browse (or) Drop your file here
+									</label>
+								</div>
+								<div class="form-group" style="width:625px;float:left;margin-top:30px;position:relative;">
+									<label for="button-add-schedule" style="cursor:pointer;">
+										Schedule <span class="glyphicon glyphicon-plus"></span>
+									</label>
+									<br />
+									<div style="border: 3px dotted #ecf0f1; padding: 5px;" id="schedule-parent"><button class="btn btn-default">None</button></div>
+									<button id="button-add-schedule" data-toggle="modal" data-target="#scheduleDialog" style="display:none">Add Schedule</button>
+								</div>								
+							<div style="margin-top:350px;"></div>
+						</div>
+						<div class="tab-pane fade" id="list-class">
+							<div id="class-table" class="container">
+								<th:block th:include="fragment/class-table :: class-table" />
+							</div>
+						</div>
+						<div class="tab-pane fade" id="dropdown1-1">
+						   
+						</div>
+						<div class="tab-pane fade" id="dropdown1-2">
+				
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="scheduleDialog" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Create a schedule</h4>
+				  </div>
+				  <div class="modal-body">
+					<div class="form-group" style="width:300px;">
+						<label for="day">Day</label>
+						<div class="selecter  cover closed" tabindex="0">
+							<div class="selecter  closed" tabindex="0" id="day-list">
+								<input type="hidden" name="day"/>
+								<span class="selecter-selected placeholder">Monday</span>
+								<div class="selecter-options" style="display: none;position:absolute;z-index:3;">
+									<span id="day-item" class="selecter-item" data-value="Monday">Monday</span>
+									<span id="day-item" class="selecter-item" data-value="Tuesday">Tuesday</span>
+									<span id="day-item" class="selecter-item" data-value="Wednesday">Wednesday</span>
+									<span id="day-item" class="selecter-item" data-value="Thursday">Thursday</span>
+									<span id="day-item" class="selecter-item" data-value="Friday">Friday</span>
+									<span id="day-item" class="selecter-item" data-value="Saturday">Saturday</span>
+									<span id="day-item" class="selecter-item" data-value="Sunday">Sunday</span>
+								</div>
+							</div>
+						</div>
+						<div id="room-group" class="form-group" style="margin-top:10px">
+							<label class="control-label" for="room">Room</label>
+							<input name="room" type="text" class="form-control" id="room" required="required"/>
+						</div>
+						<div class="bootstrap-timepicker" style="margin-top:20px;">
+							<label for="time">Time</label>
+							<div style="margin-top:5px;">
+								<div id="from-time-group" class="input-group">
+									<span class="input-group-addon">From</span>
+									<input id="fromTime" name="time" type="text" class="form-control" style="position:relative;z-index:0"/>
+									<span style="display:none"></span>
+								</div>
+							</div>
+							<div style="margin-top:10px;">
+								<div id="to-time-group" class="input-group">
+									<span class="input-group-addon">To&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<input id="toTime" name="period" type="text" class="form-control" style="position:relative;z-index:0" />
+									<span style="display:none"></span>
+								</div>
+							</div>
+						</div>
+						<button  id="button-add" class="btn btn-warning" style="margin-top:15px;">Add</button>
+					</div>
+				  </div>
+				  <div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				  </div>
+				</div>
+
+			</div>
+		</div>
+		<th:block th:include="fragment/footer :: footer" />
+		<script src="../js/bootstrap/timepicker.js" th:src="@{/js/bootstrap/timepicker.js}"></script>
+		<script>
+			/*<![CDATA[*/
+			$(document).ready(function() {
+				//Schedule ids
+				var scheduleId = ["0"];
+				var isFileValid = false;
+				
+				//Set the first option as selected
+				$("#subject-list .selecter-item:first").addClass("selected");
+				//Set the hidden to the selected option
+				$("input[name='subjectId']").val($("#subject-list .selecter-item:first").attr("data-value"));
+				$("#subject-list .selecter-selected").click(function() {
+					if($("#subject-list .selecter-options").css("display") == "none") {
+						$("#subject-list .selecter-options").css("display","block");
+					}
+					else {
+						$("#subject-list .selecter-options").css("display","none");
+					}
+				});
+				
+				$("#subject-list .selecter-item").click(function() {
+					$("[id='subject-item']").removeClass("selected");
+					$(this).addClass("selected");
+					$("#subject-list .selecter-selected").text($(this).text());
+					$("#subject-list .selecter-options").css("display","none");
+					$("input[name='subjectId']").val($(this).attr("data-value"));
+				});
+				
+				//
+				$("#section-list .selecter-item:first").addClass("selected");
+				$("input[name='sectionId']").val($("#section-list .selecter-item:first").attr("data-value"));
+				$("#section-list .selecter-selected").click(function() {
+					if($("#section-list .selecter-options").css("display") == "none") {
+						$("#section-list .selecter-options").css("display","block");
+					} 
+					else {
+						$("#section-list .selecter-options").css("display","none");
+					}
+				});
+				$("#section-list .selecter-item").click(function() {
+					$("[id='section-item']").removeClass("selected");
+					$(this).addClass("selected");
+					$("#section-list .selecter-selected").text($(this).text());
+					$("#section-list .selecter-options").css("display","none");
+					$("input[name='sectionId']").val($(this).attr("data-value"));
+				});	
+				
+				//
+				$("#day-list .selecter-item:first").addClass("selected");
+				$("input[name='day']").val($("#day-list .selecter-item:first").attr("data-value"));
+				$("#day-list .selecter-selected").click(function() {
+					if($("#day-list .selecter-options").css("display") == "none") {
+						$("#day-list .selecter-options").css("display","block");
+					} 
+					else {
+						$("#day-list .selecter-options").css("display","none");
+					}
+				});
+				
+				$("#day-list .selecter-item").click(function() {
+					$("[id='day-item']").removeClass("selected");
+					$(this).addClass("selected");
+					$("#day-list .selecter-selected").text($(this).text());
+					$("#day-list .selecter-options").css("display","none");
+					$("input[name='day']").val($(this).attr("data-value"));
+				});	
+				
+				$("input[type='file']").change(function() {
+					if($(this).val().split('.').pop() != "xlsx") {
+						alert("Invalid file. Try to use file eg.('.xlsx', '.xls' or '.csv')");
+						isFileValid = false;					
+						$("label[for='file']").text("Browse (or) Drop your file here");
+						$(this).val("");
+					}
+					else {
+						isFileValid = true;
+						$("#file-label").text($(this).val().replace(/C:\\fakepath\\/i, ''));
+					}	
+				});
+								
+				 $('#fromTime').timepicker({
+					template: false,
+					showInputs: false,
+					minuteStep: 5
+				});
+				
+				$('#toTime').timepicker({
+					template: false,
+					showInputs: false,
+					minuteStep: 5
+				});
+				
+				$("#button-add").click(function() {
+					var day = $("input[name='day']").val();
+					var room = $("input[name='room']").val();
+					var time = $("input[name='time']").val();
+					var period = $("input[name='period']").val();
+					
+					var pttr = /^[a-zA-Z0-9_ ]+$/;
+					var noError = true;
+					
+					if($("#room-group input").val().trim() == "") {
+						$("#room-group").removeClass("has-success has-feedback");
+						$("#room-group").addClass("has-error has-feedback");
+						$("#room-group label").text("Room is empty");
+						$("#room-group").children("span:last").remove();
+						$("#room-group").append('<span class="glyphicon glyphicon-remove form-control-feedback" style="position:absolute;z-index:0;"></span>');
+						noError = false;
+					}else if(!pttr.test($("#room-group input").val().trim())){
+						$("#room-group").removeClass("has-success has-feedback");
+						$("#room-group").addClass("has-error has-feedback");
+						$("#room-group label").text("Invalid room");
+						$("#room-group").children("span:last").remove();
+						$("#room-group").append('<span class="glyphicon glyphicon-remove form-control-feedback" style="position:absolute;z-index:0;"></span>');
+						noError = false;
+					}else {
+						$("#room-group").removeClass("has-error has-feedback");
+						$("#room-group").addClass("has-success has-feedback");
+						$("#room-group label").text("Room looks great.");
+						$("#room-group").children("span:last").remove();
+						$("#room-group").append('<span class="glyphicon glyphicon-ok form-control-feedback" style="position:absolute;z-index:0;"></span>');
+					}
+					//from
+					if($("#from-time-group input").val().trim() == ""){
+						$("#from-time-group").removeClass("has-success has-feedback");
+						$("#from-time-group").addClass("has-error has-feedback");
+						$("#from-time-group").children("span:last").remove();
+						$("#from-time-group").append('<span class="glyphicon glyphicon-remove form-control-feedback" style="position:absolute;z-index:0;"></span>');
+						noError = false;
+					}else {
+						$("#from-time-group").removeClass("has-error has-feedback");
+						$("#from-time-group").addClass("has-success has-feedback");
+						$("#from-time-group").children("span:last").remove();
+						$("#from-time-group").append('<span class="glyphicon glyphicon-ok form-control-feedback" style="position:absolute;z-index:0;"></span>');
+					}
+					//to
+					
+					if($("#from-time-group input").val().trim() != "" && $("#to-time-group input").val().trim() != ""){
+						var tf = Date.parse('01 Jan 1999 ' + $("#from-time-group input").val().trim());
+						var tt = Date.parse('01 Jan 1999 ' + $("#to-time-group input").val().trim());
+						
+						if(tf >= tt) {
+							$("#to-time-group").removeClass("has-success has-feedback");
+							$("#to-time-group").addClass("has-error has-feedback");
+							$("#to-time-group").children("span:last").remove();
+							$("#to-time-group").append('<span class="glyphicon glyphicon-remove form-control-feedback" style="position:absolute;z-index:0;"></span>');
+							noError = false;
+						}else {
+							$("#to-time-group").removeClass("has-error has-feedback");
+							$("#to-time-group").addClass("has-success has-feedback");
+							$("#to-time-group").children("span:last").remove();
+							$("#to-time-group").append('<span class="glyphicon glyphicon-ok form-control-feedback" style="position:absolute;z-index:0;"></span>');
+						}
+					} else if($("#to-time-group input").val().trim() == ""){
+						$("#to-time-group").removeClass("has-success has-feedback");
+						$("#to-time-group").addClass("has-error has-feedback");
+						$("#to-time-group").children("span:last").remove();
+						$("#to-time-group").append('<span class="glyphicon glyphicon-remove form-control-feedback" style="position:absolute;z-index:0;"></span>');
+						noError = false;
+					}else {
+						$("#to-time-group").removeClass("has-error has-feedback");
+						$("#to-time-group").addClass("has-success has-feedback");
+						$("#to-time-group").children("span:last").remove();
+						$("#to-time-group").append('<span class="glyphicon glyphicon-ok form-control-feedback" style="position:absolute;z-index:0;"></span>');
+					}
+					
+					if(noError) {
+						$.post('/schedule/add',
+								{day : day, room : room, time : time, period : period},
+								function(data, status) {
+									if(scheduleId[0] == "0") {
+										$("#schedule-parent").html(data);
+										scheduleId[0] = $("#schedule-parent button:last span").attr("data-value");
+									}else {
+										$("#schedule-parent").append(data);
+										scheduleId.push($("#schedule-parent button:last span").attr("data-value"));
+									}
+									
+									$("input[name='scheduleId']").val(scheduleId);
+								});
+								//Clear the from-time
+								$("#from-time-group").removeClass("has-success has-feedback");
+								$("#from-time-group").removeClass("has-success has-feedback");
+								$("#from-time-group").children("span:last").remove();
+								$("#from-time-group input").val("");
+								$("#from-time-group").append('<span style="display:none;"></span>');
+								//Clear the to-time
+								$("#to-time-group").removeClass("has-success has-feedback");
+								$("#to-time-group").removeClass("has-success has-feedback");
+								$("#to-time-group").children("span:last").remove();
+								$("#to-time-group input").val("");
+								$("#to-time-group").append('<span style="display:none;"></span>');
+								//Clear the room
+								$("#room-group").removeClass("has-success has-feedback");
+								$("#room-group").removeClass("has-success has-feedback");
+								$("#room-group").children("span:last").remove();
+								$("#room-group label").text("Room");
+								$("#room-group input").val("");
+								
+								$('#scheduleDialog').modal('hide');
+								
+								
+					}
+					$(document).on('click','[id="button-close"]', function() {
+						for(var i=0; i < scheduleId.length; i++) {
+							if(scheduleId[i] == $(this).attr("data-value")){
+								scheduleId.splice(i, 1);
+								break;
+							}
+						}
+						
+						$(this).parent().remove();
+						if(scheduleId.length < 1) {
+							scheduleId.push("0");
+							$("#schedule-parent").html("");
+							$("#schedule-parent").append('<button class="btn btn-default">None</button>');
+						}
+						
+						$("input[name='scheduleId']").val(scheduleId);
+					});
+				});
+				
+				$(document).on("click", "span[id='button-cdelete']", function() {
+					
+					var teacherId= $("#teacher-detail-id").val();
+					var classId = $(this).attr("data-value");
+					var loading = $(".loading-pane");
+						if (confirm('Are you sure you want to delete the class with id : ' + classId)) {
+							loading.show();
+							$.post('/class/delete',
+									{teacherId : teacherId, classId : classId},
+									function(data, status) {
+										$("#class-table").html(data);
+										loading.hide();
+									});
+						}
+				});
+				
+				
+			});	
+			/*]]>*/
+		</script>
+	</body>
+</html>

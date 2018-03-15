@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<th:block th:include="fragment/head :: head" />
+		<link rel="stylesheet" href="../css/teacher.css" th:href="@{/css/teacher.css}"/>
+		<link rel="stylesheet" href="../css/header.css" th:href="@{/css/header.css}"/>
+	</head>
+	<body>
+		<div class="loading-pane">
+			<img th:src="@{/image/simple-loading.gif}" id="image-loading" align="middle"/>
+		</div>
+		<th:block th:include="fragment/header :: header" />
+		<div id="table-container">
+			<div id="table-nav">
+				<h3 id="label-title">Teacher</h3>
+				<div class="row">
+					<div class="col-md-9">
+						<button type="button" class="btn btn-warning" id="btn-add-teacher" data-toggle="modal" data-target="#add-teacher-modal">
+							<span class="glyphicon glyphicon-plus"></span> Add Teacher
+						</button>
+					</div>
+					<div class="col-md-3">
+						<form class="form-inline">
+							<div class="form-group">
+								<label class="sr-only" for="exampleInputAmount">Teacher</label>
+								<div id="search-group" class="input-group">
+									<input type="text" class="form-control" id="teacher-query" placeholder="Teacher id, name or email" />
+									<div class="input-group-addon" id="btn-search"><span class="glyphicon glyphicon-search"></span></div>
+								</div>
+							  </div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<br />
+			<br />
+			
+			<div id="table-cus">
+				<th:block th:include="fragment/teacher-table :: table" />
+			</div>
+		</div>
+		<!-- Modal -->
+		<div class="modal fade" id="add-teacher-modal" role="dialog">
+			<div class="modal-dialog">
+		
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Create a Teacher</h4>
+					</div>
+					<div class="modal-body">
+						<form action="/teacher/add" method="post" id="needs-validation" >
+							<div class="form-group">
+								<label for="firstName">FirstName:</label>
+								<input name="firstName" type="text" class="form-control" id="firstName" placeholder="First name" required="required"/>
+									
+							</div>
+							<div class="form-group">
+								<label for="middleName">MiddleName:</label>
+								<input name="middleName" type="text" class="form-control" id="middleName" placeholder="Middle name" required="required"/>
+							</div>
+							<div class="form-group">
+								<label for="lastName">LastName:</label>
+								<input name="lastName" type="text" class="form-control" id="lastName" placeholder="Last name" required="required" />
+							</div>
+							<div class="form-group">
+								<label for="email">Email:</label>
+								<input name="email" type="email" class="form-control" id="email" placeholder="Email"  required="required" />
+								<div class="invalid-feedback">
+										 Please provide a valid email.
+									</div>
+							</div>
+							<div class="form-group">
+								<label>Department</label>
+								<div >
+									<select class="form-control" name="departmentId" >
+										<option value="0" >None</option>
+										<option th:each="department, iterStat : ${departmentList}" 
+										th:value="${department.id}" th:text="${department.name}" />
+									</select>
+								</div>
+								
+							</div>
+							<button type="submit" class="btn btn-default">Add</button>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	<th:block th:include="fragment/footer" />
+	<script>
+		$(document).ready(function(){
+			var element = $('.modal').detach();
+			$('body').append(element);
+			
+			var loading = $(".loading-pane");
+			$(document).on('click', 'button[id="btn-delete"]', function() {
+				var id = $(this).val();
+				if (confirm('Are you sure you want to delete the teacher with id : ' + id)) {
+					loading.show();
+					$.post("/teacher/delete", {id : id}, function(data, status) {
+						$("#table-cus").html(data);	
+						$('#response-message').css("display","block");
+						loading.hide();
+						hideMessage(8000);
+					});	
+				}
+			});
+			
+			$('#btn-search').click(function() {
+				var input = $("#teacher-query").val();
+				if(input.trim() != "") {
+					loading.show();
+					$.post("/teacher/get", {query : input}, function(data, status) {
+						$("#table-cus").html(data);
+						$('#response-message').css("display","block");
+						loading.hide();
+						hideMessage(8000, 2000);
+						$("#search-group").removeClass("has-error has-feedback");
+					});
+				}else {
+					$("#search-group").removeClass("has-error has-feedback");
+					$("#search-group").addClass("has-error has-feedback");	
+				}
+			});
+		});
+		
+		function hideMessage(duration) {
+			setTimeout(function() {
+				$('#response-message').fadeOut(2000);
+			},duration);
+		}
+</script>
+	
+
+	</body>
+</html>

@@ -1,0 +1,69 @@
+
+<div class="alert alert-info" role="alert" xmlns:th="http://www.thymeleaf.org" id="response-message">
+  <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+  <span class="sr-only">Info:</span>
+  <p id="response-message" th:text="${responseMessage}" />
+</div>
+
+<table class="table" xmlns:th="http://www.thymeleaf.org">
+	<thead>
+	  <tr class="">
+		<th>ID</th>
+		<th>Name</th>
+		<th>Department</th>
+
+	  </tr>
+	</thead>
+	<tbody>
+		<tr  th:each="section, iterStat : ${sectionList}" th:class="${iterStat.even} ? 'active' : 'default'">
+			<td th:text="${section.id}" />
+			<td th:text="${section.name}" />
+			<td th:text="(${section.department} != null ? ${section.department.name} : 'none')" />
+			<td>
+				<button type="button" class="btn btn-default" data-toggle="modal" th:attr="data-target='#update-section-modal-' + ${section.id}">
+					<span class="glyphicon glyphicon-pencil"></span> Update
+				</button>
+				<button th:value="${section.id}" type="submit" class="btn btn-default" id="btn-delete"> 
+					<span class="glyphicon glyphicon-remove"></span> Delete
+				</button>
+			</td>
+			<td>
+				<!-- Modal -->
+				<div class="modal fade" th:id="'update-section-modal-' + ${section.id}" role="dialog">
+					<div class="modal-dialog">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">Update a Section</h4>
+							</div>
+							<div class="modal-body">
+								<form action="/section/update" method="post" class="form-update-section">
+									<input type="hidden" name="id" th:value="${section.id}" />
+									<div class="form-group">
+										<label for="name">Name:</label>
+										<input name="name" type="text" class="form-control" id="name" th:value="${section.name}"/>
+									</div>
+									<div class="form-group">
+										<label>Department</label>
+										<div>
+											<select class="form-control" name="departmentId">
+												<option value="0">None</option>
+												<option th:each="department, iterStat : ${departmentList}" 
+													th:selected="${section.department} != null ? (${section.department.id} == ${department.id} ? 'selected' : 'no') :'no'" 
+													th:value="${department.id}" th:text="${department.name}" />
+											</select>
+										</div>
+									</div>
+									<button type="submit" class="btn btn-default">Update</button>
+								</form>
+							</div>
+							<div class="modal-footer">
+							  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+ </table>

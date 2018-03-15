@@ -1,0 +1,89 @@
+@charset "ISO-8859-1";
+
+body {
+	background-color: #ecf0f1;
+}
+
+#subject-list .selecter-options {
+	z-index: 2;
+	position: relative;
+}
+
+#section-list .selecter-options {
+	z-index: 1;
+	position: relative;
+}
+
+#day-list .selecter-options {
+	z-index: 2;
+	position: relative;
+}
+
+
+#file-label{
+	color: gray;
+	background:#ecf0f1;
+	width: 600px;
+	height:100px;
+  	line-height: 100px;
+  	text-align: center;
+	float:left;
+	margin-bottom: 0px;
+	cursor: pointer;
+}
+
+#parent-file-label{
+	padding:10px;
+  	border: 2px dashed #f69c55;
+	float:left;
+}
+
+#schedule-parent button{
+	margin: 2px;
+	cursor: default;
+}
+
+#schedule-parent button span{
+	cursor: pointer;
+}
+
+div#header {
+	position :fixed;
+	width: 100%;
+}
+
+div#teacher-wrapper {
+	margin-lef:0px;
+	margin-right: 0px;
+	position: absolute;
+	margin-top: 60px;
+	width: 100%;
+	z-index: -1;
+}
+
+.loading-pane {
+	display: none;
+	align-items: center;
+	background-color: white;
+	width: 100%;
+	height: 100%;
+	left: 0;
+    top: 0;
+    opacity : 0.4;
+    position: fixed; /* Stay in place */
+    z-index: 101; /* Sit on top */
+	overflow: auto; /* Enable scroll if needed */
+	margin: 0px auto;
+}
+
+#image-loading {
+	width: 70px;
+	height: 70px;
+	position: absolute;
+    margin: auto;
+    display: block;
+    bottom: 0px;
+    top: 0px;
+    left: 50%;
+    transform: translate(-50%, 0);
+}

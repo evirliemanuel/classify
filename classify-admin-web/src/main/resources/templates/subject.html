@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1" />
+	<link rel="stylesheet" href="../css/bootstrap/bootstrap.min.css" th:href="@{/css/bootstrap/bootstrap.min.css}"/>
+	<link rel="stylesheet" href="../css/style.css" th:href="@{/css/style.css}"/>
+	<title>Subject information</title>
+	</head>
+	<body>
+		<div class="loading-pane">
+			<img th:src="@{/image/simple-loading.gif}" id="image-loading" align="middle"/>
+		</div>
+		<nav class="navbar navbar-default navbar-fixed-top" id="navbar-default">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">Alice Project</a>
+				</div>
+				
+				<ul class=" nav navbar-nav">
+				  <li class="home"><a href="#"><span></span> Class</a></li>
+				   <li class="home"><a href="/teacher"><span ></span> Teacher</a></li>
+				    <li class="home"><a href="/student"><span ></span> Student</a></li>
+				    <li class="home"><a href="/subject"><span ></span> Subject</a></li>
+				     <li class="home"><a href="/section"><span ></span> Section</a></li>
+				     <li class="home"><a href="#"><span ></span> Schedule</a></li>
+				    <li class="home"><a href="/department"><span></span> Department</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+
+				  <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+				</ul>
+			</div>
+		</nav>
+			<div class="container" id="table-container">
+				<h2 id="label-title"><a href="/subject">Subject</a></h2>
+				<div class="row">
+					<div class="col-md-9">
+						<button type="button" class="btn" id="btn-add-subject" data-toggle="modal" data-target="#add-subject-modal">
+							<span class="glyphicon glyphicon-plus"></span> Add Subject
+						</button>
+					</div>
+					<div class="col-md-3">
+						<form class="form-inline">
+							<div class="form-group">
+								<label class="sr-only" for="exampleInputAmount">Subject</label>
+								<div class="input-group">
+									<input type="text" class="form-control" id="subject-query" placeholder="Subject id, name or code.." />
+									<div class="input-group-addon" id="btn-search"><span class="glyphicon glyphicon-search"></span></div>
+								</div>
+							  </div>
+						</form>
+					</div>
+				</div>
+				<br />
+				<br />
+				<div id="table-cus">
+					<table class="table">
+						<thead>
+						  <tr class="">
+							<th>ID</th>
+							<th>Name</th>
+							<th>Code</th>
+							<th>Description</th>
+							<th>Unit</th>
+					
+						  </tr>
+						</thead>
+						<tbody>
+							<tr  th:each="subject, iterStat : ${subjectList}" th:class="${iterStat.even} ? 'active' : 'default'">
+								<td th:text="${subject.id}" />
+								<td th:text="${subject.name}" />
+								<td th:text="${subject.code}" />
+								<td th:text="${subject.description}" />
+								<td th:text="${subject.unit}" />
+								<td>
+									<button type="button" class="btn btn-default" data-toggle="modal" th:attr="data-target='#update-subject-modal-' + ${subject.id}">
+										<span class="glyphicon glyphicon-pencil"></span> Update
+									</button>
+									<button th:value="${subject.id}" type="submit" class="btn btn-default" id="btn-delete"> 
+										<span class="glyphicon glyphicon-remove"></span> Delete
+									</button>
+								</td>
+								<td>
+									<!-- Modal -->
+									<div class="modal fade" th:id="'update-subject-modal-' + ${subject.id}" role="dialog">
+										<div class="modal-dialog">
+											<!-- Modal content-->
+											<div class="modal-content">
+												<div class="modal-header">
+													<h4 class="modal-title">Update a Subject</h4>
+												</div>
+												<div class="modal-body">
+													<form action="/subject/update" method="post" class="form-update-subject">
+														<input type="hidden" name="id" th:value="${subject.id}" />
+														<div class="form-group">
+															<label for="name">Name:</label>
+															<input name="name" type="text" class="form-control" id="name" th:value="${subject.name}"/>
+														</div>
+														<div class="form-group">
+															<label for="code">Code:</label>
+															<input name="code" type="text" class="form-control" id="code" th:value="${subject.code}"/>
+														</div>
+														<div class="form-group">
+															<label for="description">Description:</label>
+															<input name="description" type="text" class="form-control" id="description" th:value="${subject.description}"/>
+														</div>
+														<div class="form-group">
+															<label for="unit">Unit:</label>
+															<input name="unit" type="text" class="form-control" id="unit" th:value="${subject.unit}"/>
+														</div>
+														<button type="submit" class="btn btn-default">Update</button>
+													</form>
+												</div>
+												<div class="modal-footer">
+												  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+				  </table>
+				</div>
+			</div>
+			<!-- Modal -->
+			<div class="modal fade" id="add-subject-modal" role="dialog">
+				<div class="modal-dialog">
+			
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Create a Subject</h4>
+						</div>
+						<div class="modal-body">
+							<form action="/subject/add" method="post">
+								<div class="form-group">
+									<label for="name">Name:</label>
+									<input name="name" type="text" class="form-control" id="name" placeholder="Subject name" required="required"/>
+								</div>
+								<div class="form-group">
+									<label for="code">Code:</label>
+									<input name="code" type="text" class="form-control" id="code" placeholder="Code" required="required"/>
+								</div>
+								<div class="form-group">
+									<label for="description">Description:</label>
+									<input name="description" type="text" class="form-control" id="description" placeholder="Description" required="required"/>
+								</div>
+								<div class="form-group">
+									<label for="unit">Unit:</label>
+									<input name="unit" type="text" class="form-control" id="unit" placeholder="Unit" required="required"/>
+								</div>
+								<button type="submit" class="btn btn-default">Add</button>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+	<script src="../js/jquery-3.2.1.min.js" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+	<script src="../js/bootstrap/bootstrap.min.js" th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
+	<script>
+		$(document).ready(function(){
+			var loading = $(".loading-pane");
+			$(document).on('click', 'button[id="btn-delete"]', function() {
+				var id = $(this).val();
+				if (confirm('Are you sure you want to delete the subject with id : ' + id)) {
+					loading.show();
+					$.post("/subject/delete", {id : id}, function(data, status) {
+						$("#table-cus").html(data);	
+						loading.hide();
+						hideMessage(8000);
+					});	
+				}
+			});
+			
+			$('#btn-search').click(function() {
+				var input = $("#subject-query").val();
+				if(input.trim() != "") {
+					loading.show();
+					$.post("/subject/get", {query : input}, function(data, status) {
+						$("#table-cus").html(data);
+						loading.hide();
+						hideMessage(8000, 2000);
+					});
+				}
+			});
+		});
+		
+		function hideMessage(duration) {
+			setTimeout(function() {
+				$('#response-message').fadeOut(2000);
+			},duration);
+		}
+	</script>
+	</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<form action="/teacher">
+		<button type="submit">button</button>
+	</form>
+</body>
+	<th:block th:include="fragment/footer :: footer" />
+	<script>
+		$(document).ready(function() {
+			alert("afasfasf");
+			$("form").submit(function() {
+				return confirm('Are you sure you want to delete the schedule with id');
+			});
+		});	
+	</script>
+</html>

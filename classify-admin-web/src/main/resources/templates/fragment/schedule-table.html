@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="ISO-8859-1" />
+		<title>CCS Class Manager</title>
+	</head>
+	<body>
+		<div th:fragment="table">
+			<div class="well" id="response-message" th:text="${responseMessage}" style="display:none"></div>
+			<div class="panel panel-warning">
+					<div class="panel-heading">
+						<h3 class="panel-title">Schedule List</h3>
+					</div>
+					<div class="panel-body">
+						<table class="table">
+							<thead>
+							  <tr class="">
+								<th>ID</th>
+								<th>Day</th>
+								<th>Room</th>
+								<th>Time</th>
+								<th>Period</th>
+							  </tr>
+							</thead>
+							<tbody>
+								<tr  th:each="schedule, iterStat : ${scheduleList}" th:class="${iterStat.even} ? 'active' : 'default'">
+									<td th:text="${schedule.id}" />
+									<td th:text="${schedule.day}" />
+									<td th:text="${schedule.room}" />
+									<td th:text="${schedule.time}" />
+									<td th:text="${schedule.period}" />
+									<td>
+										<button type="button" class="btn btn-default" data-toggle="modal" th:attr="data-target='#update-schedule-modal-' + ${schedule.id}">
+											<span class="glyphicon glyphicon-pencil"></span> Update
+										</button>
+										<button th:value="${schedule.id}" type="submit" class="btn btn-default" id="btn-delete"> 
+											<span class="glyphicon glyphicon-remove"></span> Delete
+										</button>
+									</td>
+									<td>
+										<div th:id="'update-schedule-modal-' + ${schedule.id}" class="modal fade" role="dialog">
+											<div class="modal-dialog">
+												<!-- Modal content-->
+												<div class="modal-content">
+													<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal">&times;</button>
+													<h4 class="modal-title">Create a schedule</h4>
+												 </div>
+												 <div class="modal-body">
+													<form action="/schedule/c/update" method="post" id="form-update">	
+														<div class="form-group" style="width:300px;">
+															<label for="day">Day</label>
+															<div class="selecter  cover closed" tabindex="0">
+																<div class="selecter  closed" tabindex="0" id="day-list-update">
+																	<input type="hidden" name="day"/>
+																	<input type="hidden" name="classId" th:value="${param.classId[0]}" />
+																	<input type="hidden" name="scheduleId" th:value="${schedule.id}" />
+																	<span class="selecter-selected placeholder" th:text="${schedule.day}"></span>
+																	<div class="selecter-options" style="display: none;position:absolute;z-index:3;">
+																		<span id="day-item-update" th:class="'selecter-item' + (${schedule.day} == 'Monday' ? ' selected' : '')" data-value="Monday">Monday</span>
+																		<span id="day-item-update" th:class="'selecter-item' + (${schedule.day} == 'Tuesday' ? ' selected' : '')" data-value="Tuesday">Tuesday</span>
+																		<span id="day-item-update" th:class="'selecter-item' + (${schedule.day} == 'Wednesday' ? ' selected' : '')" data-value="Wednesday">Wednesday</span>
+																		<span id="day-item-update" th:class="'selecter-item' + (${schedule.day} == 'Thursday' ? ' selected' : '')" data-value="Thursday">Thursday</span>
+																		<span id="day-item-update" th:class="'selecter-item' + (${schedule.day} == 'Friday' ? ' selected' : '')" data-value="Friday">Friday</span>
+																		<span id="day-item-update" th:class="'selecter-item' + (${schedule.day} == 'Saturday' ? ' selected' : '')" data-value="Saturday">Saturday</span>
+																		<span id="day-item-update" th:class="'selecter-item' + (${schedule.day} == 'Sunday' ? ' selected' : '')" data-value="Sunday">Sunday</span>
+																	</div>
+																</div>
+															</div>
+															<div id="room-group-update" class="form-group" style="margin-top:10px">
+																<label class="control-label" for="room">Room</label>
+																<input name="room" type="text" class="form-control" id="room" th:value="${schedule.room}"/>
+															</div>
+															<div class="bootstrap-timepicker" style="margin-top:20px;">
+																<label for="time">Time</label>
+																<div style="margin-top:5px;">
+																	<div id="from-time-group-update" class="input-group">
+																		<span class="input-group-addon">From</span>
+																		<input id="fromTime-update" name="time" type="text" class="form-control" th:value="${schedule.time}" style="position:relative;z-index:0"/>
+																		<span style="display:none"></span>
+																	</div>
+																</div>
+																<div style="margin-top:10px;">
+																	<div id="to-time-group-update" class="input-group">
+																		<span class="input-group-addon">To&nbsp;&nbsp;&nbsp;&nbsp;</span>
+																		<input id="toTime-update" name="period" type="text" class="form-control" th:value="${schedule.period}" style="position:relative;z-index:0" />
+																		<span style="display:none"></span>
+																	</div>
+																</div>
+															</div>
+															<button type="submit" class="btn btn-warning" style="margin-top:15px;">Update</button>
+														</div>
+													</form>
+												 </div>
+												 <div class="modal-footer">
+													<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+												  </div>
+												</div>
+											</div>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+				  		</table>
+					</div>
+				</div>
+			</div>
+		</body>
+</html>

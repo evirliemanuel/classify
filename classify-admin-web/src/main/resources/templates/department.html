@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="ISO-8859-1" />
+		<link rel="stylesheet" href="../css/bootstrap/bootstrap.min.css" th:href="@{/css/bootstrap/bootstrap.min.css}"/>
+		<link rel="stylesheet" href="../css/style.css" th:href="@{/css/style.css}"/>
+		<title>CCS Manager</title>
+	</head>
+	<body>
+		<div class="loading-pane">
+			<img th:src="@{/image/simple-loading.gif}" id="image-loading" align="middle"/>
+		</div>
+		<nav class="navbar navbar-default navbar-fixed-top" id="navbar-default">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">Alice Project</a>
+				</div>
+				
+				<ul class=" nav navbar-nav">
+				  <li class="home"><a href="#"><span></span> Class</a></li>
+				   <li class="home"><a href="/teacher"><span ></span> Teacher</a></li>
+				    <li class="home"><a href="/student"><span ></span> Student</a></li>
+				    <li class="home"><a href="/subject"><span ></span> Subject</a></li>
+				     <li class="home"><a href="/section"><span ></span> Section</a></li>
+				     <li class="home"><a href="#"><span ></span> Schedule</a></li>
+				    <li class="home"><a href="/department"><span></span> Department</a></li>
+				</ul>
+				
+				<ul class="nav navbar-nav navbar-right">
+
+				  <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+				</ul>
+			</div>
+		</nav>
+			<div class="container" id="table-container">
+				<h2 id="label-title"><a href="/department">Department</a></h2>
+				<div class="row">
+					<div class="col-md-9">
+						<button type="button" class="btn" id="btn-add-department" data-toggle="modal" data-target="#add-department-modal">
+							<span class="glyphicon glyphicon-plus"></span> Add Department
+						</button>
+					</div>
+					<div class="col-md-3">
+						<form class="form-inline">
+							<div class="form-group">
+								<label class="sr-only" for="exampleInputAmount">Department</label>
+								<div class="input-group">
+									<input type="text" class="form-control" id="department-query" placeholder="Department id, name" />
+									<div class="input-group-addon" id="btn-search"><span class="glyphicon glyphicon-search"></span></div>
+								</div>
+							  </div>
+						</form>
+					</div>
+				</div>
+				<br />
+				<br />
+				<div id="table-cus">
+					<table class="table">
+						<thead>
+						  <tr class="">
+							<th>ID</th>
+							<th>Name</th>
+							<th>Description</th>
+					
+						  </tr>
+						</thead>
+						<tbody>
+							<tr  th:each="department, iterStat : ${departmentList}" th:class="${iterStat.even} ? 'active' : 'default'">
+								<td th:text="${department.id}" />
+								<td th:text="${department.name}" />
+								<td th:text="${department.description}" />
+								<td>
+									<button type="button" class="btn btn-default" data-toggle="modal" th:attr="data-target='#update-department-modal-' + ${department.id}">
+										<span class="glyphicon glyphicon-pencil"></span> Update
+									</button>
+									<button th:value="${department.id}" type="submit" class="btn btn-default" id="btn-delete"> 
+										<span class="glyphicon glyphicon-remove"></span> Delete
+									</button>
+								</td>
+								<td>
+									<!-- Modal -->
+									<div class="modal fade" th:id="'update-department-modal-' + ${department.id}" role="dialog">
+										<div class="modal-dialog">
+											<!-- Modal content-->
+											<div class="modal-content">
+												<div class="modal-header">
+													<h4 class="modal-title">Update a Department</h4>
+												</div>
+												<div class="modal-body">
+													<form action="/department/update" method="post" class="form-update-department">
+														<input type="hidden" name="id" th:value="${department.id}" />
+														<div class="form-group">
+															<label for="name">Name:</label>
+															<input name="name" type="text" class="form-control" id="name" th:value="${department.name}"/>
+														</div>
+														<div class="form-group">
+															<label for="description">Description:</label>
+															<input name="description" type="text" class="form-control" id="description" th:value="${department.description}"/>
+														</div>
+														<button type="submit" class="btn btn-default">Update</button>
+													</form>
+												</div>
+												<div class="modal-footer">
+												  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+				  </table>
+				</div>
+			</div>
+			<!-- Modal -->
+			<div class="modal fade" id="add-department-modal" role="dialog">
+				<div class="modal-dialog">
+			
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Create a Department</h4>
+						</div>
+						<div class="modal-body">
+							<form action="/department/add" method="post">
+								<div class="form-group">
+									<label for="name">Name:</label>
+									<input name="name" type="text" class="form-control" id="name" required="required" />
+								</div>
+								<div class="form-group">
+									<label for="description">Description:</label>
+									<input name="description" type="text" class="form-control" id="description" required="required" />
+									<div class="invalid-feedback">
+       									 Please provide a description.
+      								</div>
+								</div>
+								<button type="submit" class="btn btn-default">Add</button>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+	<script src="../js/jquery-3.2.1.min.js" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+	<script src="../js/bootstrap/bootstrap.min.js" th:src="@{/js/bootstrap/bootstrap.min.js}"></script>
+	<script>
+		$(document).ready(function(){
+			var loading = $(".loading-pane");
+			$(document).on('click', 'button[id="btn-delete"]', function() {
+				var id = $(this).val();
+				if (confirm('Are you sure you want to delete the department with id : ' + id)) {
+					loading.show();
+					$.post("/department/delete", {id : id}, function(data, status) {
+						$("#table-cus").html(data);	
+						loading.hide();
+						hideMessage(8000);
+					});	
+				}
+			});
+			
+			$('#btn-search').click(function() {
+				var input = $("#department-query").val();
+				if(input.trim() != "") {
+					loading.show();
+					$.post("/department/get", {query : input}, function(data, status) {
+						$("#table-cus").html(data);
+						loading.hide();
+						hideMessage(8000, 2000);
+					});
+				}
+			});
+		});
+		
+		function hideMessage(duration) {
+			setTimeout(function() {
+				$('#response-message').fadeOut(2000);
+			},duration);
+		}
+	</script>
+	</body>
+</html>

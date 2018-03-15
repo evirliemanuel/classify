@@ -1,0 +1,23 @@
+@charset "ISO-8859-1";
+body {
+	margin: 0px auto;
+	background-color: #ecf0f1;
+}
+
+div.container {
+	with: 100%;
+	height: 100%;
+}
+
+div#header {
+	with: 100%
+}
+
+div#container {
+	margin-top: 10%;
+}
+
+div.panel-body {
+	padding-left: 20%;
+	padding-right: 20%;
+}

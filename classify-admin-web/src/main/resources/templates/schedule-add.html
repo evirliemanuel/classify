@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http:www.thymeleaf.org">
+	<head>
+		<meta charset="ISO-8859-1"/>
+		<title>CCS Manager</title>
+	</head>
+	<body>
+		<button class="btn btn-info" th:if="${schedule.day} == 'Monday'"> 
+			<th:block th:text="${schedule.day} + ' / ' + ${schedule.room} + ' / ' + ${schedule.time} + ' - ' + ${schedule.period}" />
+			&nbsp;&nbsp;&nbsp;<span id="button-close" th:attr="data-value=${schedule.id}" aria-hidden="true">&times;</span>
+		</button>
+		<button class="btn btn-warning" th:if="${schedule.day} == 'Tuesday'"> 
+			<th:block th:text="${schedule.day} + ' / ' + ${schedule.room} + ' / ' + ${schedule.time} + ' - ' + ${schedule.period}" />
+			&nbsp;&nbsp;&nbsp;<span id="button-close" th:attr="data-value=${schedule.id}" aria-hidden="true">&times;</span>
+		</button>
+		<button class="btn btn-success" th:if="${schedule.day} == 'Wednesday'"> 
+			<th:block th:text="${schedule.day} + ' / ' + ${schedule.room} + ' / ' + ${schedule.time} + ' - ' + ${schedule.period}" />
+			&nbsp;&nbsp;&nbsp;<span id="button-close" th:attr="data-value=${schedule.id}" aria-hidden="true">&times;</span>
+		</button>
+		<button class="btn btn-primary" th:if="${schedule.day} == 'Thursday'"> 
+			<th:block th:text="${schedule.day} + ' / ' + ${schedule.room} + ' / ' + ${schedule.time} + ' - ' + ${schedule.period}" />
+			&nbsp;&nbsp;&nbsp;<span id="button-close" th:attr="data-value=${schedule.id}" aria-hidden="true">&times;</span>
+		</button>
+		<button class="btn btn-danger" th:if="${schedule.day} == 'Friday'"> 
+			<th:block th:text="${schedule.day} + ' / ' + ${schedule.room} + ' / ' + ${schedule.time} + ' - ' + ${schedule.period}" />
+			&nbsp;&nbsp;&nbsp;<span id="button-close" th:attr="data-value=${schedule.id}" aria-hidden="true">&times;</span>
+		</button>
+		<button class="btn btn-normal" th:if="${schedule.day} == 'Saturday'"> 
+			<th:block th:text="${schedule.day} + ' / ' + ${schedule.room} + ' / ' + ${schedule.time} + ' - ' + ${schedule.period}" />
+			&nbsp;&nbsp;&nbsp;<span id="button-close" th:attr="data-value=${schedule.id}" aria-hidden="true">&times;</span>
+		</button>
+		<button class="btn btn-default" th:if="${schedule.day} == 'Sunday'"> 
+			<th:block th:text="${schedule.day} + ' / ' + ${schedule.room} + ' / ' + ${schedule.time} + ' - ' + ${schedule.period}" />
+			&nbsp;&nbsp;&nbsp;<span id="button-close" th:attr="data-value=${schedule.id}" aria-hidden="true">&times;</span>
+		</button>
+			
+	</body>
+</html>

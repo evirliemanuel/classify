@@ -24,7 +24,8 @@
 							: ${cclass.subject.description})
 							: 'none'" /></p>
 						<p><th:block th:text="${cclass.section} != null ? ${cclass.section.name} : 'none'" /></p>
-						<p>Student List &nbsp;&nbsp;<a th:href="'/student/clist?classId=' + ${cclass.id}"><span id="student-list-link" class="glyphicon glyphicon-share"></span></a></p>
+						<!--<p>Student List &nbsp;&nbsp;<a th:href="'/student/clist?classId=' + ${cclass.id}"><span id="student-list-link" class="glyphicon glyphicon-share"></span></a></p>-->
+					  	<p>Student List &nbsp;&nbsp;<a th:href="'/class/students?classId=' + ${cclass.id}"><span id="student-list-link" class="glyphicon glyphicon-share"></span></a></p>
 						<p>Schedule List &nbsp;&nbsp;<a th:href="'/schedule?classId=' + ${cclass.id}"><span id="student-list-link" class="glyphicon glyphicon-share"></span></a></p>
 				  </div>
 			</div>

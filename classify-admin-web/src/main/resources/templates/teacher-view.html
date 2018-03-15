@@ -127,7 +127,7 @@
 						<div class="selecter  cover closed" tabindex="0">
 							<div class="selecter  closed" tabindex="0" id="day-list">
 								<input type="hidden" name="day"/>
-								<span class="selecter-selected placeholder">Monday</span>
+								<span class="selecter-selected placeholder">Select a day</span>
 								<div class="selecter-options" style="display: none;position:absolute;z-index:3;">
 									<span id="day-item" class="selecter-item" data-value="Monday">Monday</span>
 									<span id="day-item" class="selecter-item" data-value="Tuesday">Tuesday</span>
@@ -139,9 +139,19 @@
 								</div>
 							</div>
 						</div>
-						<div id="room-group" class="form-group" style="margin-top:10px">
+						<div class="form-group" style="margin-top:10px">
 							<label class="control-label" for="room">Room</label>
-							<input name="room" type="text" class="form-control" id="room" required="required"/>
+							<br />
+							<select id="put">
+								<option selected="selected" disabled="disabled">Select a room</option>
+								<option value="CS 101">CS 101</option>
+								<option value="CS 102">CS 102</option>
+								<option value="CS 103">CS 103</option>
+							</select>
+						</div>
+						<div id="room-group" class="form-group" style="margin-top:10px;display:none;">
+							<label class="control-label" for="room">Room</label>
+							<input name="room" type="text" class="form-control" id="room"/>
 						</div>
 						<div class="bootstrap-timepicker" style="margin-top:20px;">
 							<label for="time">Time</label>
@@ -220,7 +230,7 @@
 				});	
 				
 				//
-				$("#day-list .selecter-item:first").addClass("selected");
+				//$("#day-list .selecter-item:first").addClass("selected");
 				$("input[name='day']").val($("#day-list .selecter-item:first").attr("data-value"));
 				$("#day-list .selecter-selected").click(function() {
 					if($("#day-list .selecter-options").css("display") == "none") {
@@ -263,10 +273,11 @@
 					showInputs: false,
 					minuteStep: 5
 				});
-				
+
 				$("#button-add").click(function() {
 					var day = $("input[name='day']").val();
-					var room = $("input[name='room']").val();
+					var room = $("#put").val();
+					//var room = $("input[name='room']").val();
 					var time = $("input[name='time']").val();
 					var period = $("input[name='period']").val();
 					
@@ -274,12 +285,12 @@
 					var noError = true;
 					
 					if($("#room-group input").val().trim() == "") {
-						$("#room-group").removeClass("has-success has-feedback");
-						$("#room-group").addClass("has-error has-feedback");
-						$("#room-group label").text("Room is empty");
-						$("#room-group").children("span:last").remove();
-						$("#room-group").append('<span class="glyphicon glyphicon-remove form-control-feedback" style="position:absolute;z-index:0;"></span>');
-						noError = false;
+						//$("#room-group").removeClass("has-success has-feedback");
+						//$("#room-group").addClass("has-error has-feedback");
+						//$("#room-group label").text("Room is empty");
+						//$("#room-group").children("span:last").remove();
+						//$("#room-group").append('<span class="glyphicon glyphicon-remove form-control-feedback" style="position:absolute;z-index:0;"></span>');
+						//noError = false;
 					}else if(!pttr.test($("#room-group input").val().trim())){
 						$("#room-group").removeClass("has-success has-feedback");
 						$("#room-group").addClass("has-error has-feedback");

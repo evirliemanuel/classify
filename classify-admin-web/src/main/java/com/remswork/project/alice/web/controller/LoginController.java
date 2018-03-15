@@ -16,7 +16,7 @@ public class LoginController {
 	@RequestMapping(value="login/success", method=RequestMethod.POST)
 	public String loginSuccess(ModelMap modelMap) {
 		try {
-			return "redirect:/index";
+			return "redirect:/teachers";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";

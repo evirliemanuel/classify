@@ -104,7 +104,9 @@ public class ExamAddActivityF extends AppCompatActivity implements ExamAdapterF.
                 startActivity(intent);
                 break;
             case add_back4 :
-                finish();
+                intent = getIntent().setClass(this, ClassViewActivity.class);
+                startActivity(intent);
+                this.finish();
                 break;
 
             case add_grade4 :

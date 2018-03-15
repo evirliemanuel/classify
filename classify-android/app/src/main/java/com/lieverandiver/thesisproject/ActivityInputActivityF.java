@@ -43,9 +43,6 @@ import static com.lieverandiver.thesisproject.R.id.input_ok1;
 import static com.lieverandiver.thesisproject.R.id.input_tryagain1;
 import static com.lieverandiver.thesisproject.R.id.input_tryagainemp1;
 
-/**
- * Created by Verlie on 8/31/2017.
- */
 
 public class ActivityInputActivityF extends AppCompatActivity implements View.OnClickListener {
 
@@ -187,11 +184,13 @@ public class ActivityInputActivityF extends AppCompatActivity implements View.On
             case input_back1:
                 Intent intent = getIntent().setClass(this, ActivityAddActivityF.class);
                 startActivity(intent);
+                this.finish();
 
                 break;
             case input_ok1:
                intent = getIntent().setClass(this, ActivityAddActivityF.class);
                 startActivity(intent);
+                this.finish();
 
                 break;
 

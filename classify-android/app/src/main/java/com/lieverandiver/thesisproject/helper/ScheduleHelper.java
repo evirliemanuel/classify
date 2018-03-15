@@ -36,7 +36,7 @@ public class ScheduleHelper {
 
     public int imageDisplay (String day) {
         if(day.equalsIgnoreCase("Monday"))
-                return R.drawable.logo_day_monday;
+            return R.drawable.logo_day_monday;
         if(day.equalsIgnoreCase("Tuesday"))
             return R.drawable.logo_day_tuesday;
         if(day.equalsIgnoreCase("Wednesday"))

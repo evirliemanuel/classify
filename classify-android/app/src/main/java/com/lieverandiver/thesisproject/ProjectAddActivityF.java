@@ -109,7 +109,9 @@ public class ProjectAddActivityF extends AppCompatActivity implements ProjectAda
                 startActivity(intent);
                 break;
             case add_back5 :
-                finish();
+                intent = getIntent().setClass(this, ClassViewActivity.class);
+                startActivity(intent);
+                this.finish();
                 break;
 
             case add_grade5 :

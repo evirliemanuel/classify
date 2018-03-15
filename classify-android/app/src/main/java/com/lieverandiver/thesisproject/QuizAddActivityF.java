@@ -107,6 +107,7 @@ public class QuizAddActivityF extends AppCompatActivity implements QuizAdapterF.
             case btn_backaddactivity :
                 intent = getIntent().setClass(this,ClassViewActivity.class);
                 startActivity(intent);
+                this.finish();
                 break;
 
             case add_grade6 :

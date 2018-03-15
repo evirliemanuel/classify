@@ -47,17 +47,6 @@
                         android:textSize="18dp"
                         android:textStyle="bold" />
 
-                    <ToggleButton
-                        android:id="@+id/btn_search_class"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_gravity="right|center"
-                        android:layout_marginRight="16dp"
-                        android:background="@drawable/btn_search"
-                        android:textOff=""
-                        android:textOn="" />
-
-
                 </FrameLayout>
 
 
@@ -112,18 +101,29 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:text="Department:"
+                            android:text="Room:"
                             android:textColor="@color/colorMidNightBlue"
                             android:textSize="14sp" />
 
                         <TextView
+                            android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:text="Format:"
+                            android:text="Date:"
+                            android:textColor="@color/colorMidNightBlue"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:visibility="gone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="Time:"
                             android:textColor="@color/colorMidNightBlue"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -156,6 +156,7 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:visibility="gone"
                             android:id="@+id/txtv_dept"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -166,7 +167,18 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:visibility="gone"
                             android:id="@+id/txtv_sem"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="5dp"
+                            android:text="Loading ..."
+                            android:textColor="@color/colorMidNightBlue"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -445,15 +457,6 @@
                                 android:text="INPUT/IMPORT GRADES"
                                 android:textSize="14dp"
                                 android:textStyle="bold" />
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:layout_gravity="right|center"
-                                android:layout_marginRight="20dp"
-                                android:background="@drawable/help"
-                                android:clickable="true" />
-
 
                         </FrameLayout>
 
@@ -1519,14 +1522,11 @@
 
                         </android.support.v7.widget.CardView>
 
-
                     </LinearLayout>
-
 
                 </ScrollView>
 
             </LinearLayout>
-
 
         </ScrollView>
 
@@ -1545,6 +1545,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
     </FrameLayout>
+
 
 
 </FrameLayout>

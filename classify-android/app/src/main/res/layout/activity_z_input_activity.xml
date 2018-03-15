@@ -22,14 +22,13 @@
                 android:layout_height="match_parent">
 
                 <Button
+                    android:id="@+id/input_back1"
                     android:clickable="true"
                     android:layout_marginLeft="10dp"
-                    android:id="@+id/input_back1"
                     android:layout_gravity="left|center"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:background="@drawable/ic_arrow_back_white_24dp"/>
-
 
                 <TextView
                     android:layout_gravity="left|center"
@@ -40,18 +39,6 @@
                     android:text="Activity"
                     android:textStyle="bold"
                     android:textColor="@color/colorWhite"/>
-
-                <ToggleButton
-                    android:layout_gravity="right|center"
-                    android:id="@+id/btn_search_class"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:textOn=""
-                    android:textOff=""
-                    android:layout_marginRight="16dp"
-                    android:background="@drawable/btn_search"/>
-
-
             </FrameLayout>
 
         </LinearLayout>
@@ -176,7 +163,7 @@
                         android:id="@+id/input_name1"
                         android:hint="Activity"
                         android:textSize="16dp"
-                        android:textColorHint="#000000"
+                        android:textColorHint="@color/colorLightGray"
                         android:layout_width="180dp"
                         android:layout_height="wrap_content" />
 
@@ -184,22 +171,15 @@
                         android:id="@+id/input_total1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="Total"
-                        android:textColorHint="#000000"
+                        android:hint="0"
+                        android:textColorHint="@color/colorLightGray"
                         android:inputType="number"
                         android:textSize="16dp"
                         />
 
-
-
                 </LinearLayout>
 
-
             </LinearLayout>
-
-
-
-
 
             </FrameLayout>
             <FrameLayout
@@ -432,9 +412,7 @@
                     android:textSize="14dp"
                     android:textColor="#000000"/>
 
-
             </FrameLayout>
-
 
             <FrameLayout
                 android:layout_width="match_parent"

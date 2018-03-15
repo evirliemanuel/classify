@@ -199,10 +199,12 @@ public class ActivityInputActivity2 extends AppCompatActivity implements View.On
             case input_back1:
                 Intent intent = getIntent().setClass(this, ActivityAddActivity.class);
                 startActivity(intent);
+                this.finish();
                 break;
             case input_ok1:
                 intent = getIntent().setClass(this, ActivityAddActivity.class);
                 startActivity(intent);
+                this.finish();
                 break;
 
             case input_tryagainemp1:

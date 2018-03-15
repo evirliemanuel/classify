@@ -199,10 +199,12 @@ public class ExamInputActivity extends AppCompatActivity implements View.OnClick
             case input_back4:
                 Intent intent = getIntent().setClass(this, ExamAddActivity.class);
                 startActivity(intent);
+                this.finish();
                 break;
             case input_ok4:
                intent = getIntent().setClass(this, ExamAddActivity.class);
                 startActivity(intent);
+                this.finish();
                 break;
 
             case input_tryagainemp4:

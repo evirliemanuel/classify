@@ -32,16 +32,6 @@
                     android:background="@drawable/ic_arrow_back_white_24dp"/>
 
 
-                <ToggleButton
-                    android:layout_gravity="right|center"
-                    android:id="@+id/btn_search_class"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:textOn=""
-                    android:textOff=""
-                    android:layout_marginRight="16dp"
-                    android:background="@drawable/btn_search"/>
-
                 <TextView
                     android:layout_gravity="left|center"
                     android:layout_marginLeft="50dp"
@@ -70,6 +60,7 @@
         card_view:cardElevation="5dp">
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/add_grade6"
             android:background="@drawable/primarydark_ripple"
             android:clickable="true"

@@ -182,10 +182,12 @@ public class AssignmentInputActivityF extends AppCompatActivity implements View.
             case input_back2:
                 Intent intent = getIntent().setClass(this, AssignmentAddActivityF.class);
                 startActivity(intent);
+                this.finish();
                 break;
             case input_ok2:
                intent = getIntent().setClass(this, AssignmentAddActivityF.class);
                 startActivity(intent);
+                this.finish();
                 break;
 
             case input_tryagainemp2:

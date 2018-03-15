@@ -9,6 +9,7 @@
 			<img th:src="@{/image/simple-loading.gif}" id="image-loading" align="middle"/>
 		</div>
 		<th:block th:include="fragment/header :: header" />
+		<div class="well" id="response-message" th:if="${param.error}">Unable to add the class</div>
 		<div id="teacher-wrapper">
 			<div class="container">
 				<div class="panel panel-default">

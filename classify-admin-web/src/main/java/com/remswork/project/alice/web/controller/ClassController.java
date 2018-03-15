@@ -91,10 +91,9 @@ public class ClassController {
 				}).start();
 				
 			}
-			return "redirect:/teacher/view?id=" + _class.getTeacher().getId() ;
+			return "redirect:/teacher/view?id=" + teacherId;
 		}catch(Exception e) {
-			e.printStackTrace();
-			return "error";
+			return "redirect:/teacher/view?error=true&id=" + teacherId;
 		}
 	}
 	

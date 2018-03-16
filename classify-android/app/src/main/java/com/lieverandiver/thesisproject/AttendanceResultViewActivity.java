@@ -1,5 +1,6 @@
 package com.lieverandiver.thesisproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -8,6 +9,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lieverandiver.thesisproject.adapter.AttendanceResultAdapter;
@@ -24,7 +28,7 @@ import com.remswork.project.alice.service.impl.ClassServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AttendanceResultViewActivity extends AppCompatActivity {
+public class AttendanceResultViewActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = AttendanceResultViewActivity.class.getSimpleName();
 
@@ -36,6 +40,7 @@ public class AttendanceResultViewActivity extends AppCompatActivity {
     private TextView textViewDate;
     private TextView textViewName;
     private RecyclerView recyclerViewView;
+    private ImageView btnBack;
 
     private long classId;
     private long attendanceId;
@@ -78,9 +83,13 @@ public class AttendanceResultViewActivity extends AppCompatActivity {
     }
 
     public void init() {
+
         textViewDate = (TextView) findViewById(R.id.date_attendance_xf);
         textViewName = (TextView) findViewById(R.id.name_attendance_xf);
         recyclerViewView = (RecyclerView) findViewById(R.id.recyclerview_attendance_fx);
+        btnBack = (ImageView) findViewById(R.id.btn_back);
+
+        btnBack.setOnClickListener(this);
     }
 
     @Override
@@ -94,5 +103,16 @@ public class AttendanceResultViewActivity extends AppCompatActivity {
         termId = getIntent().getExtras().getLong("termId");
         init();
         new AttendanceViewThread().start();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_back:
+                Intent intent = getIntent().setClass(this, AttendanceAddActivity.class);
+                startActivity(intent);
+                this.finish();
+                break;
+        }
     }
 }

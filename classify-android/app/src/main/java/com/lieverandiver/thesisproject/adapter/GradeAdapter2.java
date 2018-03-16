@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.evm.project.schapp.helper.GradeHelper;
 import com.lieverandiver.thesisproject.R;
 import com.remswork.project.alice.model.Grade;
 
@@ -49,6 +50,7 @@ public class GradeAdapter2 extends RecyclerView.Adapter<GradeAdapter2.GradeViewH
 
         private TextView txtGrdScore;
         private TextView txtGrdScore2;
+        private TextView txtEquiv;
         private TextView txName;
         private TextView txDate;
 
@@ -56,8 +58,10 @@ public class GradeAdapter2 extends RecyclerView.Adapter<GradeAdapter2.GradeViewH
             super(itemView);
             txtGrdScore = (TextView) itemView.findViewById(R.id.grade_score_part);
             txtGrdScore2 = (TextView) itemView.findViewById(R.id.grade_score_part2);
+            txtEquiv = (TextView) itemView.findViewById(R.id.grade_score_part3);
             txName = (TextView) itemView.findViewById(R.id.grade_studentname);
             txDate = (TextView) itemView.findViewById(R.id.grade_update_date);
+
         }
 
         public void setView(final Mark mark, final int position) {
@@ -71,6 +75,7 @@ public class GradeAdapter2 extends RecyclerView.Adapter<GradeAdapter2.GradeViewH
             txName.setText(name);
             txtGrdScore.setText(score);
             txtGrdScore2.setText(score2);
+            txtEquiv.setText(GradeHelper.calculate(mark.getFinalterm().getTotalScore()));
         }
     }
 }

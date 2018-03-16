@@ -135,7 +135,7 @@
 
                     <TextView
                         android:layout_gravity="center"
-                        android:text="Finalterm"
+                        android:text="Final Grade"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 

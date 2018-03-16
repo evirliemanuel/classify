@@ -188,10 +188,9 @@ public class TeacherController {
             modelMap.put("teacherList", teacherList);
             modelMap.put("departmentList", departmentList);
             modelMap.put("responseMessage", "You've successfully delete teacher with id : " + id);
-            return "teacher-table";
-        } catch (TeacherException | DepartmentException e) {
-            e.printStackTrace();
-            return "error";
+            return "teachers";
+        } catch (Exception e) {
+            return "teachers";
         }
     }
 

@@ -181,7 +181,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="teacher, iterStat : ${teacherList}" style="cursor: pointer;" class='clickable-row' th:href="'/teacher/view?id=' + ${teacher.id}">
+                                <tr th:each="teacher, iterStat : ${teacherList}" style="cursor: pointer;" class='clickable-row' th:href="'/teacher-detail?teacherId=' + ${teacher.id}">
                                     <td th:text="${teacher.id}" />
                                     <td th:text="${teacher.firstName}" />
                                     <td th:text="${teacher.middleName}" />

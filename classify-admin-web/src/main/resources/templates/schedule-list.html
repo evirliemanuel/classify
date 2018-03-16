@@ -156,11 +156,11 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Student List</h1>
+                    <h1 class="page-header">Schedule List</h1>
                 </div>
-                <button id="add-student" style="margin-left: 18px; margin-bottom: 10px; width: 100px;">
+                <button id="add-schedule" style="margin-left: 18px; margin-bottom: 10px; width: 100px;">
                     <i class="fa fa-plus-circle fa-fw"></i> Add</button>
-                <button id="remove-student" style="margin-left: 10px; margin-bottom: 10px; width: 100px;">
+                <button id="remove-schedule" style="margin-left: 10px; margin-bottom: 10px; width: 100px;">
                     <i class="fa fa-trash fa-fw"></i> Remove</button>
                 <!-- /.col-lg-12 -->
             </div>
@@ -169,7 +169,7 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Manage the students
+                            Manage the schedule
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -178,26 +178,20 @@
                                 <tr>
                                     <td>#</td>
                                     <th>ID</th>
-                                    <th>StudentNumber</th>
-                                    <th>FirstName</th>
-                                    <th>MiddleName</th>
-                                    <th>LastName</th>
-                                    <th>Gender</th>
-                                    <th>Age</th>
-                                    <th>Section</th>
+                                    <th>Day</th>
+                                    <th>Room</th>
+                                    <th>From</th>
+                                    <th>To</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="student, iterStat : ${studentList}" style="cursor: pointer;" class='clickable-row' href="#">
-                                    <td><input class="check-student" type="checkbox" th:value="${student.id}"/></td>
-                                    <td th:text="${student.id}" />
-                                    <td th:text="${student.studentNumber}" />
-                                    <td th:text="${student.firstName}" />
-                                    <td th:text="${student.middleName}" />
-                                    <td th:text="${student.lastName}" />
-                                    <td th:text="${student.gender}" />
-                                    <td th:text="${student.age}" />
-                                    <td th:text="(${student.section} != null ? ${student.section.name} : 'none')" />
+                                <tr th:each="schedule, iterStat : ${scheduleList}" style="cursor: pointer;" class='clickable-row' href="#">
+                                    <td><input class="check-student" type="checkbox" th:value="${schedule.id}"/></td>
+                                    <td th:text="${schedule.id}" />
+                                    <td th:text="${schedule.day}" />
+                                    <td th:text="${schedule.room}" />
+                                    <td th:text="${schedule.time}" />
+                                    <td th:text="${schedule.period}" />
                                 </tr>
                                 </tbody>
                             </table>
@@ -254,7 +248,7 @@
             window.location = $(this).attr("href");
         });
 
-        $("#remove-student").click(function() {
+        $("#remove-schedule").click(function() {
             list = [];
             $(".check-student").each(function() {
                 if($(this).is(':checked')) {
@@ -265,8 +259,8 @@
             list.forEach(function(element) {
               str += element + ":";
             });
-            $.post('/class/student-delete',
-									{studentIds : str, classId : getParameterByName("classId")},
+            $.post('/class/schedule-delete',
+									{scheduleIds : str, classId : getParameterByName("classId")},
 									function(data, status) {
                                         $("body").html(data);
 									});

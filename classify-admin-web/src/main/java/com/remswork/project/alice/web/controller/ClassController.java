@@ -1,7 +1,9 @@
 package com.remswork.project.alice.web.controller;
 
 import com.remswork.project.alice.exception.ClassException;
+import com.remswork.project.alice.model.Schedule;
 import com.remswork.project.alice.model.Student;
+import com.remswork.project.alice.model.Teacher;
 import com.remswork.project.alice.web.bean.XcellHelperBean;
 import com.remswork.project.alice.web.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +59,26 @@ public class ClassController {
         return "student-list";
     }
 
+    @GetMapping("schedules")
+    public String showSchedules(@RequestParam("classId") long classId, ModelMap modelMap) {
+        try {
+            List<Schedule> schedules = new ArrayList<>();
+            classService.getScheduleList(classId).parallelStream().forEach(schedule -> {
+                schedules.add(schedule);
+            });
+            Collections.sort(schedules, new Comparator<Schedule>() {
+                @Override
+                public int compare(final Schedule object1, final Schedule object2) {
+                    return object1.getDay().compareTo(object2.getDay());
+                }
+            });
+            modelMap.addAttribute("scheduleList", schedules);
+        } catch (Exception e) {
+            modelMap.addAttribute("scheduleList", new ArrayList<Schedule>());
+        }
+        return "schedule-list";
+    }
+
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String addClass(@RequestParam("teacherId") long teacherId,
                            @RequestParam("subjectId") long subjectId,
@@ -105,9 +127,10 @@ public class ClassController {
                 }).start();
 
             }
-            return "redirect:/teacher/view?id=" + teacherId;
+            return "redirect:/teacher-detail?teacherId=" + teacherId;
         } catch (Exception e) {
-            return "redirect:/teacher/view?error=true&id=" + teacherId;
+            return "redirect:/teacher-detail?teacherId=" + teacherId;
+//            return "redirect:/teacher/view?error=true&id=" + teacherId;
         }
     }
 
@@ -115,15 +138,19 @@ public class ClassController {
     public String deleteClassById(@RequestParam("teacherId") long teacherId,
                                   @RequestParam("classId") long classId, ModelMap modelMap) {
         List<com.remswork.project.alice.model.Class> classList = new ArrayList<>();
+        Teacher teacher;
         try {
             classService.deleteClassById(classId);
             classList = classService.getClassListByTeacherId(teacherId);
-        } catch (ClassException e) {
+            teacher = teacherService.getTeacherById(teacherId);
+        } catch (Exception e) {
             e.printStackTrace();
+            teacher = null;
         }
 
-        modelMap.put("cclassList", classList);
-        return "fragment/class-table";
+        modelMap.put("teacher", teacher);
+        modelMap.put("classes", classList);
+        return "teacher-detail";
     }
 
     @RequestMapping(value = "dox", method = RequestMethod.GET)
@@ -144,6 +171,21 @@ public class ClassController {
             e.printStackTrace();
         }
         return showStudents(classId, modelMap);
+    }
+
+    @PostMapping("schedule-delete")
+    public String deleteSchedules(@RequestParam(value = "scheduleIds") String scheduleIds,
+                                 @RequestParam(value = "classId") long classId, ModelMap modelMap) {
+        try {
+            for (String id : scheduleIds.split(":")) {
+                if (!id.isEmpty()) {
+                    classService.deleteScheduleById(classId, Long.parseLong(id));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return showSchedules(classId, modelMap);
     }
 
     @PostMapping("student-add")

@@ -214,14 +214,6 @@ public class ClassDaoImpl implements ClassDao {
         try {
             if (_class == null)
                 throw new ClassDaoException("You tried to add class with a null value");
-            final Query query = session.createQuery("from Class as a join a.subject as b join a.section as c " +
-                    "join a.teacher as d where b.id=:subjectId and c.id=:sectionId and d.id=:teacherId");
-            query.setParameter("subjectId", subjectId);
-            query.setParameter("sectionId", sectionId);
-            query.setParameter("teacherId", teacherId);
-            if (query.list().size() > 0) {
-                throw new ClassDaoException("Unable to add a class. Something might wrong to your inputs");
-            }
 
             _class.setTeacher(null);
             _class.setSubject(null);

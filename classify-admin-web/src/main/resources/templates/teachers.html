@@ -230,9 +230,13 @@
             responsive: true
         });
 
-        $(".clickable-row").click(function() {
+        $(".clickable-row").on("click", function() {
             window.location = $(this).attr("href");
         });
+
+        //$(".clickable-row").click(function() {
+        //    window.location = $(this).attr("href");
+        //});
     });
     </script>
 

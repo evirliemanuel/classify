@@ -39,7 +39,7 @@ public class ClassController {
     @Autowired
     private XcellHelperBean xcellHelperBean;
 
-    @GetMapping("students")
+    @GetMapping("student-list")
     public String showStudents(@RequestParam("classId") long classId, ModelMap modelMap) {
         try {
             List<Student> students = new ArrayList<>();

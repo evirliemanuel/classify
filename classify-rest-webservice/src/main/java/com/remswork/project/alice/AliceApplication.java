@@ -8,8 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication(scanBasePackages = {"com.remswork.project.alice", "com.remswork.project.alice.resource"})
 public class AliceApplication {
 
-
- 	public static void main(String[] args) {
+	public static void main(String[] args) {
 		SpringApplication.run(AliceApplication.class, args);
 	}
 }

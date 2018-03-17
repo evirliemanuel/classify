@@ -161,12 +161,14 @@
             <button id="add-student" style="margin-left: 18px; margin-bottom: 10px; width: 100px;">
                 <i class="fa fa-plus-circle fa-fw"></i> Add
             </button>
-            <form action="/student-import" method="post" style="display:inline;">
+            <form id="form-import" action="/student-import" method="post" style="display:inline;" enctype="multipart/form-data">
                 <input id="file" name="file" type="file" style="display:none;"/>
-                <button id="import-student" style="margin-left: 10px; margin-bottom: 10px; width: 100px;">
-                    <i class="fa fa-asterisk fa-fw"></i> Import
-                </button>
+                <input name="classId" type="hidden" th:value="${param.classId[0] != null ? param.classId[0] : 0}"/>
+                <input type="submit" style="display:none;" />
             </form>
+            <button id="import-student" style="margin-left: 10px; margin-bottom: 10px; width: 100px;">
+            <i class="fa fa-asterisk fa-fw"></i> Import
+        </button>
             <button id="remove-student" style="margin-left: 10px; margin-bottom: 10px; width: 100px;">
                 <i class="fa fa-trash fa-fw"></i> Remove
             </button>
@@ -292,15 +294,20 @@
         });
 
         $("input[type='file']").change(function() {
-					if($(this).val().split('.').pop() != "xlsx") {
-						alert("Invalid file. Try to use file eg.('.xlsx', '.xls' or '.csv')");
-						$("label[for='file']").text("Browse (or) Drop your file here");
-						$(this).val("");
-					}
-					else {
-						$("#file-label").text($(this).val().replace(/C:\\fakepath\\/i, ''));
-					}
-				});
+            if($(this).val().split('.').pop() != "xlsx") {
+                alert("Invalid file. Try to use file eg.('.xlsx', '.xls' or '.csv')");
+                $("label[for='file']").text("Browse (or) Drop your file here");
+                $(this).val("");
+            }
+            else {
+                $("#file-label").text($(this).val().replace(/C:\\fakepath\\/i, ''));
+                $("#form-import").submit();
+            }
+        });
+
+        $("#import-student").click(function() {
+            $("input[type='file']").trigger('click');
+        });
     });
     /*]]>*/
 

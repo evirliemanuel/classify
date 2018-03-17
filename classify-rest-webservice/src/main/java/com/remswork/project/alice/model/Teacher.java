@@ -1,11 +1,16 @@
 package com.remswork.project.alice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.remswork.project.alice.model.support.Link;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @XmlRootElement
 @Entity
@@ -31,9 +36,15 @@ public class Teacher {
 	@JoinColumn(name="user_detail_id")
 	private UserDetail userDetail;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="department_id")
 	private Department department;
+
+	@OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Class> classes = new HashSet<>();
+
+	@OneToOne(mappedBy = "teacher", orphanRemoval = true)
+	private Formula formula;
 
 	@Transient
 	private List<Link> links;
@@ -130,5 +141,25 @@ public class Teacher {
 		}
 		if(!isExist)
 			links.add(link);
+	}
+
+	@JsonIgnore
+	@XmlTransient
+	public Set<Class> getClasses() {
+		return classes;
+	}
+
+	public void setClasses(Set<Class> classes) {
+		this.classes = classes;
+	}
+
+	@JsonIgnore
+	@XmlTransient
+	public Formula getFormula() {
+		return formula;
+	}
+
+	public void setFormula(Formula formula) {
+		this.formula = formula;
 	}
 }

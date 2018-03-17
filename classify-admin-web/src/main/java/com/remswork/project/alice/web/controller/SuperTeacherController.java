@@ -1,4 +1,4 @@
-package com.remswork.project.alice.web.controller.v2;
+package com.remswork.project.alice.web.controller;
 
 import com.remswork.project.alice.model.Class;
 import com.remswork.project.alice.model.Section;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class TeacherController {
+public class SuperTeacherController {
 
 
     private TeacherServiceImpl teacherService;
@@ -30,7 +30,7 @@ public class TeacherController {
     private SectionServiceImpl sectionService;
 
     @Autowired
-    public TeacherController(TeacherServiceImpl teacherService, DepartmentServiceImpl departmentService) {
+    public SuperTeacherController(TeacherServiceImpl teacherService, DepartmentServiceImpl departmentService) {
         this.teacherService = teacherService;
         this.departmentService = departmentService;
     }

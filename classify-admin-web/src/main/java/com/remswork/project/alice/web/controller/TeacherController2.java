@@ -1,15 +1,15 @@
 package com.remswork.project.alice.web.controller;
 
+import com.remswork.project.alice.exception.TeacherException;
 import com.remswork.project.alice.model.Class;
-import com.remswork.project.alice.model.Section;
-import com.remswork.project.alice.model.Subject;
-import com.remswork.project.alice.model.Teacher;
+import com.remswork.project.alice.model.*;
 import com.remswork.project.alice.web.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
@@ -85,8 +85,30 @@ public class TeacherController2 {
         return "teacher-detail";
     }
 
+    @GetMapping("teacher-input")
+    public String showTeacherInput(@RequestParam(value = "teacherId", required = false) Long teacherId, ModelMap modelMap) {
+        try {
+            final List<Department> departments = departmentService.getDepartmentList();
+            if (teacherId != null) {
+                final Teacher teacher = teacherService.getTeacherById(teacherId);
+                if (teacher != null) {
+                    modelMap.put("teacher", teacher);
+                } else {
+                    modelMap.put("teacher", null);
+                }
+            } else {
+                modelMap.put("teacher", null);
+            }
+            modelMap.addAttribute("departmentList", departments);
+        } catch (Exception e) {
+            modelMap.put("teacher", null);
+            modelMap.put("classes", new ArrayList<Class>());
+        }
+        return "teacher-input";
+    }
+
     @GetMapping("teacher-class")
-    public String showTeacherClass(@RequestParam("teacherId") long teacherId, ModelMap modelMap) {
+    public String showTeacherClassInput(@RequestParam("teacherId") long teacherId, ModelMap modelMap) {
         try {
             final Teacher teacher = teacherService.getTeacherById(teacherId);
             final List<Subject> allSubject = subjectService.getSubjectList();
@@ -112,5 +134,50 @@ public class TeacherController2 {
             modelMap.put("sectionList", new ArrayList<Section>());
         }
         return "teacher-class";
+    }
+
+    @PostMapping("teacher-add")
+    public String addTeacher(
+            @RequestParam("firstName") String firstName,
+            @RequestParam("middleName") String middleName,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("email") String email,
+            @RequestParam("departmentId") long departmentId, ModelMap modelMap) {
+        try {
+            Teacher teacher = new Teacher(firstName, middleName, lastName, email);
+            teacher = teacherService.addTeacher(teacher, departmentId);
+            modelMap.put("teacher", teacher);
+            return "teacher-detail";
+        } catch (Exception e) {
+            return "teacher-detail";
+        }
+    }
+
+    @PostMapping("teacher-update")
+    public String updateTeacher(
+            @RequestParam("id") long id,
+            @RequestParam("firstName") String firstName,
+            @RequestParam("middleName") String middleName,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("email") String email,
+            @RequestParam("departmentId") long departmentId, ModelMap modelMap) {
+        try {
+            Teacher newTeacher = new Teacher(firstName, lastName, middleName, email);
+            try {
+                teacherService.updateTeacherById(id, newTeacher, departmentId);
+            } catch (TeacherException e) {
+                try {
+                    departmentId = 0;
+                    teacherService.updateTeacherById(id, newTeacher, departmentId);
+                } catch (TeacherException e2) {
+                    e2.printStackTrace();
+                }
+            }
+            Teacher teacher = teacherService.getTeacherById(id);
+            modelMap.put("teacher", teacher);
+            return "teacher-detail";
+        } catch (TeacherException e) {
+            return "teacher-detail";
+        }
     }
 }

@@ -166,10 +166,12 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <button id="update-teacher" style="margin-left: 5px; width: 100px;"
-                                th:attr="data-value=${teacher != null ? teacher.id : 0}">
-                            <i class="fa fa-pencil fa-fw"></i> Update
-                        </button>
+                        <a th:href="'/teacher-input?teacherId=' + ${teacher != null ? teacher.id : 0}">
+                            <button id="update-teacher" style="margin-left: 5px; width: 100px;"
+                                    th:attr="data-value=${teacher != null ? teacher.id : 0}">
+                                <i class="fa fa-pencil fa-fw"></i> Update
+                            </button>
+                        </a>
                         <button id="remove-teacher" style="margin-left: 10px; width: 100px;"
                                 th:attr="data-value=${teacher != null ? teacher.id : 0}">
                             <i class="fa fa-trash fa-fw"></i> Delete
@@ -448,17 +450,9 @@
                 });
             }
         });
-
-        $(document).on('click', '#remove-teacher', function() {
-            var id = $(this).attr("data-value");
-            if (confirm('Are you sure you want to delete the teacher with id : ' + id)) {
-                $.post("/teacher/delete", {id : id}, function(data, status) {
-                    $("body").html(data);
-                });
-            }
-        });
     });
     /*]]>*/
+
 
 
 </script>

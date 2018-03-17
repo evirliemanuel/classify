@@ -8,6 +8,7 @@ import com.remswork.project.alice.web.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -15,35 +16,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class SuperTeacherController {
+public class TeacherController2 {
 
 
     private TeacherServiceImpl teacherService;
 
     private DepartmentServiceImpl departmentService;
 
-    @Autowired
     private ClassServiceImpl classService;
-    @Autowired
+
     private SubjectServiceImpl subjectService;
-    @Autowired
+
     private SectionServiceImpl sectionService;
 
     @Autowired
-    public SuperTeacherController(TeacherServiceImpl teacherService, DepartmentServiceImpl departmentService) {
+    public TeacherController2(TeacherServiceImpl teacherService,
+                              DepartmentServiceImpl departmentService,
+                              ClassServiceImpl classService,
+                              SubjectServiceImpl subjectService,
+                              SectionServiceImpl sectionService) {
         this.teacherService = teacherService;
         this.departmentService = departmentService;
+        this.classService = classService;
+        this.subjectService = subjectService;
+        this.sectionService = sectionService;
     }
 
     @GetMapping("teachers")
-    public String showTeachers(ModelMap modelMap) {
+    public String showTeachers(@RequestParam(value = "q", required = false) String q, ModelMap modelMap) {
         try {
-            final List<Teacher> teachers = teacherService.getTeacherList();
-            if (teachers != null) {
-                modelMap.put("teacherList", teachers);
+            final List<Teacher> teachers = new ArrayList<>();
+            if (!StringUtils.isEmpty(q)) {
+                try {
+                    teachers.add(teacherService.getTeacherById(Long.parseLong(q)));
+                } catch (Exception e) {
+                    teachers.addAll(teacherService.getTeacherList());
+                }
             } else {
-                throw new RuntimeException("No teacher found");
+                teachers.addAll(teacherService.getTeacherList());
             }
+            modelMap.put("teacherList", teachers);
         } catch (Exception e) {
             modelMap.put("teacherList", new ArrayList<Teacher>());
         }

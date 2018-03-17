@@ -82,6 +82,7 @@ public class AttendanceInputActivityF extends AppCompatActivity {
             public void onClick(View arg0) {
                 Intent intent = getIntent().setClass(AttendanceInputActivityF.this, AttendanceAddActivityF.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -90,6 +91,7 @@ public class AttendanceInputActivityF extends AppCompatActivity {
             public void onClick(View arg0) {
                 Intent intent = getIntent().setClass(AttendanceInputActivityF.this, AttendanceAddActivityF.class);
                 startActivity(intent);
+                finish();
             }
         });
 

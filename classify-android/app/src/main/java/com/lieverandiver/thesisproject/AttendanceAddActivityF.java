@@ -114,7 +114,7 @@ public class AttendanceAddActivityF extends AppCompatActivity implements Attenda
                 this.finish();
                 break;
             case add_back3:
-                intent = getIntent().setClass(this, AttendanceInputActivityF.class);
+                intent = getIntent().setClass(this, ClassViewActivity.class);
                 startActivity(intent);
                 this.finish();
                 break;

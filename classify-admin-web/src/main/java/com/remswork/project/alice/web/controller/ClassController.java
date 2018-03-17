@@ -114,17 +114,13 @@ public class ClassController {
                 }
             }
             for (long id : scheduleIdList) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
+                new Thread(() -> {
                         try {
                             classService.addScheduleById(_class.getId(), id);
                         } catch (ClassException e) {
                             e.printStackTrace();
                         }
-                    }
-
-                }).start();
+                    }).start();
 
             }
             return "redirect:/teacher-detail?teacherId=" + teacherId;

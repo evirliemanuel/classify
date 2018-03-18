@@ -187,16 +187,6 @@
                         <label for="age">Age:</label>
                         <input name="age" type="text" class="form-control" id="age" placeholder="Age" required="required"/>
                     </div>
-                    <div class="form-group">
-                        <label>Section</label>
-                        <div>
-                            <select class="form-control" name="sectionId">
-                                <option value="0">None</option>
-                                <option th:each="section, iterStat : ${sectionList}"
-                                        th:value="${section.id}" th:text="${section.name}" />
-                            </select>
-                        </div>
-                    </div>
                     <button type="submit" class="btn btn-default">Add</button>
                 </form>
                 <br />

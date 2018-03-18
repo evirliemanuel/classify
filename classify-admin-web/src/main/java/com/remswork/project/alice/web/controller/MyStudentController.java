@@ -58,10 +58,10 @@ public class MyStudentController {
             @RequestParam("lastName") String lastName,
             @RequestParam("gender") String gender,
             @RequestParam("age") int age,
-            @RequestParam("sectionId") long sectionId, ModelMap modelMap) {
+            @RequestParam(value = "sectionId", required = false) Long sectionId, ModelMap modelMap) {
         try {
             Student student = new Student(studentNumber, firstName, lastName, middleName, gender, age, "");
-            studentService.addStudent(student, sectionId);
+            studentService.addStudent(student, 0);
             List<Student> studentList = studentService.getStudentList();
             modelMap.put("studentList", studentList);
             return "students";

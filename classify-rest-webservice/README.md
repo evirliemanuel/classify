@@ -9,6 +9,7 @@ http:localhost:8080/api/teachers/{id}/subjects
 http:localhost:8080/api/teachers/{id}/subjects/{subjectId}
 http:localhost:8080/api/teachers/{id}/lessons
 http:localhost:8080/api/teachers/{id}/lessons/{lessonId}
+http:localhost:8080/api/teachers/{id}/lessons/{lessonId}/subjects
 http:localhost:8080/api/teachers/{id}/lessons/{lessonId}/students
 http:localhost:8080/api/teachers/{id}/lessons/{lessonId}/students/{studentId}
 ```

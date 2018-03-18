@@ -1,11 +1,9 @@
 package com.remswork.project.alice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.remswork.project.alice.model.support.Link;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,11 +42,9 @@ public class Formula {
     @ManyToOne
     @JoinColumn(name = "subject_id")
     private Subject subject;
-
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
-
     @ManyToOne
     @JoinColumn(name = "term_id")
     private Term term;

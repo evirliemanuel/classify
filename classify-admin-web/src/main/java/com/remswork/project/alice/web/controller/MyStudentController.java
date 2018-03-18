@@ -44,6 +44,11 @@ public class MyStudentController {
         return "students";
     }
 
+    @GetMapping("student-input")
+    public String showStudentInput() {
+        return "student-input";
+    }
+
     @PostMapping("student-import")
     public String importStudents(@RequestParam("classId") Long classId,
                                  @RequestParam("file") MultipartFile file,
@@ -68,12 +73,11 @@ public class MyStudentController {
             }
             if (students != null) {
                 modelMap.put("studentList", students);
-                System.out.println("tae");
             } else {
-                //modelMap.put("studentList", new ArrayList<Student>());
+                modelMap.put("studentList", new ArrayList<Student>());
             }
         } catch (Exception e) {
-            //modelMap.put("studentList", new ArrayList<Student>());
+            modelMap.put("studentList", new ArrayList<Student>());
         }
         return "student-list";
     }

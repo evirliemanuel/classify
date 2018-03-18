@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("subjects")
-class SubjectController(@Autowired private val subjectService: SubjectService) {
+class SubjectController(@Autowired val subjectService: SubjectService) {
 
     @GetMapping("{subjectId}")
     fun getById(@PathVariable("subjectId") subjectId: Long): ResponseEntity<Any?> {

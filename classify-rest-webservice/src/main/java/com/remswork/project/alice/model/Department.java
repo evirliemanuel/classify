@@ -1,11 +1,9 @@
 package com.remswork.project.alice.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.remswork.project.alice.model.support.Link;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +17,6 @@ public class Department {
 	private long id;
 	private String name;
 	private String description;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "department", fetch = FetchType.EAGER, orphanRemoval = true)
-	private List<Teacher> teachers = new ArrayList<>();
-
 	@Transient
 	private List<Link> links;
 	
@@ -84,15 +78,5 @@ public class Department {
 		}
 		if(!isExist)
 			links.add(link);
-	}
-
-	@JsonIgnore
-	@XmlTransient
-	public List<Teacher> getTeachers() {
-		return teachers;
-	}
-
-	public void setTeachers(List<Teacher> teachers) {
-		this.teachers = teachers;
 	}
 }

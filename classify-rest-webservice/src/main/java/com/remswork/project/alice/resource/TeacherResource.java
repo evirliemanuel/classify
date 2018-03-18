@@ -117,13 +117,17 @@ public class TeacherResource {
     @Path("{teacherId}")
     public Response deleteTeacherById(@PathParam("teacherId") long id) {
         try {
-            teacherService.deleteTeacherById(id);
-            return Response.status(Response.Status.OK).build();
+            TeacherResourceLinks resourceLink = new TeacherResourceLinks(uriInfo);
+            DepartmentResourceLinks departmentResourceLinks = new DepartmentResourceLinks(uriInfo);
+            Teacher teacher = teacherService.deleteTeacherById(id);
+            teacher.addLink(resourceLink.self(id));
+            if (teacher.getDepartment() != null)
+                teacher.getDepartment().addLink(departmentResourceLinks.self(teacher.getDepartment().getId()));
+            return Response.status(Response.Status.OK).entity(teacher).build();
         } catch (TeacherException e) {
-            return Response
-                    .status(Response.Status.BAD_REQUEST)
-                    .entity( new Message(400, "Bad Request", e.getMessage()))
-                    .build();
+            e.printStackTrace();
+            Message message = new Message(400, "Bad Request", e.getMessage());
+            return Response.status(Response.Status.BAD_REQUEST).entity(message).build();
         }
     }
 }

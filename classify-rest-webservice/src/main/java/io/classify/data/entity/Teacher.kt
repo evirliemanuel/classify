@@ -17,5 +17,5 @@ class Teacher(
         @JoinColumn(name = "user_id", unique = true)
         var user: User = User(),
 
-        @OneToMany(cascade = [(CascadeType.ALL)], mappedBy = "teacher")
+        @OneToMany(mappedBy = "teacher")
         var lessons: List<Lesson> = ArrayList())

@@ -1,5 +1,8 @@
 package com.remswork.project.alice.web.controller;
 
+import com.remswork.project.alice.exception.SectionException;
+import com.remswork.project.alice.exception.StudentException;
+import com.remswork.project.alice.model.Section;
 import com.remswork.project.alice.model.Student;
 import com.remswork.project.alice.web.bean.XcellHelperBean;
 import com.remswork.project.alice.web.service.ClassServiceImpl;
@@ -8,9 +11,7 @@ import com.remswork.project.alice.web.service.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -47,6 +48,26 @@ public class MyStudentController {
     @GetMapping("student-input")
     public String showStudentInput() {
         return "student-input";
+    }
+
+    @PostMapping("student-add")
+    public String addStudent(
+            @RequestParam("studentNumber") long studentNumber,
+            @RequestParam("firstName") String firstName,
+            @RequestParam("middleName") String middleName,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("gender") String gender,
+            @RequestParam("age") int age,
+            @RequestParam("sectionId") long sectionId, ModelMap modelMap) {
+        try {
+            Student student = new Student(studentNumber, firstName, lastName, middleName, gender, age, "");
+            studentService.addStudent(student, sectionId);
+            List<Student> studentList = studentService.getStudentList();
+            modelMap.put("studentList", studentList);
+            return "students";
+        } catch (Exception e) {
+            return "students";
+        }
     }
 
     @PostMapping("student-import")

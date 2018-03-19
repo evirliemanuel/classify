@@ -51,6 +51,8 @@ public class StudentResource {
        }
     }
 
+    @QueryParam("sn") Long sn;
+
     @GET
     public Response getStudentList() {
         try {
@@ -58,17 +60,30 @@ public class StudentResource {
             SectionResourceLinks sectionResourceLinks = new SectionResourceLinks(uriInfo);
             DepartmentResourceLinks departmentResourceLinks = new DepartmentResourceLinks(uriInfo);
             List<Student> studentList = studentService.getStudentList();
-            for(Student student : studentList) {
-                student.addLink(resourceLinks.self(student.getId()));
-                if(student.getSection() != null) {
+            if (sn == null) {
+                for (Student student : studentList) {
+                    student.addLink(resourceLinks.self(student.getId()));
+                    if (student.getSection() != null) {
+                        Section section = student.getSection();
+                        section.addLink(sectionResourceLinks.self(section.getId()));
+                        if (section.getDepartment() != null)
+                            section.getDepartment().addLink(departmentResourceLinks.self(section.getDepartment().getId()));
+                    }
+                }
+                GenericEntity<List<Student>> entity = new GenericEntity<List<Student>>(studentList) {
+                };
+                return Response.status(Response.Status.OK).entity(entity).build();
+            } else {
+                Student student = studentService.getStudentBySN(sn);
+                if (student.getSection() != null) {
                     Section section = student.getSection();
                     section.addLink(sectionResourceLinks.self(section.getId()));
-                    if(section.getDepartment() != null)
+                    if (section.getDepartment() != null) {
                         section.getDepartment().addLink(departmentResourceLinks.self(section.getDepartment().getId()));
+                    }
                 }
+                return Response.status(Response.Status.OK).entity(student).build();
             }
-            GenericEntity<List<Student>> entity = new GenericEntity<List<Student>>(studentList){};
-            return Response.status(Response.Status.OK).entity(entity).build();
         }catch (StudentException e) {
             e.printStackTrace();
             Message message = new Message(404, "Not Found", e.getMessage());

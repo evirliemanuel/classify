@@ -20,6 +20,10 @@ public class StudentServiceImpl implements StudentService{
         return studentDao.getStudentById(id);
     }
 
+    public Student getStudentBySN(long sn) throws StudentException {
+        return studentDao.getStudentBySN(sn);
+    }
+
     @Override
     public List<Student> getStudentList() throws StudentException {
         return studentDao.getStudentList();

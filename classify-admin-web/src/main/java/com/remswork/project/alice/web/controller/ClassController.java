@@ -94,18 +94,18 @@ public class ClassController {
                         @Override
                         public void run() {
                             try {
-                                boolean isExist = false;
+                                //boolean isExist = false;
                                 for (Student s : studentService.getStudentList()) {
                                     if (s.getStudentNumber() == student.getStudentNumber()) {
                                         classService.addStudentById(_class.getId(), s.getId());
-                                        isExist = true;
+                                        //isExist = true;
                                         break;
                                     }
                                 }
-                                if (!isExist) {
-                                    Student _student = studentService.addStudent(student, 112017101);
-                                    classService.addStudentById(_class.getId(), _student.getId());
-                                }
+//                                if (!isExist) {
+//                                    Student _student = studentService.addStudent(student, 112017101);
+//                                    classService.addStudentById(_class.getId(), _student.getId());
+//                                }
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

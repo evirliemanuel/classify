@@ -219,7 +219,7 @@ public class ClassDaoImpl implements ClassDao {
             query.setParameter("subjectId", subjectId);
             query.setParameter("sectionId", sectionId);
             query.setParameter("teacherId", teacherId);
-            
+
             if (query.list().size() > 0) {
                 throw new ClassDaoException("Unable to add a class. Something might wrong to your inputs");
             }

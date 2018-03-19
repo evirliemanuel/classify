@@ -82,10 +82,10 @@ public class MyStudentController {
                         Student s;
                         try {
                             s = studentService.getStudentById(student.getId());
+                            classService.addStudentById(classId, s.getId());
                         } catch (Exception e) {
-                            s = studentService.addStudent(student, 112017101);
+                            //s = studentService.addStudent(student, 112017101);
                         }
-                        classService.addStudentById(classId, s.getId());
                         students.add(student);
                     } catch (Exception e) {
                         e.printStackTrace();

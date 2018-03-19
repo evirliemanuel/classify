@@ -83,7 +83,7 @@ public class MyStudentController {
                         System.out.println("sn :" + student.getStudentNumber());
                         Student s;
                         try {
-                            s = studentService.getStudentById(student.getId());
+                            s = studentService.getStudentBySn(student.getStudentNumber());
                             s = classService.addStudentById(classId, s.getId());
                             students.add(s);
                         } catch (Exception e) {

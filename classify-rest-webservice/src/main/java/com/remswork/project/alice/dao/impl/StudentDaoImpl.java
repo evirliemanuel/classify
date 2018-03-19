@@ -45,6 +45,7 @@ public class StudentDaoImpl implements StudentDao {
         session.beginTransaction();
         try{
             Query query = session.createQuery("from Student as s where s.studentNumber=:sn");
+            query.setParameter("sn", sn);
             Student student = null;
             if (query.list().size() > 0) {
                 student = (Student) query.list().get(0);

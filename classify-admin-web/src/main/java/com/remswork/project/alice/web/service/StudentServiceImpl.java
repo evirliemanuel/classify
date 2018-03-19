@@ -38,11 +38,38 @@ public class StudentServiceImpl implements StudentService {
 			uri.append(payload);
 			uri.append("/");
 			uri.append(id);
-			
+
 			Client client = ClientBuilder.newClient();
 			WebTarget target = client.target(uri.toString());
 			Response response = target.request().get();
-			
+
+			if(response.getStatus() == 200) {
+				return (Student) response.readEntity(Student.class);
+			}else if(response.getStatus() == 404){
+				Message message = (Message) response.readEntity(Message.class);
+				throw new StudentServiceException(message.getMessage());
+			}else
+				throw new StudentServiceException("The request might invalid or server is down");
+		}catch(StudentServiceException e) {
+			throw new StudentException(e.getMessage());
+		}
+	}
+
+	public Student getStudentBySn(long id) throws StudentException {
+		try {
+			StringBuilder uri = new StringBuilder();
+			uri.append(targetProperties.getDomain());
+			uri.append("/");
+			uri.append(targetProperties.getBaseUri());
+			uri.append("/");
+			uri.append(payload);
+			uri.append("?sn=");
+			uri.append(id);
+
+			Client client = ClientBuilder.newClient();
+			WebTarget target = client.target(uri.toString());
+			Response response = target.request().get();
+
 			if(response.getStatus() == 200) {
 				return (Student) response.readEntity(Student.class);
 			}else if(response.getStatus() == 404){

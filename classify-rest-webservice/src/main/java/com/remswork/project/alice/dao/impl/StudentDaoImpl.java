@@ -40,6 +40,26 @@ public class StudentDaoImpl implements StudentDao {
         }
     }
 
+    public Student getStudentBySN(long sn) throws StudentException {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        try{
+            Query query = session.createQuery("from Student as s where s.studentNumber=:sn");
+            Student student = null;
+            if (query.list().size() > 0) {
+                student = (Student) query.list().get(0);
+            }
+            if(student == null)
+                throw new StudentDaoException("Student with sn : " + sn + " does not exist");
+            session.getTransaction().commit();
+            session.close();
+            return student;
+        }catch (StudentDaoException e){
+            session.close();
+            throw new StudentException(e.getMessage());
+        }
+    }
+
     @Override
     public List<Student> getStudentList() throws StudentException {
         List<Student> studentList = new ArrayList<>();

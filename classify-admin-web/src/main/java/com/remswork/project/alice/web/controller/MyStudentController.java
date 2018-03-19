@@ -79,14 +79,17 @@ public class MyStudentController {
             if (!file.isEmpty()) {
                 for (Student student : xcellHelperBean.loadFile(xcellHelperBean.convert(file), true)) {
                     try {
+                        System.out.println("id :" + student.getId());
+                        System.out.println("sn :" + student.getStudentNumber());
                         Student s;
                         try {
                             s = studentService.getStudentById(student.getId());
-                            classService.addStudentById(classId, s.getId());
+                            s = classService.addStudentById(classId, s.getId());
+                            students.add(s);
                         } catch (Exception e) {
+                            e.printStackTrace();
                             //s = studentService.addStudent(student, 112017101);
                         }
-                        students.add(student);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

@@ -22,6 +22,12 @@
         <item name="android:textColor">@color/colorWhite</item>
     </style>
 
+    <style name="AppTheme.Base.Button.Cancel" parent="@style/Widget.AppCompat.Button.Colored">
+        <item name="android:colorButtonNormal">@color/colorAccent</item>
+        <item name="android:colorControlHighlight">@color/colorConcrete</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
     <style name="AppBaseTheme" parent="android:Theme.Material">
 
         <!-- Main theme colors -->

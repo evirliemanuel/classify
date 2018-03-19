@@ -105,6 +105,7 @@
                         android:textStyle="bold" />
 
                     <LinearLayout
+                        android:id="@+id/changepassword_option"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
@@ -125,7 +126,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginLeft="10dp"
-                            android:text="Account Setting"
+                            android:text="Change password"
                             android:textSize="18sp" />
 
                     </LinearLayout>

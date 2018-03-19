@@ -75,7 +75,7 @@ public class ClassDaoImpl implements ClassDao {
             Query query = session.createQuery("from Class as c join c.teacher as t where t.id = :teacherId");
             query.setParameter("teacherId", teacherId);
             for (Object classObject : query.list())
-                classList.add((Class)((Object[]) classObject)[0]);
+                classList.add((Class) ((Object[]) classObject)[0]);
             session.getTransaction().commit();
             session.close();
             return classList;
@@ -94,7 +94,7 @@ public class ClassDaoImpl implements ClassDao {
             Query query = session.createQuery("from Class as c join c.studentList as st where st.id = :studentId");
             query.setParameter("studentId", studentId);
             for (Object classObject : query.list())
-                classList.add((Class)((Object[]) classObject)[0]);
+                classList.add((Class) ((Object[]) classObject)[0]);
             session.getTransaction().commit();
             session.close();
             return classList;
@@ -113,7 +113,7 @@ public class ClassDaoImpl implements ClassDao {
             Query query = session.createQuery("from Class as c join c.subject as su where su.id = :subjectId");
             query.setParameter("subjectId", subjectId);
             for (Object classObject : query.list())
-                classList.add((Class)((Object[]) classObject)[0]);
+                classList.add((Class) ((Object[]) classObject)[0]);
             session.getTransaction().commit();
             session.close();
             return classList;
@@ -214,6 +214,15 @@ public class ClassDaoImpl implements ClassDao {
         try {
             if (_class == null)
                 throw new ClassDaoException("You tried to add class with a null value");
+            final Query query = session.createQuery("from Class as a join a.subject as b join a.section as c " +
+                    "join a.teacher as d where b.id=:subjectId and c.id=:sectionId and d.id=:teacherId");
+            query.setParameter("subjectId", subjectId);
+            query.setParameter("sectionId", sectionId);
+            query.setParameter("teacherId", teacherId);
+            
+            if (query.list().size() > 0) {
+                throw new ClassDaoException("Unable to add a class. Something might wrong to your inputs");
+            }
 
             _class.setTeacher(null);
             _class.setSubject(null);
@@ -253,7 +262,7 @@ public class ClassDaoImpl implements ClassDao {
             query.setParameter("scheduleId", id);
             if (_class == null)
                 throw new ClassDaoException("Class with id : " + classId + " does not exist");
-            if(query.list().size() > 0)
+            if (query.list().size() > 0)
                 throw new ClassDaoException("Schedule with id : " + id + " already exist in a class");
             for (Schedule s : _class.getScheduleList()) {
                 if (s.getId() == id)
@@ -304,19 +313,19 @@ public class ClassDaoImpl implements ClassDao {
                 throw new ClassDaoException("Class with id : " + id + " does not exist");
             if (teacherId != 0) {
                 Teacher teacher = teacherDao.getTeacherById(teacherId);
-                if((_class.getTeacher() != null ? _class.getTeacher().getId() : 0) == teacher.getId())
+                if ((_class.getTeacher() != null ? _class.getTeacher().getId() : 0) == teacher.getId())
                     throw new ClassDaoException("Can't update class's teacher with same teacher");
                 _class.setTeacher(teacher);
             }
             if (subjectId != 0) {
                 Subject subject = subjectDao.getSubjectById(subjectId);
-                if((_class.getSubject() != null ? _class.getSubject().getId() : 0) == subject.getId())
+                if ((_class.getSubject() != null ? _class.getSubject().getId() : 0) == subject.getId())
                     throw new ClassDaoException("Can't update class's subject with same subject");
                 _class.setSubject(subject);
             }
             if (sectionId != 0) {
                 Section section = sectionDao.getSectionById(sectionId);
-                if((_class.getSection() != null ? _class.getSection().getId() : 0) == section.getId())
+                if ((_class.getSection() != null ? _class.getSection().getId() : 0) == section.getId())
                     throw new ClassDaoException("Can't update class's section with same section");
                 _class.setSection(section);
             }
@@ -346,7 +355,7 @@ public class ClassDaoImpl implements ClassDao {
             _class.setSection(null);
             _class.setStudentList(null);
 
-            for(Object object : session.createQuery("from Activity where _class.id = '" + id + "'").list()) {
+            for (Object object : session.createQuery("from Activity where _class.id = '" + id + "'").list()) {
                 Activity activity = (Activity) object;
                 String hql = "delete from ActivityResult where activity.id = :activityId";
                 Query query = session.createQuery(hql);
@@ -355,7 +364,7 @@ public class ClassDaoImpl implements ClassDao {
                 session.delete(activity);
             }
 
-            for(Object object : session.createQuery("from Assignment where _class.id = '" + id + "'").list()) {
+            for (Object object : session.createQuery("from Assignment where _class.id = '" + id + "'").list()) {
                 Assignment assignment = (Assignment) object;
                 String hql = "delete from AssignmentResult where assignment.id = :assignmentId";
                 Query query = session.createQuery(hql);
@@ -364,7 +373,7 @@ public class ClassDaoImpl implements ClassDao {
                 session.delete(assignment);
             }
 
-            for(Object object : session.createQuery("from Attendance where _class.id = '" + id + "'").list()) {
+            for (Object object : session.createQuery("from Attendance where _class.id = '" + id + "'").list()) {
                 Attendance attendance = (Attendance) object;
                 String hql = "delete from AttendanceResult where attendance.id = :attendanceId";
                 Query query = session.createQuery(hql);
@@ -373,7 +382,7 @@ public class ClassDaoImpl implements ClassDao {
                 session.delete(attendance);
             }
 
-            for(Object object : session.createQuery("from Exam where _class.id = '" + id + "'").list()) {
+            for (Object object : session.createQuery("from Exam where _class.id = '" + id + "'").list()) {
                 Exam exam = (Exam) object;
                 String hql = "delete from ExamResult where exam.id = :examId";
                 Query query = session.createQuery(hql);
@@ -382,7 +391,7 @@ public class ClassDaoImpl implements ClassDao {
                 session.delete(exam);
             }
 
-            for(Object object : session.createQuery("from Project where _class.id = '" + id + "'").list()) {
+            for (Object object : session.createQuery("from Project where _class.id = '" + id + "'").list()) {
                 Project project = (Project) object;
                 String hql = "delete from ProjectResult where project.id = :projectId";
                 Query query = session.createQuery(hql);
@@ -391,7 +400,7 @@ public class ClassDaoImpl implements ClassDao {
                 session.delete(project);
             }
 
-            for(Object object : session.createQuery("from Quiz where _class.id = '" + id + "'").list()) {
+            for (Object object : session.createQuery("from Quiz where _class.id = '" + id + "'").list()) {
                 Quiz quiz = (Quiz) object;
                 String hql = "delete from QuizResult where quiz.id = :quizId";
                 Query query = session.createQuery(hql);
@@ -400,7 +409,7 @@ public class ClassDaoImpl implements ClassDao {
                 session.delete(quiz);
             }
 
-            for(Object object : session.createQuery("from Recitation where _class.id = '" + id + "'").list()) {
+            for (Object object : session.createQuery("from Recitation where _class.id = '" + id + "'").list()) {
                 Recitation recitation = (Recitation) object;
                 String hql = "delete from RecitationResult where recitation.id = :recitationId";
                 Query query = session.createQuery(hql);

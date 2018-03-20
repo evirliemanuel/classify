@@ -78,6 +78,15 @@ public class ActivityChangePassword extends AppCompatActivity implements View.On
                     text1.setError("Required");
                     return;
                 }
+                if (!text1.getText().toString().matches("^[0-9a-zA-Z]+$")) {
+                    text1.setError("Found invalid character");
+                    return;
+                }
+                int size= text1.getText().toString().length();
+                if (!(size >= 8 && size <= 16)) {
+                    text1.setError("8-16 number of characters");
+                    return;
+                }
                 if (TextUtils.isEmpty(text2.getText())) {
                     text2.setError("Required");
                     return;

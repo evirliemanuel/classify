@@ -95,7 +95,7 @@ class LessonController(@Autowired val lessonService: LessonService,
     @PostMapping
     fun add(@RequestBody lesson: Lesson,
             @RequestParam("subjectId") subjectId: Long,
-            @RequestParam("teacherId") teacherId: Long): ResponseEntity<Any?> {
+            @RequestParam("teacherId") teacherId: Long): ResponseEntity<Any> {
         return try {
             lessonService.save(lesson = lesson, subjectId = subjectId, teacherId = teacherId)
             ResponseEntity(HttpStatus.CREATED)

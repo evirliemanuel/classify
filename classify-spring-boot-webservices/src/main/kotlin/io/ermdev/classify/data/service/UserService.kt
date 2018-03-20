@@ -7,6 +7,7 @@ import io.ermdev.classify.data.repository.UserRepository
 import io.ermdev.classify.exception.EntityException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.util.StringUtils
 
 @Service
 class UserService(@Autowired var userRepository: UserRepository) {
@@ -31,5 +32,15 @@ class UserService(@Autowired var userRepository: UserRepository) {
     fun findTeacher(userId: Long): Teacher {
         return userRepository.findTeacher(userId)
                 .orElseThrow { EntityException("No teacher found") }
+    }
+
+    fun save(user: User) {
+        if (StringUtils.isEmpty(user.username)) {
+            throw EntityException("Username is required")
+        }
+        if (StringUtils.isEmpty(user.password)) {
+            throw EntityException("Password is required")
+        }
+        userRepository.save(user)
     }
 }

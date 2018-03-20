@@ -21,11 +21,11 @@ class TeacherController(@Autowired val teacherService: TeacherService,
                         @Autowired val userService: UserService) {
 
     @GetMapping
-    fun getAll(): ResponseEntity<Any?> {
+    fun getAll(): ResponseEntity<Any> {
         return try {
             val dtoList = ArrayList<TeacherDto>()
             val teachers = teacherService.findAll()
-            teachers.forEach({ teacher ->
+            teachers.forEach { teacher ->
                 val dto = TeacherDto(id = teacher.id, name = teacher.name, email = teacher.email)
                 val linkSelf = ControllerLinkBuilder
                         .linkTo(TeacherController::class.java)
@@ -45,7 +45,7 @@ class TeacherController(@Autowired val teacherService: TeacherService,
                 dto.add(linkSubjects)
                 dto.add(linkSelf)
                 dtoList.add(dto)
-            })
+            }
             ResponseEntity(dtoList, HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)

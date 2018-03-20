@@ -6,6 +6,7 @@ import io.ermdev.classify.dto.StudentDto
 import io.ermdev.classify.dto.TeacherDto
 import io.ermdev.classify.dto.UserDto
 import io.ermdev.classify.exception.EntityException
+import io.ermdev.classify.util.Error
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.hateoas.mvc.ControllerLinkBuilder
 import org.springframework.http.HttpStatus
@@ -18,12 +19,12 @@ import org.springframework.web.bind.annotation.*
 class UserController(@Autowired val userService: UserService) {
 
     @GetMapping()
-    fun getAll(@RequestParam(value = "username", required = false) username: String?): ResponseEntity<Any?> {
+    fun getAll(@RequestParam(value = "username", required = false) username: String?): ResponseEntity<Any> {
         return try {
             if (StringUtils.isEmpty(username)) {
                 val dtoList = ArrayList<UserDto>()
                 val users = userService.findAll()
-                users.forEach({ user ->
+                users.forEach { user ->
                     val dto = UserDto(id = user.id, username = user.username, password = user.password)
                     val linkSelf = ControllerLinkBuilder
                             .linkTo(UserController::class.java)
@@ -31,7 +32,7 @@ class UserController(@Autowired val userService: UserService) {
                             .withSelfRel()
                     dto.add(linkSelf)
                     dtoList.add(dto)
-                })
+                }
                 ResponseEntity(dtoList, HttpStatus.OK)
             } else {
                 val user = userService.findByUsername(username!!)
@@ -44,12 +45,13 @@ class UserController(@Autowired val userService: UserService) {
                 ResponseEntity(dto, HttpStatus.OK)
             }
         } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+            val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
+            ResponseEntity(error, HttpStatus.NOT_FOUND)
         }
     }
 
     @GetMapping("{userId}")
-    fun getById(@PathVariable("userId") userId: Long): ResponseEntity<Any?> {
+    fun getById(@PathVariable("userId") userId: Long): ResponseEntity<Any> {
         return try {
             val user = userService.findById(userId)
             val dto = UserDto(id = user.id, username = user.username, password = user.password)
@@ -60,12 +62,13 @@ class UserController(@Autowired val userService: UserService) {
             dto.add(linkSelf)
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+            val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
+            ResponseEntity(error, HttpStatus.NOT_FOUND)
         }
     }
 
     @GetMapping("{userId}/students")
-    fun getStudent(@PathVariable("userId") userId: Long): ResponseEntity<Any?> {
+    fun getStudent(@PathVariable("userId") userId: Long): ResponseEntity<Any> {
         return try {
             val student = userService.findStudent(userId)
             val dto = StudentDto(id = student.id, number = student.number, name = student.name)
@@ -76,12 +79,13 @@ class UserController(@Autowired val userService: UserService) {
             dto.add(linkSelf)
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+            val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
+            ResponseEntity(error, HttpStatus.NOT_FOUND)
         }
     }
 
     @GetMapping("{userId}/teachers")
-    fun getTeacher(@PathVariable("userId") userId: Long): ResponseEntity<Any?> {
+    fun getTeacher(@PathVariable("userId") userId: Long): ResponseEntity<Any> {
         return try {
             val teacher = userService.findTeacher(userId)
             val dto = TeacherDto(id = teacher.id, name = teacher.name, email = teacher.email)
@@ -92,23 +96,25 @@ class UserController(@Autowired val userService: UserService) {
             dto.add(linkSelf)
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+            val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
+            ResponseEntity(error, HttpStatus.NOT_FOUND)
         }
     }
 
 
     @PostMapping
-    fun add(@RequestBody user: User): ResponseEntity<Any?> {
+    fun addUser(@RequestBody user: User): ResponseEntity<Any> {
         return try {
-            userService.userRepository.save(user)
+            userService.save(user)
             ResponseEntity(HttpStatus.CREATED)
         } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
+            val error = Error(status = 400, error = "Bad Request", message = e.message ?: "")
+            ResponseEntity(error, HttpStatus.NOT_FOUND)
         }
     }
 
     @PutMapping("{userId}")
-    fun update(@PathVariable("userId") userId: Long, @RequestBody user: User): ResponseEntity<Any?> {
+    fun update(@PathVariable("userId") userId: Long, @RequestBody user: User): ResponseEntity<Any> {
         return try {
             user.id = userId
             userService.userRepository.save(user)
@@ -119,7 +125,7 @@ class UserController(@Autowired val userService: UserService) {
     }
 
     @DeleteMapping("{userId}")
-    fun delete(@PathVariable("userId") userId: Long): ResponseEntity<Any?> {
+    fun delete(@PathVariable("userId") userId: Long): ResponseEntity<Any> {
         return try {
             userService.userRepository.deleteById(userId)
             ResponseEntity(HttpStatus.OK)

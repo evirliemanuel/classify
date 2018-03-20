@@ -10,6 +10,7 @@ import io.ermdev.classify.dto.StudentDto
 import io.ermdev.classify.dto.SubjectDto
 import io.ermdev.classify.dto.TeacherDto
 import io.ermdev.classify.exception.EntityException
+import io.ermdev.classify.util.Error
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -98,8 +99,9 @@ class LessonController(@Autowired val lessonService: LessonService,
         return try {
             lessonService.save(lesson = lesson, subjectId = subjectId, teacherId = teacherId)
             ResponseEntity(HttpStatus.CREATED)
-        } catch (e: Exception) {
-            ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
+        } catch (e: EntityException) {
+            val error = Error(status = 400, error = "Bad Request", message = e.message ?: "")
+            ResponseEntity(error, HttpStatus.BAD_REQUEST)
         }
     }
 

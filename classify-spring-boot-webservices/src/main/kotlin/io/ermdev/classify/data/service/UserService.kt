@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 import org.springframework.util.StringUtils
 
 @Service
-class UserService(@Autowired var userRepository: UserRepository) {
+class UserService(@Autowired private var userRepository: UserRepository) {
 
     fun findAll(): List<User> = userRepository.findAll()
 
@@ -36,11 +36,19 @@ class UserService(@Autowired var userRepository: UserRepository) {
 
     fun save(user: User) {
         if (StringUtils.isEmpty(user.username)) {
-            throw EntityException("Username is required")
+            throw EntityException("username cannot be empty")
+        }
+        if (!user.username.matches(Regex("^[0-9a-zA-Z]+$"))) {
+            throw EntityException("username cannot contain special characters")
         }
         if (StringUtils.isEmpty(user.password)) {
-            throw EntityException("Password is required")
+            throw EntityException("password cannot be empty")
+        }
+        if (!user.password.matches(Regex("^[0-9a-zA-Z]+$"))) {
+            throw EntityException("password cannot contain special characters")
         }
         userRepository.save(user)
     }
+
+    fun deleteById(userId: Long) = userRepository.deleteById(userId)
 }

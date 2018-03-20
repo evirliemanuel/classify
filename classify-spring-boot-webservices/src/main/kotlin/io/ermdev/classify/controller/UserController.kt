@@ -114,23 +114,20 @@ class UserController(@Autowired val userService: UserService) {
     }
 
     @PutMapping("{userId}")
-    fun update(@PathVariable("userId") userId: Long, @RequestBody user: User): ResponseEntity<Any> {
+    fun updateUser(@PathVariable("userId") userId: Long, @RequestBody user: User): ResponseEntity<Any> {
         return try {
             user.id = userId
-            userService.userRepository.save(user)
+            userService.save(user)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
+            val error = Error(status = 400, error = "Bad Request", message = e.message ?: "")
+            ResponseEntity(error, HttpStatus.NOT_FOUND)
         }
     }
 
     @DeleteMapping("{userId}")
-    fun delete(@PathVariable("userId") userId: Long): ResponseEntity<Any> {
-        return try {
-            userService.userRepository.deleteById(userId)
-            ResponseEntity(HttpStatus.OK)
-        } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
-        }
+    fun deleteUser(@PathVariable("userId") userId: Long): ResponseEntity<Any> {
+        userService.deleteById(userId)
+        return ResponseEntity(HttpStatus.OK)
     }
 }

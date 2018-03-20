@@ -4,11 +4,11 @@ import io.ermdev.classify.data.entity.Teacher
 import io.ermdev.classify.data.entity.User
 import io.ermdev.classify.data.service.TeacherService
 import io.ermdev.classify.data.service.UserService
-import io.ermdev.classify.dto.StudentDto
-import io.ermdev.classify.dto.SubjectDto
+import io.ermdev.classify.dto.LessonDto
 import io.ermdev.classify.dto.TeacherDto
 import io.ermdev.classify.dto.UserDto
 import io.ermdev.classify.exception.EntityException
+import io.ermdev.classify.util.Error
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.hateoas.mvc.ControllerLinkBuilder
 import org.springframework.http.HttpStatus
@@ -81,7 +81,7 @@ class TeacherController(@Autowired val teacherService: TeacherService,
     }
 
     @GetMapping("{teacherId}/users")
-    fun getUser(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any?> {
+    fun getUser(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any> {
         return try {
             val user = teacherService.findUser(teacherId)
             val dto = UserDto(id = user.id, username = user.username, password = user.password)
@@ -97,106 +97,35 @@ class TeacherController(@Autowired val teacherService: TeacherService,
 
     }
 
-    @GetMapping("{teacherId}/subjects")
-    fun getSubjects(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any?> {
+    @GetMapping("{teacherId}/lessons")
+    fun getLessons(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any> {
         return try {
-            val dtoList = ArrayList<SubjectDto>()
-            val subjects = teacherService.findSubjects(teacherId)
-            subjects.forEach({ subject ->
-                val dto = SubjectDto(id = subject.id, name = subject.name)
-                val linkSelf = ControllerLinkBuilder
-                        .linkTo(SubjectController::class.java)
-                        .slash(dto.id)
-                        .withSelfRel()
-                dto.add(linkSelf)
-                dtoList.add(dto)
-            })
+            val dtoList = ArrayList<LessonDto>()
+            teacherService.findLessons(id = teacherId).forEach { lesson ->
+                dtoList.add(LessonDto(id = lesson.id))
+            }
             ResponseEntity(dtoList, HttpStatus.OK)
-        } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+        } catch (e: Exception) {
+            val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
+            ResponseEntity(error, HttpStatus.NOT_FOUND)
         }
-
     }
 
-    @GetMapping("{teacherId}/subjects/{subjectId}")
-    fun getSubject(@PathVariable("teacherId") teacherId: Long,
-                   @PathVariable("subjectId") subjectId: Long): ResponseEntity<Any?> {
+    @GetMapping("{teacherId}/lessons/{lessonId}")
+    fun getLesson(@PathVariable("teacherId") teacherId: Long,
+                  @PathVariable("lessonId") lessonId: Long): ResponseEntity<Any> {
         return try {
-            val subject = teacherService.findSubject(teacherId, subjectId)
-            val dto = SubjectDto(id = subject.id, name = subject.name)
-            val linkSelf = ControllerLinkBuilder
-                    .linkTo(SubjectController::class.java)
-                    .slash(dto.id)
-                    .withSelfRel()
-            dto.add(linkSelf)
+            val lesson = teacherService.findLesson(teacherId = teacherId, lessonId = lessonId)
+            val dto = LessonDto(id = lesson.id)
             ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+        } catch (e: Exception) {
+            val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
+            ResponseEntity(error, HttpStatus.NOT_FOUND)
         }
-
-    }
-
-    @GetMapping("{teacherId}/lessons/{lessonId}/subjects")
-    fun getSubjectByLesson(@PathVariable("teacherId") teacherId: Long,
-                           @PathVariable("lessonId") lessonId: Long): ResponseEntity<Any?> {
-        return try {
-            val subject = teacherService.findSubjectByLesson(teacherId, lessonId)
-            val dto = SubjectDto(id = subject.id, name = subject.name)
-            val linkSelf = ControllerLinkBuilder
-                    .linkTo(SubjectController::class.java)
-                    .slash(dto.id)
-                    .withSelfRel()
-            dto.add(linkSelf)
-            ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
-        }
-
-    }
-
-    @GetMapping("{teacherId}/lessons/{lessonId}/students")
-    fun getStudents(@PathVariable("teacherId") teacherId: Long,
-                    @PathVariable("lessonId") lessonId: Long): ResponseEntity<Any?> {
-        return try {
-            val dtoList = ArrayList<StudentDto>()
-            val students = teacherService.findStudents(teacherId, lessonId)
-            students.forEach({ student ->
-                val dto = StudentDto(id = student.id, number = student.number, name = student.name)
-                val linkSelf = ControllerLinkBuilder
-                        .linkTo(StudentController::class.java)
-                        .slash(dto.id)
-                        .withSelfRel()
-                dto.add(linkSelf)
-                dtoList.add(dto)
-            })
-            ResponseEntity(dtoList, HttpStatus.OK)
-        } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
-        }
-
-    }
-
-    @GetMapping("{teacherId}/lessons/{lessonId}/students/{studentId}")
-    fun getStudent(@PathVariable("teacherId") teacherId: Long,
-                   @PathVariable("lessonId") lessonId: Long,
-                   @PathVariable("studentId") studentId: Long): ResponseEntity<Any?> {
-        return try {
-            val student = teacherService.findStudent(teacherId, lessonId, studentId)
-            val dto = StudentDto(id = student.id, number = student.number, name = student.name)
-            val linkSelf = ControllerLinkBuilder
-                    .linkTo(StudentController::class.java)
-                    .slash(dto.id)
-                    .withSelfRel()
-            dto.add(linkSelf)
-            ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
-        }
-
     }
 
     @PostMapping
-    fun add(@RequestBody teacher: Teacher): ResponseEntity<Any?> {
+    fun addTeacher(@RequestBody teacher: Teacher): ResponseEntity<Any?> {
         return try {
             teacher.user = User(0, teacher.email.split("@")[0].toLowerCase(), "123")
             teacherService.teacherRepository.save(teacher)
@@ -220,8 +149,8 @@ class TeacherController(@Autowired val teacherService: TeacherService,
     }
 
     @PutMapping("{teacherId}")
-    fun update(@PathVariable("teacherId") teacherId: Long,
-               @RequestBody teacher: Teacher): ResponseEntity<Any?> {
+    fun updateTeacher(@PathVariable("teacherId") teacherId: Long,
+                      @RequestBody teacher: Teacher): ResponseEntity<Any?> {
         return try {
             teacher.id = teacherId
             teacherService.teacherRepository.save(teacher)
@@ -245,19 +174,9 @@ class TeacherController(@Autowired val teacherService: TeacherService,
     }
 
     @DeleteMapping("{teacherId}")
-    fun delete(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any?> {
+    fun deleteTeacher(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any?> {
         return try {
             teacherService.teacherRepository.deleteById(teacherId)
-            ResponseEntity(HttpStatus.OK)
-        } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
-        }
-    }
-
-    @DeleteMapping("{teacherId}/users")
-    fun deleteUser(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any?> {
-        return try {
-            teacherService.teacherRepository.deleteUser(teacherId)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)

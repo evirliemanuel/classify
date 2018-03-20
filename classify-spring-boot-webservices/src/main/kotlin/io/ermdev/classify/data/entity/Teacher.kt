@@ -13,9 +13,9 @@ class Teacher(
 
         var email: String = "",
 
-        @OneToOne(cascade = [(CascadeType.ALL)])
+        @OneToOne(cascade = [CascadeType.PERSIST, CascadeType.REMOVE])
         @JoinColumn(name = "user_id", unique = true)
         var user: User = User(),
 
-        @OneToMany(mappedBy = "teacher", cascade = [CascadeType.REMOVE, CascadeType.MERGE])
+        @OneToMany(mappedBy = "teacher", cascade = [CascadeType.REMOVE])
         var lessons: Set<Lesson> = HashSet())

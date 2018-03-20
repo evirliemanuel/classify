@@ -37,7 +37,7 @@ class LessonService(@Autowired val lessonRepository: LessonRepository,
                 .orElseThrow { EntityException("No student found") }
     }
 
-    fun findStudents(id: Long) = lessonRepository.findStudents(id)
+    fun findStudents(id: Long): List<Student> = lessonRepository.findStudents(id)
 
     fun save(lesson: Lesson) = lessonRepository.save(lesson)
 

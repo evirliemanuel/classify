@@ -17,5 +17,5 @@ class Teacher(
         @JoinColumn(name = "user_id", unique = true)
         var user: User = User(),
 
-        @OneToMany(mappedBy = "teacher")
-        var lessons: List<Lesson> = ArrayList())
+        @OneToMany(mappedBy = "teacher", cascade = [CascadeType.REMOVE, CascadeType.MERGE])
+        var lessons: Set<Lesson> = HashSet())

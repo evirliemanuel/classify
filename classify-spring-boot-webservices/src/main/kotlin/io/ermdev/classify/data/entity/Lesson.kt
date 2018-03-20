@@ -8,11 +8,11 @@ class Lesson(@Id
              @GeneratedValue(strategy = GenerationType.AUTO)
              var id: Long = 0,
 
-             @ManyToOne(cascade = [CascadeType.ALL])
+             @ManyToOne(cascade = [CascadeType.PERSIST])
              @JoinColumn(name = "subject_id")
              var subject: Subject? = Subject(),
 
-             @ManyToOne(cascade = [CascadeType.ALL])
+             @ManyToOne(cascade = [CascadeType.PERSIST])
              @JoinColumn(name = "teacher_id")
              var teacher: Teacher? = Teacher(),
 

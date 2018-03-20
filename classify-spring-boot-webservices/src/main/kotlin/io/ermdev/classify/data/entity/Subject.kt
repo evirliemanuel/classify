@@ -10,5 +10,5 @@ class Subject(@Id
 
               var name: String = "",
 
-              @OneToMany(mappedBy = "subject")
-              var lessons: List<Lesson> = ArrayList())
+              @OneToMany(mappedBy = "subject", cascade = [CascadeType.REMOVE])
+              var lessons: Set<Lesson> = HashSet())

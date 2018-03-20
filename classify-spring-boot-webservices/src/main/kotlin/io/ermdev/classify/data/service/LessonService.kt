@@ -16,6 +16,8 @@ class LessonService(@Autowired val lessonRepository: LessonRepository,
 
     fun findAll(): List<Lesson> = lessonRepository.findAll()
 
+    fun findStudents(id: Long): List<Student> = lessonRepository.findStudents(id)
+
     fun findById(id: Long): Lesson {
         return lessonRepository.findById(id)
                 .orElseThrow { EntityException("No lesson found") }
@@ -36,8 +38,6 @@ class LessonService(@Autowired val lessonRepository: LessonRepository,
         return lessonRepository.findStudentById(lessonId, studentId)
                 .orElseThrow { EntityException("No student found") }
     }
-
-    fun findStudents(id: Long): List<Student> = lessonRepository.findStudents(id)
 
     fun save(lesson: Lesson) = lessonRepository.save(lesson)
 

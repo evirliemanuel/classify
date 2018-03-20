@@ -9,30 +9,33 @@ import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 interface TeacherRepository : JpaRepository<Teacher, Long> {
 
     @Query("from User as u join u.teacher as t where t.id=:teacherId")
-    fun findUser(@Param("teacherId") teacherId: Long): User
+    fun findUser(@Param("teacherId") teacherId: Long): Optional<User>
 
     @Query("from Subject as a join a.lessons as b join b.teacher as c where c.id=:teacherId")
     fun findSubjects(@Param("teacherId") teacherId: Long): List<Subject>
 
     @Query("from Subject as a join a.lessons as b join b.teacher as c where c.id=:teacherId and a.id=:subjectId")
-    fun findSubject(@Param("teacherId") teacherId: Long, @Param("subjectId") subjectId: Long): Subject
+    fun findSubject(@Param("teacherId") teacherId: Long,
+                    @Param("subjectId") subjectId: Long): Optional<Subject>
 
     @Query("from Subject as a join a.lessons as b join b.teacher as c where c.id=:teacherId and b.id=:lessonId")
     fun findSubjectByLesson(@Param("teacherId") teacherId: Long,
-                            @Param("lessonId") lessonId: Long): Subject
+                            @Param("lessonId") lessonId: Long): Optional<Subject>
 
     @Query("from Student as a join a.lessons as b join b.teacher as c where c.id=:teacherId and b.id=:lessonId")
-    fun findStudents(@Param("teacherId") teacherId: Long, @Param("lessonId") lessonId: Long): List<Student>
+    fun findStudents(@Param("teacherId") teacherId: Long,
+                     @Param("lessonId") lessonId: Long): List<Student>
 
     @Query("from Student as a join a.lessons as b join b.teacher as c where c.id=:teacherId and " +
             "b.id=:lessonId and a.id=:studentId")
     fun findStudent(@Param("teacherId") teacherId: Long,
                     @Param("lessonId") lessonId: Long,
-                    @Param("studentId") studentId: Long): Student
+                    @Param("studentId") studentId: Long): Optional<Student>
 
     @Transactional
     @Modifying

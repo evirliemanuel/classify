@@ -154,7 +154,8 @@
         <!-- /.navbar-static-side -->
     </nav>
 
-    <div id="page-wrapper">
+    <div id="page-wrapper" style="padding-top:10px;">
+        <div class="well" id="response-message" th:if="${param.error}" style="color:#d63031;margin-bottom:-10px;">Class already exists</div>
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">Teacher Detail</h1>

@@ -125,7 +125,7 @@ public class ClassController {
             }
             return "redirect:/teacher-detail?teacherId=" + teacherId;
         } catch (Exception e) {
-            return "redirect:/teacher-detail?teacherId=" + teacherId;
+            return "redirect:/teacher-detail?error=true&teacherId=" + teacherId;
 //            return "redirect:/teacher/view?error=true&id=" + teacherId;
         }
     }

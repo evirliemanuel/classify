@@ -18,6 +18,7 @@ public class ActivityConfirmPassword extends AppCompatActivity implements View.O
 
 
     private Button btnConfirm;
+    private Button btnCancel;
     private EditText txPassword;
     private TextView status;
     private TeacherServiceImpl teacherService;
@@ -30,6 +31,7 @@ public class ActivityConfirmPassword extends AppCompatActivity implements View.O
 
 
         btnConfirm = findViewById(R.id.activityt_confirmpassword_button);
+        btnCancel = findViewById(R.id.activityt_confirmpassword_button_cancel);
         txPassword = findViewById(R.id.activity_confirmpassword_text);
         status = findViewById(R.id.message_status_confirm);
         teacherService = new TeacherServiceImpl();
@@ -40,20 +42,30 @@ public class ActivityConfirmPassword extends AppCompatActivity implements View.O
             teacher = new Teacher();
         }
         btnConfirm.setOnClickListener(this);
+        btnCancel.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        if (!TextUtils.isEmpty(txPassword.getText())) {
-            if (txPassword.getText().toString().equals(teacher.getUserDetail().getPassword())) {
-                final Intent intent = new Intent(this, ActivityChangePassword.class);
-                intent.putExtra("teacherId", teacher.getId());
-                startActivity(intent);
-            } else {
-                status.setText("Password not match");
+        switch (view.getId()) {
+            case R.id.activityt_confirmpassword_button : {
+                if (!TextUtils.isEmpty(txPassword.getText())) {
+                    if (txPassword.getText().toString().equals(teacher.getUserDetail().getPassword())) {
+                        final Intent intent = new Intent(this, ActivityChangePassword.class);
+                        intent.putExtra("teacherId", teacher.getId());
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        status.setText("Password not match");
+                    }
+                } else {
+                    status.setText("Please enter your password");
+                }
+                break;
             }
-        } else {
-            status.setText("Please enter your password");
+            default: {
+                finish();
+            }
         }
     }
 }

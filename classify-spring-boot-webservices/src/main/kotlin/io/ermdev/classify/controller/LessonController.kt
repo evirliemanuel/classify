@@ -22,22 +22,22 @@ class LessonController(@Autowired val lessonService: LessonService,
                        @Autowired val subjectService: SubjectService,
                        @Autowired val studentService: StudentService) {
 
-    @GetMapping("{lessonId}")
-    fun getById(@PathVariable("lessonId") lessonId: Long): ResponseEntity<Any?> {
+    @GetMapping
+    fun getAll(): ResponseEntity<Any?> {
         return try {
-            val lesson = lessonService.findById(lessonId)
-            val dto = LessonDto(id = lesson.id)
+            val dto = ArrayList<LessonDto>()
+            lessonService.findAll().parallelStream().forEach({ l -> dto.add(LessonDto(id = l.id)) })
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
     }
 
-    @GetMapping
-    fun getAll(): ResponseEntity<Any?> {
+    @GetMapping("{lessonId}")
+    fun getById(@PathVariable("lessonId") lessonId: Long): ResponseEntity<Any?> {
         return try {
-            val dto = ArrayList<LessonDto>()
-            lessonService.findAll().parallelStream().forEach({ l -> dto.add(LessonDto(id = l.id)) })
+            val lesson = lessonService.findById(lessonId)
+            val dto = LessonDto(id = lesson.id)
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)

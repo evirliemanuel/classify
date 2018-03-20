@@ -27,6 +27,8 @@ public class SliderSettingFragment extends Fragment {
     private TeacherHelper teacherHelper;
     private Handler handler;
     private LinearLayout linearLayoutprofile;
+    private LinearLayout changepassword_option;
+
     private OnProfileClickListener onProfileClickListener;
 
     @Override
@@ -46,11 +48,18 @@ public class SliderSettingFragment extends Fragment {
         layout = (LinearLayout) view.findViewById(R.id.profile_layout);
         viewLogout = (LinearLayout) view.findViewById(R.id.btn_logout);
         linearLayoutprofile = (LinearLayout) view.findViewById(R.id.btn_profile);
+        changepassword_option = (LinearLayout) view.findViewById(R.id.btn_change_pswd);
 
         linearLayoutprofile.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onProfileClickListener.viewProfile(teacherHelper.loadUser().get());
+            }
+        });
+        changepassword_option.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onProfileClickListener.changePassword(teacherHelper.loadUser().get());
             }
         });
         viewLogout.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +106,8 @@ public class SliderSettingFragment extends Fragment {
     }
 
     public interface OnProfileClickListener {
-        public void viewProfile(Teacher teacher);
+        void viewProfile(Teacher teacher);
+        void changePassword(Teacher teacher);
     }
 
 }

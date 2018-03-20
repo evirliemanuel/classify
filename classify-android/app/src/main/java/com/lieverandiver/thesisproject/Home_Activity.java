@@ -98,6 +98,13 @@ public class Home_Activity extends AppCompatActivity implements ClassAdapter.Cla
         startActivity(intent);
     }
 
+    @Override
+    public void changePassword(Teacher teacher) {
+        final Intent intent = new Intent(this, ActivityChangePassword.class);
+        intent.putExtra("teacherId", teacher.getId());
+        startActivity(intent);
+    }
+
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();

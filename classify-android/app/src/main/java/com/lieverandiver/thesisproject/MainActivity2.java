@@ -138,6 +138,13 @@ public class MainActivity2 extends AppCompatActivity implements ClassAdapter.Cla
     }
 
     @Override
+    public void changePassword(Teacher teacher) {
+        final Intent intent = new Intent(this, ActivityConfirmPassword.class);
+        intent.putExtra("teacherId", teacher.getId());
+        startActivity(intent);
+    }
+
+    @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
             frameLayoutSearch.setVisibility(View.VISIBLE);

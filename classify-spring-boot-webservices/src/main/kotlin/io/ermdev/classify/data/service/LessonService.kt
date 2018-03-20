@@ -14,35 +14,30 @@ import javax.sql.DataSource
 class LessonService(@Autowired val lessonRepository: LessonRepository,
                     @Autowired val dataSource: DataSource) {
 
-    fun findById(id: Long): Lesson {
-        val lesson: Lesson? = lessonRepository.findById(id).orElse(Lesson())
-        return lesson ?: throw EntityException("No lesson found")
-    }
+    fun findAll(): List<Lesson> = lessonRepository.findAll()
 
-    fun findAll(): List<Lesson> {
-        val lessons: List<Lesson>? = lessonRepository.findAll()
-        return lessons ?: throw EntityException("No lesson found")
+    fun findById(id: Long): Lesson {
+        return lessonRepository.findById(id)
+                .orElseThrow { EntityException("No lesson found") }
     }
 
     fun findTeacher(id: Long): Teacher {
-        val teacher: Teacher? = lessonRepository.findTeacher(id)
-        return teacher ?: throw EntityException("No teacher found")
+        return lessonRepository.findTeacher(id)
+                .orElseThrow { EntityException("No teacher found") }
+
     }
 
     fun findSubject(id: Long): Subject {
-        val subject: Subject? = lessonRepository.findSubject(id)
-        return subject ?: throw EntityException("No subject found")
+        return lessonRepository.findSubject(id)
+                .orElseThrow { EntityException("No subject found") }
     }
 
     fun findStudentById(lessonId: Long, studentId: Long): Student {
-        val student: Student? = lessonRepository.findStudentById(lessonId, studentId)
-        return student ?: throw EntityException("No student found")
+        return lessonRepository.findStudentById(lessonId, studentId)
+                .orElseThrow { EntityException("No student found") }
     }
 
-    fun findStudents(id: Long): List<Student> {
-        val students: List<Student>? = lessonRepository.findStudents(id)
-        return students ?: throw EntityException("No student found")
-    }
+    fun findStudents(id: Long) = lessonRepository.findStudents(id)
 
     fun save(lesson: Lesson) = lessonRepository.save(lesson)
 

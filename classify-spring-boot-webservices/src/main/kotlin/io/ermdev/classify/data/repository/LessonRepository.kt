@@ -7,18 +7,19 @@ import io.ermdev.classify.data.entity.Teacher
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
+import java.util.*
 
 interface LessonRepository : JpaRepository<Lesson, Long> {
 
     @Query("from Teacher as t join t.lessons as l where l.id=:lessonId")
-    fun findTeacher(@Param("lessonId") lessonId: Long): Teacher
+    fun findTeacher(@Param("lessonId") lessonId: Long): Optional<Teacher>
 
     @Query("from Subject as s join s.lessons as l where l.id=:lessonId")
-    fun findSubject(@Param("lessonId") lessonId: Long): Subject
+    fun findSubject(@Param("lessonId") lessonId: Long): Optional<Subject>
 
     @Query("from Student as s join s.lessons as l where l.id=:lessonId and s.id=:studentId")
     fun findStudentById(@Param("lessonId") lessonId: Long,
-                        @Param("studentId") studentId: Long): Student
+                        @Param("studentId") studentId: Long): Optional<Student>
 
     @Query("from Student as s join s.lessons as l where l.id=:lessonId")
     fun findStudents(@Param("lessonId") lessonId: Long): List<Student>

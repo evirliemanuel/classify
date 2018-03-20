@@ -11,28 +11,25 @@ import org.springframework.stereotype.Service
 @Service
 class UserService(@Autowired var userRepository: UserRepository) {
 
-    fun findAll(): List<User> {
-        val users: List<User>? = userRepository.findAll()
-        return users ?: throw EntityException("No user found")
-    }
+    fun findAll(): List<User> = userRepository.findAll()
 
     fun findById(id: Long): User {
-        val user: User? = userRepository.findById(id).orElse(User())
-        return user ?: throw EntityException("No user found")
+        return userRepository.findById(id)
+                .orElseThrow { EntityException("No user found") }
     }
 
     fun findByUsername(username: String): User {
-        val user: User? = userRepository.findByUsername(username)
-        return user ?: throw EntityException("No user found")
+        return userRepository.findByUsername(username)
+                .orElseThrow { EntityException("No user found") }
     }
 
     fun findStudent(userId: Long): Student {
-        val student: Student? = userRepository.findStudent(userId)
-        return student ?: throw EntityException("No student found")
+        return userRepository.findStudent(userId)
+                .orElseThrow { EntityException("No student found") }
     }
 
     fun findTeacher(userId: Long): Teacher {
-        val teacher: Teacher? = userRepository.findTeacher(userId)
-        return teacher ?: throw EntityException("No teacher found")
+        return userRepository.findTeacher(userId)
+                .orElseThrow { EntityException("No teacher found") }
     }
 }

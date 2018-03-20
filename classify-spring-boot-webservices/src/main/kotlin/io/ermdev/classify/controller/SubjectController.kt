@@ -38,7 +38,7 @@ class SubjectController(@Autowired val subjectService: SubjectService) {
     @PostMapping
     fun add(@RequestBody subject: Subject): ResponseEntity<Any?> {
         return try {
-            subjectService.save(subject)
+            subjectService.subjectRepository.save(subject)
             ResponseEntity(HttpStatus.CREATED)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
@@ -50,7 +50,7 @@ class SubjectController(@Autowired val subjectService: SubjectService) {
                @RequestBody subject: Subject): ResponseEntity<Any?> {
         return try {
             subject.id = subjectId
-            subjectService.save(subject)
+            subjectService.subjectRepository.save(subject)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
@@ -60,7 +60,7 @@ class SubjectController(@Autowired val subjectService: SubjectService) {
     @DeleteMapping("{subjectId}")
     fun delete(@PathVariable("subjectId") subjectId: Long): ResponseEntity<Any?> {
         return try {
-            subjectService.delete(subjectId)
+            subjectService.subjectRepository.deleteById(subjectId)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)

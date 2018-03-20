@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,12 +39,13 @@ public class ActivityConfirmPassword extends AppCompatActivity implements View.O
             e.printStackTrace();
             teacher = new Teacher();
         }
+        btnConfirm.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         if (!TextUtils.isEmpty(txPassword.getText())) {
-            if (txPassword.getText().equals(teacher.getUserDetail().getPassword())) {
+            if (txPassword.getText().toString().equals(teacher.getUserDetail().getPassword())) {
                 final Intent intent = new Intent(this, ActivityChangePassword.class);
                 intent.putExtra("teacherId", teacher.getId());
                 startActivity(intent);

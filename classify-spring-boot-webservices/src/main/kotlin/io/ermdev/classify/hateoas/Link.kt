@@ -1,4 +1,4 @@
-package io.ermdev.classify.util
+package io.ermdev.classify.hateoas
 
 class Link(var rel: String = "",
            var href: String = "")

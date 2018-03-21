@@ -6,6 +6,7 @@ import io.ermdev.classify.dto.StudentDto
 import io.ermdev.classify.dto.TeacherDto
 import io.ermdev.classify.dto.UserDto
 import io.ermdev.classify.exception.EntityException
+import io.ermdev.classify.hateoas.builder.UserLinkBuilder
 import io.ermdev.classify.util.Error
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.hateoas.mvc.ControllerLinkBuilder
@@ -26,6 +27,7 @@ class UserController(@Autowired val userService: UserService) {
                 val users = userService.findAll()
                 users.forEach { user ->
                     val dto = UserDto(id = user.id, username = user.username, password = user.password)
+                    dto.add(UserLinkBuilder.self(id = dto.id))
                     dtoList.add(dto)
                 }
                 ResponseEntity(dtoList, HttpStatus.OK)
@@ -45,6 +47,7 @@ class UserController(@Autowired val userService: UserService) {
         return try {
             val user = userService.findById(userId)
             val dto = UserDto(id = user.id, username = user.username, password = user.password)
+            dto.add(UserLinkBuilder.self(id = dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")

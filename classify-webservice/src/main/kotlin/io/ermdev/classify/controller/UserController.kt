@@ -54,9 +54,9 @@ class UserController(@Autowired val userService: UserService) {
     }
 
     @PostMapping
-    fun addUser(@RequestBody user: User): ResponseEntity<Any> {
+    fun addUser(@RequestBody body: User): ResponseEntity<Any> {
         return try {
-            userService.save(user)
+            userService.save(body)
             ResponseEntity(HttpStatus.CREATED)
         } catch (e: EntityException) {
             val error = Error(status = 400, error = "Bad Request", message = e.message ?: "")
@@ -65,9 +65,12 @@ class UserController(@Autowired val userService: UserService) {
     }
 
     @PutMapping("{userId}")
-    fun updateUser(@PathVariable("userId") userId: Long, @RequestBody user: User): ResponseEntity<Any> {
+    fun updateUser(@PathVariable("userId") userId: Long,
+                   @RequestBody body: User): ResponseEntity<Any> {
         return try {
-            user.id = userId
+            val user = userService.findById(userId)
+            user.username = body.username
+            user.password = body.password
             userService.save(user)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {

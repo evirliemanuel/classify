@@ -11,7 +11,6 @@ import io.ermdev.classify.hateoas.builder.TeacherLinkBuilder
 import io.ermdev.classify.hateoas.builder.UserLinkBuilder
 import io.ermdev.classify.util.Error
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.hateoas.mvc.ControllerLinkBuilder
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -84,9 +83,9 @@ class TeacherController(@Autowired val teacherService: TeacherService,
     }
 
     @PostMapping
-    fun addTeacher(@RequestBody teacher: Teacher): ResponseEntity<Any> {
+    fun addTeacher(@RequestBody body: Teacher): ResponseEntity<Any> {
         return try {
-            teacherService.save(teacher)
+            teacherService.save(body)
             ResponseEntity(HttpStatus.CREATED)
         } catch (e: EntityException) {
             val error = Error(status = 400, error = "Bad Request", message = e.message ?: "")
@@ -96,9 +95,11 @@ class TeacherController(@Autowired val teacherService: TeacherService,
 
     @PutMapping("{teacherId}")
     fun updateTeacher(@PathVariable("teacherId") teacherId: Long,
-                      @RequestBody teacher: Teacher): ResponseEntity<Any> {
+                      @RequestBody body: Teacher): ResponseEntity<Any> {
         return try {
-            teacher.id = teacherId
+            val teacher = teacherService.findById(teacherId)
+            teacher.name = body.name
+            teacher.email = body.email
             teacherService.save(teacher)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {

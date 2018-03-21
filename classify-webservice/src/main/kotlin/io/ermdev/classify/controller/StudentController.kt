@@ -86,9 +86,9 @@ class StudentController(@Autowired val studentService: StudentService,
     }
 
     @PostMapping
-    fun addStudent(@RequestBody student: Student): ResponseEntity<Any> {
+    fun addStudent(@RequestBody body: Student): ResponseEntity<Any> {
         return try {
-            studentService.save(student)
+            studentService.save(body)
             ResponseEntity(HttpStatus.CREATED)
         } catch (e: EntityException) {
             val error = Error(status = 400, error = "Bad Request", message = e.message ?: "")
@@ -98,9 +98,11 @@ class StudentController(@Autowired val studentService: StudentService,
 
     @PutMapping("{studentId}")
     fun updateStudent(@PathVariable("studentId") studentId: Long,
-                      @RequestBody student: Student): ResponseEntity<Any> {
+                      @RequestBody body: Student): ResponseEntity<Any> {
         return try {
-            student.id = studentId
+            val student = studentService.findById(studentId)
+            student.name = body.name
+            student.number = body.number
             studentService.save(student)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {

@@ -28,7 +28,7 @@ class UserService(@Autowired private val userRepository: UserRepository) {
             throw EntityException("username cannot be empty")
         }
         if (!user.username.matches(Regex(usernamePattern))) {
-            throw EntityException("username cannot contain special characters")
+            throw EntityException("username must be in valid format")
         }
         if (StringUtils.isEmpty(user.password)) {
             throw EntityException("password cannot be empty")

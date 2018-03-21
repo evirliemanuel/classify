@@ -6,7 +6,6 @@ import io.ermdev.classify.data.entity.User
 import io.ermdev.classify.data.repository.TeacherRepository
 import io.ermdev.classify.exception.EntityException
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
 import org.springframework.util.StringUtils
 
@@ -14,8 +13,6 @@ import org.springframework.util.StringUtils
 class TeacherService(@Autowired private val teacherRepository: TeacherRepository) {
 
     fun findAll(): List<Teacher> = teacherRepository.findAll()
-
-    fun findLessons(id: Long): List<Lesson> = teacherRepository.findLessons(teacherId = id)
 
     fun findById(id: Long): Teacher {
         return teacherRepository.findById(id)
@@ -26,6 +23,8 @@ class TeacherService(@Autowired private val teacherRepository: TeacherRepository
         return teacherRepository.findUser(teacherId = id)
                 ?: throw EntityException("No user entity found!")
     }
+
+    fun findLessons(id: Long): List<Lesson> = teacherRepository.findLessons(teacherId = id)
 
     fun findLesson(teacherId: Long, lessonId: Long): Lesson {
         return teacherRepository.findLesson(teacherId = teacherId, lessonId = lessonId)
@@ -44,14 +43,10 @@ class TeacherService(@Autowired private val teacherRepository: TeacherRepository
             throw EntityException("email cannot be empty")
         }
         if (!teacher.email.matches(Regex(emailPattern))) {
-            throw EntityException("email must be in valid format: regex $emailPattern")
+            throw EntityException("email must be in valid format")
         }
-        try {
-            teacher.user = User(0, teacher.email.split("@")[0].toLowerCase(), "123")
-            teacherRepository.save(teacher)
-        } catch (e: DataIntegrityViolationException) {
-            throw EntityException("email must be unique")
-        }
+        teacher.user = User(0, teacher.email.split("@")[0].toLowerCase(), "123")
+        teacherRepository.save(teacher)
     }
 
     fun deleteById(id: Long) = teacherRepository.deleteById(id)

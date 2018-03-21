@@ -18,25 +18,25 @@ class UserController(@Autowired val userService: UserService) {
 
     @GetMapping()
     fun getAll(@RequestParam(value = "username", required = false) username: String?): ResponseEntity<Any> {
-        return try {
-            if (StringUtils.isEmpty(username)) {
-                val dtoList = ArrayList<UserDto>()
-                val users = userService.findAll()
-                users.forEach { user ->
-                    val dto = UserDto(id = user.id, username = user.username, password = user.password)
-                    dto.add(UserLinkBuilder.self(id = dto.id))
-                    dtoList.add(dto)
-                }
-                ResponseEntity(dtoList, HttpStatus.OK)
-            } else {
+        if (StringUtils.isEmpty(username)) {
+            val dtoList = ArrayList<UserDto>()
+            val users = userService.findAll()
+            users.forEach { user ->
+                val dto = UserDto(id = user.id, username = user.username, password = user.password)
+                dto.add(UserLinkBuilder.self(id = dto.id))
+                dtoList.add(dto)
+            }
+            return ResponseEntity(dtoList, HttpStatus.OK)
+        } else {
+            return try {
                 val user = userService.findByUsername(username!!)
                 val dto = UserDto(id = user.id, username = user.username, password = user.password)
                 dto.add(UserLinkBuilder.self(id = dto.id))
                 ResponseEntity(dto, HttpStatus.OK)
+            } catch (e: EntityException) {
+                val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
+                ResponseEntity(error, HttpStatus.NOT_FOUND)
             }
-        } catch (e: EntityException) {
-            val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
-            ResponseEntity(error, HttpStatus.NOT_FOUND)
         }
     }
 

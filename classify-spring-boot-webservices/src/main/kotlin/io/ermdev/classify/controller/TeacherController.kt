@@ -8,6 +8,7 @@ import io.ermdev.classify.dto.TeacherDto
 import io.ermdev.classify.dto.UserDto
 import io.ermdev.classify.exception.EntityException
 import io.ermdev.classify.hateoas.builder.TeacherLinkBuilder
+import io.ermdev.classify.hateoas.builder.UserLinkBuilder
 import io.ermdev.classify.util.Error
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.hateoas.mvc.ControllerLinkBuilder
@@ -22,24 +23,20 @@ class TeacherController(@Autowired val teacherService: TeacherService,
 
     @GetMapping
     fun getAll(): ResponseEntity<Any> {
-        return try {
-            val dtoList = ArrayList<TeacherDto>()
-            val teachers = teacherService.findAll()
-            teachers.forEach { teacher ->
-                val dto = TeacherDto(id = teacher.id, name = teacher.name, email = teacher.email)
-                dto.add(TeacherLinkBuilder.self(dto.id))
-                dto.add(TeacherLinkBuilder.lessons(dto.id))
-                dto.add(TeacherLinkBuilder.user(dto.id))
-                dtoList.add(dto)
-            }
-            ResponseEntity(dtoList, HttpStatus.OK)
-        } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+        val dtoList = ArrayList<TeacherDto>()
+        val teachers = teacherService.findAll()
+        teachers.forEach { teacher ->
+            val dto = TeacherDto(id = teacher.id, name = teacher.name, email = teacher.email)
+            dto.add(TeacherLinkBuilder.self(dto.id))
+            dto.add(TeacherLinkBuilder.lessons(dto.id))
+            dto.add(TeacherLinkBuilder.user(dto.id))
+            dtoList.add(dto)
         }
+        return ResponseEntity(dtoList, HttpStatus.OK)
     }
 
     @GetMapping("{teacherId}")
-    fun getById(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any?> {
+    fun getById(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any> {
         return try {
             val teacher = teacherService.findById(teacherId)
             val dto = TeacherDto(teacher.id, teacher.name, teacher.email)
@@ -57,6 +54,7 @@ class TeacherController(@Autowired val teacherService: TeacherService,
         return try {
             val user = teacherService.findUser(teacherId)
             val dto = UserDto(id = user.id, username = user.username, password = user.password)
+            dto.add(UserLinkBuilder.self(id = dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
@@ -92,7 +90,7 @@ class TeacherController(@Autowired val teacherService: TeacherService,
     }
 
     @PostMapping
-    fun addTeacher(@RequestBody teacher: Teacher): ResponseEntity<Any?> {
+    fun addTeacher(@RequestBody teacher: Teacher): ResponseEntity<Any> {
         return try {
             teacherService.save(teacher)
             ResponseEntity(HttpStatus.CREATED)
@@ -104,7 +102,7 @@ class TeacherController(@Autowired val teacherService: TeacherService,
 
     @PutMapping("{teacherId}")
     fun updateTeacher(@PathVariable("teacherId") teacherId: Long,
-                      @RequestBody teacher: Teacher): ResponseEntity<Any?> {
+                      @RequestBody teacher: Teacher): ResponseEntity<Any> {
         return try {
             teacher.id = teacherId
             teacherService.save(teacher)
@@ -117,12 +115,12 @@ class TeacherController(@Autowired val teacherService: TeacherService,
 
     @PutMapping("{teacherId}/users/{userId}")
     fun updateUser(@PathVariable("teacherId") teacherId: Long,
-                   @PathVariable("userId") userId: Long): ResponseEntity<Any?> {
+                   @PathVariable("userId") userId: Long): ResponseEntity<Any> {
         return try {
             val teacher = teacherService.findById(teacherId)
             teacher.user = userService.findById(userId)
             teacherService.save(teacher)
-            ResponseEntity(HttpStatus.CREATED)
+            ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {
             val error = Error(status = 400, error = "Bad Request", message = e.message ?: "")
             ResponseEntity(error, HttpStatus.BAD_REQUEST)
@@ -130,7 +128,7 @@ class TeacherController(@Autowired val teacherService: TeacherService,
     }
 
     @DeleteMapping("{teacherId}")
-    fun deleteTeacher(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any?> {
+    fun deleteTeacher(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any> {
         teacherService.deleteById(teacherId)
         return ResponseEntity(HttpStatus.OK)
     }

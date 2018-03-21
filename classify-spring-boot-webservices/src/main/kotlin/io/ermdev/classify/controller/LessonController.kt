@@ -27,9 +27,12 @@ class LessonController(@Autowired private val lessonService: LessonService,
 
     @GetMapping
     fun getAll(): ResponseEntity<Any> {
-        val dto = ArrayList<LessonDto>()
-        lessonService.findAll().parallelStream().forEach({ lesson -> dto.add(LessonDto(id = lesson.id)) })
-        return ResponseEntity(dto, HttpStatus.OK)
+        val dtoList = ArrayList<LessonDto>()
+        lessonService.findAll().forEach { lesson ->
+            val dto = LessonDto(id = lesson.id)
+            dtoList.add(dto)
+        }
+        return ResponseEntity(dtoList, HttpStatus.OK)
     }
 
     @GetMapping("{lessonId}")
@@ -45,7 +48,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
     }
 
     @GetMapping("{lessonId}/teachers")
-    fun getTeacher(@PathVariable("lessonId") lessonId: Long): ResponseEntity<Any?> {
+    fun getTeacher(@PathVariable("lessonId") lessonId: Long): ResponseEntity<Any> {
         return try {
             val teacher = lessonService.findTeacher(lessonId)
             val dto = TeacherDto(teacher.id, teacher.name, teacher.email)
@@ -58,7 +61,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
     }
 
     @GetMapping("{lessonId}/subjects")
-    fun getSubject(@PathVariable("lessonId") lessonId: Long): ResponseEntity<Any?> {
+    fun getSubject(@PathVariable("lessonId") lessonId: Long): ResponseEntity<Any> {
         return try {
             val subject = lessonService.findSubject(lessonId)
             val dto = SubjectDto(id = subject.id, name = subject.name)
@@ -70,19 +73,19 @@ class LessonController(@Autowired private val lessonService: LessonService,
     }
 
     @GetMapping("{lessonId}/students")
-    fun getStudents(@PathVariable("lessonId") lessonId: Long): ResponseEntity<Any?> {
+    fun getStudents(@PathVariable("lessonId") lessonId: Long): ResponseEntity<Any> {
         val dtoList = ArrayList<StudentDto>()
-        lessonService.findStudents(lessonId).forEach({ student ->
+        lessonService.findStudents(lessonId).forEach { student ->
             val dto = StudentDto(id = student.id, number = student.number, name = student.name)
             dto.add(StudentLinkBuilder.self(dto.id))
             dtoList.add(dto)
-        })
+        }
         return ResponseEntity(dtoList, HttpStatus.OK)
     }
 
     @GetMapping("{lessonId}/students/{studentId}")
     fun getStudent(@PathVariable("lessonId") lessonId: Long,
-                   @PathVariable("studentId") studentId: Long): ResponseEntity<Any?> {
+                   @PathVariable("studentId") studentId: Long): ResponseEntity<Any> {
         return try {
             val student = lessonService.findStudent(lessonId, studentId)
             val dto = StudentDto(id = student.id, number = student.number, name = student.name)
@@ -111,7 +114,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
 
     @PostMapping("{lessonId}/students/{studentId}")
     fun addStudent(@PathVariable("lessonId") lessonId: Long,
-                   @PathVariable("studentId") studentId: Long): ResponseEntity<Any?> {
+                   @PathVariable("studentId") studentId: Long): ResponseEntity<Any> {
         return try {
             val lesson = lessonService.findById(lessonId)
             val isExists = try {
@@ -146,7 +149,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
 
     @PutMapping("{lessonId}/subjects/{subjectId}")
     fun updateSubject(@PathVariable("lessonId") lessonId: Long,
-                      @PathVariable("subjectId") subjectId: Long): ResponseEntity<Any?> {
+                      @PathVariable("subjectId") subjectId: Long): ResponseEntity<Any> {
         return try {
             val lesson = lessonService.findById(lessonId)
             lesson.subject = subjectService.findById(subjectId)
@@ -160,7 +163,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
 
     @PutMapping("{lessonId}/teachers/{teacherId}")
     fun updateTeacher(@PathVariable("lessonId") lessonId: Long,
-                      @PathVariable("teacherId") teacherId: Long): ResponseEntity<Any?> {
+                      @PathVariable("teacherId") teacherId: Long): ResponseEntity<Any> {
         return try {
             val lesson = lessonService.findById(lessonId)
             lesson.teacher = teacherService.findById(teacherId)
@@ -173,14 +176,14 @@ class LessonController(@Autowired private val lessonService: LessonService,
     }
 
     @DeleteMapping("{lessonId}")
-    fun deleteLesson(@PathVariable("lessonId") lessonId: Long): ResponseEntity<Any?> {
+    fun deleteLesson(@PathVariable("lessonId") lessonId: Long): ResponseEntity<Any> {
         lessonService.deleteById(lessonId)
         return ResponseEntity(HttpStatus.OK)
     }
 
     @DeleteMapping("{lessonId}/students/{studentId}")
     fun deleteStudent(@PathVariable("lessonId") lessonId: Long,
-                      @PathVariable("studentId") studentId: Long): ResponseEntity<Any?> {
+                      @PathVariable("studentId") studentId: Long): ResponseEntity<Any> {
         return try {
             lessonService.deleteStudent(lessonId, studentId)
             ResponseEntity(HttpStatus.OK)

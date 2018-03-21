@@ -1,6 +1,8 @@
 package io.ermdev.classify.data.service
 
-import io.ermdev.classify.data.entity.*
+import io.ermdev.classify.data.entity.Lesson
+import io.ermdev.classify.data.entity.Student
+import io.ermdev.classify.data.entity.User
 import io.ermdev.classify.data.repository.StudentRepository
 import io.ermdev.classify.exception.EntityException
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,6 +31,9 @@ class StudentService(@Autowired private val studentRepository: StudentRepository
     }
 
     fun save(student: Student) {
+        if (student.id == 0L) {
+            student.user = User(username = student.name.toLowerCase(), password = "${student.number}")
+        }
         studentRepository.save(student)
     }
 

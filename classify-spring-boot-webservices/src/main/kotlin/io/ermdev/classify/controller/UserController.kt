@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("users")
 class UserController(@Autowired val userService: UserService) {
 
-    @GetMapping()
+    @GetMapping
     fun getAll(@RequestParam(value = "username", required = false) username: String?): ResponseEntity<Any> {
         if (StringUtils.isEmpty(username)) {
             val dtoList = ArrayList<UserDto>()

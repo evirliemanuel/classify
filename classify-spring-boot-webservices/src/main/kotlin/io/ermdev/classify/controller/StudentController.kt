@@ -66,7 +66,6 @@ class StudentController(@Autowired val studentService: StudentService,
     @PostMapping
     fun addStudent(@RequestBody student: Student): ResponseEntity<Any> {
         return try {
-            student.user = User(0, student.name.toLowerCase(), "${student.number}")
             studentService.save(student)
             ResponseEntity(HttpStatus.CREATED)
         } catch (e: EntityException) {

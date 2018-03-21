@@ -45,7 +45,9 @@ class TeacherService(@Autowired private val teacherRepository: TeacherRepository
         if (!teacher.email.matches(Regex(emailPattern))) {
             throw EntityException("email must be in valid format")
         }
-        teacher.user = User(0, teacher.email.split("@")[0].toLowerCase(), "123")
+        if (teacher.id == 0L) {
+            teacher.user = User(username = teacher.email.split("@")[0].toLowerCase(), password = "123")
+        }
         teacherRepository.save(teacher)
     }
 

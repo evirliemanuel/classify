@@ -59,21 +59,15 @@ class TeacherController(@Autowired val teacherService: TeacherService,
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
-
     }
 
     @GetMapping("{teacherId}/lessons")
     fun getLessons(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any> {
-        return try {
-            val dtoList = ArrayList<LessonDto>()
-            teacherService.findLessons(id = teacherId).forEach { lesson ->
-                dtoList.add(LessonDto(id = lesson.id))
-            }
-            ResponseEntity(dtoList, HttpStatus.OK)
-        } catch (e: Exception) {
-            val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
-            ResponseEntity(error, HttpStatus.NOT_FOUND)
+        val dtoList = ArrayList<LessonDto>()
+        teacherService.findLessons(id = teacherId).forEach { lesson ->
+            dtoList.add(LessonDto(id = lesson.id))
         }
+        return ResponseEntity(dtoList, HttpStatus.OK)
     }
 
     @GetMapping("{teacherId}/lessons/{lessonId}")

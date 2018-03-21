@@ -1,7 +1,9 @@
 package io.ermdev.classify.dto
 
-import org.springframework.hateoas.ResourceSupport
+import io.ermdev.classify.hateoas.ResourceSupport
 
 class SubjectDto(var id: Long = 0,
 
-                 var name: String = "") : ResourceSupport()
+                 var name: String = "",
+
+                 var code: String = "") : ResourceSupport()

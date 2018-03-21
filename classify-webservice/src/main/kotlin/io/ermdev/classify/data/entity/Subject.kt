@@ -10,5 +10,8 @@ class Subject(@Id
 
               var name: String = "",
 
+              @Column(unique = true)
+              var code: String = "",
+
               @OneToMany(mappedBy = "subject", cascade = [CascadeType.REMOVE])
               var lessons: Set<Lesson> = HashSet())

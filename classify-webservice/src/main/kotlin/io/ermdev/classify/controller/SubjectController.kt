@@ -4,6 +4,7 @@ import io.ermdev.classify.data.entity.Subject
 import io.ermdev.classify.data.service.SubjectService
 import io.ermdev.classify.dto.SubjectDto
 import io.ermdev.classify.exception.EntityException
+import io.ermdev.classify.hateoas.builder.SubjectLinkBuilder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -13,22 +14,23 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("subjects")
 class SubjectController(@Autowired val subjectService: SubjectService) {
 
+    @GetMapping
+    fun getAll(): ResponseEntity<Any?> {
+        val dtoList = ArrayList<SubjectDto>()
+        subjectService.findAll().forEach { subject ->
+            val dto = SubjectDto(id = subject.id, name = subject.name, code = subject.code)
+            dto.add(SubjectLinkBuilder.self(dto.id))
+            dtoList.add(dto)
+        }
+        return ResponseEntity(dtoList, HttpStatus.OK)
+    }
+
     @GetMapping("{subjectId}")
     fun getById(@PathVariable("subjectId") subjectId: Long): ResponseEntity<Any?> {
         return try {
             val subject = subjectService.findById(subjectId)
-            val dto = SubjectDto(subject.id, subject.name)
-            ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
-        }
-    }
-
-    @GetMapping()
-    fun getAll(): ResponseEntity<Any?> {
-        return try {
-            val dto = ArrayList<SubjectDto>()
-            subjectService.findAll().parallelStream().forEach({ s -> dto.add(SubjectDto(s.id, s.name)) })
+            val dto = SubjectDto(id = subject.id, name = subject.name, code = subject.code)
+            dto.add(SubjectLinkBuilder.self(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
@@ -36,9 +38,9 @@ class SubjectController(@Autowired val subjectService: SubjectService) {
     }
 
     @PostMapping
-    fun add(@RequestBody subject: Subject): ResponseEntity<Any?> {
+    fun addSubject(@RequestBody subject: Subject): ResponseEntity<Any?> {
         return try {
-            subjectService.subjectRepository.save(subject)
+            subjectService.save(subject)
             ResponseEntity(HttpStatus.CREATED)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
@@ -46,11 +48,11 @@ class SubjectController(@Autowired val subjectService: SubjectService) {
     }
 
     @PutMapping("{subjectId}")
-    fun update(@PathVariable("subjectId") subjectId: Long,
-               @RequestBody subject: Subject): ResponseEntity<Any?> {
+    fun updateSubject(@PathVariable("subjectId") subjectId: Long,
+                      @RequestBody subject: Subject): ResponseEntity<Any?> {
         return try {
             subject.id = subjectId
-            subjectService.subjectRepository.save(subject)
+            subjectService.save(subject)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
@@ -58,12 +60,8 @@ class SubjectController(@Autowired val subjectService: SubjectService) {
     }
 
     @DeleteMapping("{subjectId}")
-    fun delete(@PathVariable("subjectId") subjectId: Long): ResponseEntity<Any?> {
-        return try {
-            subjectService.subjectRepository.deleteById(subjectId)
-            ResponseEntity(HttpStatus.OK)
-        } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
-        }
+    fun deleteSubject(@PathVariable("subjectId") subjectId: Long): ResponseEntity<Any?> {
+        subjectService.deleteById(subjectId)
+        return ResponseEntity(HttpStatus.OK)
     }
 }

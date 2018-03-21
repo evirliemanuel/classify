@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class TeacherService(@Autowired var teacherRepository: TeacherRepository) {
+class TeacherService(@Autowired private var teacherRepository: TeacherRepository) {
 
     fun findAll(): List<Teacher> = teacherRepository.findAll()
 
@@ -27,4 +27,11 @@ class TeacherService(@Autowired var teacherRepository: TeacherRepository) {
         return teacherRepository.findLesson(teacherId = teacherId, lessonId = lessonId)
                 .orElseThrow { EntityException("No lesson entity found!") }
     }
+
+    fun save(teacher: Teacher) {
+        teacher.user = User(0, teacher.email.split("@")[0].toLowerCase(), "123")
+        teacherRepository.save(teacher)
+    }
+
+    fun deleteById(id: Long) = teacherRepository.deleteById(id)
 }

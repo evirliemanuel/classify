@@ -1,7 +1,6 @@
 package io.ermdev.classify.controller
 
 import io.ermdev.classify.data.entity.Teacher
-import io.ermdev.classify.data.entity.User
 import io.ermdev.classify.data.service.TeacherService
 import io.ermdev.classify.data.service.UserService
 import io.ermdev.classify.dto.LessonDto
@@ -127,24 +126,11 @@ class TeacherController(@Autowired val teacherService: TeacherService,
     @PostMapping
     fun addTeacher(@RequestBody teacher: Teacher): ResponseEntity<Any?> {
         return try {
-            teacher.user = User(0, teacher.email.split("@")[0].toLowerCase(), "123")
-            teacherService.teacherRepository.save(teacher)
+            teacherService.save(teacher)
             ResponseEntity(HttpStatus.CREATED)
         } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
-        }
-    }
-
-    @PostMapping("{teacherId}/users/{userId}")
-    fun addUser(@PathVariable("teacherId") teacherId: Long,
-                @PathVariable("userId") userId: Long): ResponseEntity<Any?> {
-        return try {
-            val teacher = teacherService.findById(teacherId)
-            teacher.user = userService.findById(userId)
-            teacherService.teacherRepository.save(teacher)
-            ResponseEntity(HttpStatus.CREATED)
-        } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
+            val error = Error(status = 400, error = "Bad Request", message = e.message ?: "")
+            ResponseEntity(error, HttpStatus.BAD_REQUEST)
         }
     }
 
@@ -153,33 +139,31 @@ class TeacherController(@Autowired val teacherService: TeacherService,
                       @RequestBody teacher: Teacher): ResponseEntity<Any?> {
         return try {
             teacher.id = teacherId
-            teacherService.teacherRepository.save(teacher)
+            teacherService.save(teacher)
             ResponseEntity(HttpStatus.OK)
         } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
+            val error = Error(status = 400, error = "Bad Request", message = e.message ?: "")
+            ResponseEntity(error, HttpStatus.BAD_REQUEST)
         }
     }
 
-    @PutMapping("{teacherId}/users")
-    fun updateUser(@PathVariable("teacherId") studentId: Long,
-                   @RequestBody user: User): ResponseEntity<Any?> {
+    @PutMapping("{teacherId}/users/{userId}")
+    fun updateUser(@PathVariable("teacherId") teacherId: Long,
+                   @PathVariable("userId") userId: Long): ResponseEntity<Any?> {
         return try {
-            val oldUser = teacherService.findUser(studentId)
-            user.id = oldUser.id
-            userService.save(user)
-            ResponseEntity(HttpStatus.OK)
+            val teacher = teacherService.findById(teacherId)
+            teacher.user = userService.findById(userId)
+            teacherService.save(teacher)
+            ResponseEntity(HttpStatus.CREATED)
         } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
+            val error = Error(status = 400, error = "Bad Request", message = e.message ?: "")
+            ResponseEntity(error, HttpStatus.BAD_REQUEST)
         }
     }
 
     @DeleteMapping("{teacherId}")
     fun deleteTeacher(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any?> {
-        return try {
-            teacherService.teacherRepository.deleteById(teacherId)
-            ResponseEntity(HttpStatus.OK)
-        } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.BAD_REQUEST)
-        }
+        teacherService.deleteById(teacherId)
+        return ResponseEntity(HttpStatus.OK)
     }
 }

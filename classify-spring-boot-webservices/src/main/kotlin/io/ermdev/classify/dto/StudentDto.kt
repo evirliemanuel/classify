@@ -1,6 +1,6 @@
 package io.ermdev.classify.dto
 
-import org.springframework.hateoas.ResourceSupport
+import io.ermdev.classify.hateoas.ResourceSupport
 
 class StudentDto(var id: Long,
 

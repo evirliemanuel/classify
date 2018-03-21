@@ -9,6 +9,7 @@ import io.ermdev.classify.dto.SubjectDto
 import io.ermdev.classify.dto.TeacherDto
 import io.ermdev.classify.dto.UserDto
 import io.ermdev.classify.exception.EntityException
+import io.ermdev.classify.hateoas.builder.TeacherLinkBuilder
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.hateoas.mvc.ControllerLinkBuilder
 import org.springframework.http.HttpStatus
@@ -27,11 +28,9 @@ class StudentController(@Autowired val studentService: StudentService,
             val students = studentService.findAll()
             students.forEach({ student ->
                 val dto = StudentDto(id = student.id, number = student.number, name = student.name)
-                val linkSelf = ControllerLinkBuilder
-                        .linkTo(StudentController::class.java)
-                        .slash(dto.id)
-                        .withSelfRel()
-                dto.add(linkSelf)
+                dto.add(TeacherLinkBuilder.self(dto.id))
+                dto.add(TeacherLinkBuilder.lessons(dto.id))
+                dto.add(TeacherLinkBuilder.user(dto.id))
                 dtoList.add(dto)
             })
             ResponseEntity(dtoList, HttpStatus.OK)
@@ -45,11 +44,7 @@ class StudentController(@Autowired val studentService: StudentService,
         return try {
             val student = studentService.findById(studentId)
             val dto = StudentDto(id = student.id, number = student.number, name = student.name)
-            val linkSelf = ControllerLinkBuilder
-                    .linkTo(StudentController::class.java)
-                    .slash(dto.id)
-                    .withSelfRel()
-            dto.add(linkSelf)
+            dto.add(TeacherLinkBuilder.self(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
@@ -114,11 +109,7 @@ class StudentController(@Autowired val studentService: StudentService,
             val teachers = studentService.findTeachers(studentId)
             teachers.forEach({ teacher ->
                 val dto = TeacherDto(id = teacher.id, name = teacher.name, email = teacher.email)
-                val linkSelf = ControllerLinkBuilder
-                        .linkTo(TeacherController::class.java)
-                        .slash(dto.id)
-                        .withSelfRel()
-                dto.add(linkSelf)
+                dto.add(TeacherLinkBuilder.self(dto.id))
                 dtoList.add(dto)
             })
             ResponseEntity(dtoList, HttpStatus.OK)

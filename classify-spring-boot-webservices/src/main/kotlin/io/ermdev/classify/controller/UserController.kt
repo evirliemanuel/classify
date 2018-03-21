@@ -2,14 +2,11 @@ package io.ermdev.classify.controller
 
 import io.ermdev.classify.data.entity.User
 import io.ermdev.classify.data.service.UserService
-import io.ermdev.classify.dto.StudentDto
-import io.ermdev.classify.dto.TeacherDto
 import io.ermdev.classify.dto.UserDto
 import io.ermdev.classify.exception.EntityException
 import io.ermdev.classify.hateoas.builder.UserLinkBuilder
 import io.ermdev.classify.util.Error
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.hateoas.mvc.ControllerLinkBuilder
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.util.StringUtils
@@ -34,6 +31,7 @@ class UserController(@Autowired val userService: UserService) {
             } else {
                 val user = userService.findByUsername(username!!)
                 val dto = UserDto(id = user.id, username = user.username, password = user.password)
+                dto.add(UserLinkBuilder.self(id = dto.id))
                 ResponseEntity(dto, HttpStatus.OK)
             }
         } catch (e: EntityException) {
@@ -54,41 +52,6 @@ class UserController(@Autowired val userService: UserService) {
             ResponseEntity(error, HttpStatus.NOT_FOUND)
         }
     }
-
-    @GetMapping("{userId}/students")
-    fun getStudent(@PathVariable("userId") userId: Long): ResponseEntity<Any> {
-        return try {
-            val student = userService.findStudent(userId)
-            val dto = StudentDto(id = student.id, number = student.number, name = student.name)
-            val linkSelf = ControllerLinkBuilder
-                    .linkTo(StudentController::class.java)
-                    .slash(dto.id)
-                    .withSelfRel()
-            dto.add(linkSelf)
-            ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: EntityException) {
-            val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
-            ResponseEntity(error, HttpStatus.NOT_FOUND)
-        }
-    }
-
-    @GetMapping("{userId}/teachers")
-    fun getTeacher(@PathVariable("userId") userId: Long): ResponseEntity<Any> {
-        return try {
-            val teacher = userService.findTeacher(userId)
-            val dto = TeacherDto(id = teacher.id, name = teacher.name, email = teacher.email)
-            val linkSelf = ControllerLinkBuilder
-                    .linkTo(TeacherController::class.java)
-                    .slash(dto.id)
-                    .withSelfRel()
-            dto.add(linkSelf)
-            ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: EntityException) {
-            val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
-            ResponseEntity(error, HttpStatus.NOT_FOUND)
-        }
-    }
-
 
     @PostMapping
     fun addUser(@RequestBody user: User): ResponseEntity<Any> {

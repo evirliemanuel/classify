@@ -10,6 +10,7 @@ import io.ermdev.classify.dto.StudentDto
 import io.ermdev.classify.dto.SubjectDto
 import io.ermdev.classify.dto.TeacherDto
 import io.ermdev.classify.exception.EntityException
+import io.ermdev.classify.hateoas.builder.TeacherLinkBuilder
 import io.ermdev.classify.util.Error
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -50,6 +51,7 @@ class LessonController(@Autowired val lessonService: LessonService,
         return try {
             val teacher = lessonService.findTeacher(lessonId)
             val dto = TeacherDto(teacher.id, teacher.name, teacher.email)
+            dto.add(TeacherLinkBuilder.self(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: Exception) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)

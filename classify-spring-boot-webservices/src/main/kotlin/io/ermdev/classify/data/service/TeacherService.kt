@@ -21,14 +21,13 @@ class TeacherService(@Autowired private var teacherRepository: TeacherRepository
     }
 
     fun findUser(id: Long): User {
-        val user: User = teacherRepository.findUser(teacherId = id)
-                .orElseThrow({ EntityException("No user entity found!") })
-        return user
+        return teacherRepository.findUser(teacherId = id)
+                ?: throw EntityException("No user entity found!")
     }
 
     fun findLesson(teacherId: Long, lessonId: Long): Lesson {
         return teacherRepository.findLesson(teacherId = teacherId, lessonId = lessonId)
-                .orElseThrow { EntityException("No lesson entity found!") }
+                ?: throw EntityException("No lesson entity found!")
     }
 
     fun save(teacher: Teacher) {

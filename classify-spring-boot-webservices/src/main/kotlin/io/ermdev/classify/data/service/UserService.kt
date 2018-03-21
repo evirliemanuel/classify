@@ -1,7 +1,5 @@
 package io.ermdev.classify.data.service
 
-import io.ermdev.classify.data.entity.Student
-import io.ermdev.classify.data.entity.Teacher
 import io.ermdev.classify.data.entity.User
 import io.ermdev.classify.data.repository.UserRepository
 import io.ermdev.classify.exception.EntityException
@@ -22,16 +20,6 @@ class UserService(@Autowired private var userRepository: UserRepository) {
     fun findByUsername(username: String): User {
         return userRepository.findByUsername(username)
                 .orElseThrow { EntityException("No user entity with username $username exists!") }
-    }
-
-    fun findStudent(id: Long): Student {
-        return userRepository.findStudent(id)
-                ?: throw EntityException("No student entity found!")
-    }
-
-    fun findTeacher(id: Long): Teacher {
-        return userRepository.findTeacher(id)
-                ?: throw EntityException("No teacher entity found!")
     }
 
     fun save(user: User) {

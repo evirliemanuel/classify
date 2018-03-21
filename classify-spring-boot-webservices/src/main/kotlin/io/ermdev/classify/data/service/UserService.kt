@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 import org.springframework.util.StringUtils
 
 @Service
-class UserService(@Autowired private var userRepository: UserRepository) {
+class UserService(@Autowired private val userRepository: UserRepository) {
 
     fun findAll(): List<User> = userRepository.findAll()
 
@@ -23,10 +23,11 @@ class UserService(@Autowired private var userRepository: UserRepository) {
     }
 
     fun save(user: User) {
+        val usernamePattern = "^([0-9a-zA-Z]+([_.][0-9a-zA-Z]+)?){3,}$"
         if (StringUtils.isEmpty(user.username)) {
             throw EntityException("username cannot be empty")
         }
-        if (!user.username.matches(Regex("^[0-9a-zA-Z]+$"))) {
+        if (!user.username.matches(Regex(usernamePattern))) {
             throw EntityException("username cannot contain special characters")
         }
         if (StringUtils.isEmpty(user.password)) {

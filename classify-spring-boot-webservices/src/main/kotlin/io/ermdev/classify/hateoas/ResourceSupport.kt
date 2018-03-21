@@ -1,9 +1,8 @@
 package io.ermdev.classify.hateoas
 
-import com.fasterxml.jackson.annotation.JsonAlias
-import io.ermdev.classify.hateoas.Link
+import com.fasterxml.jackson.annotation.JsonProperty
 
-open class ResourceSupport(@JsonAlias("_links")
+open class ResourceSupport(@JsonProperty("_links")
                            val links: MutableList<Link> = ArrayList()) {
 
     fun add(link: Link) = links.add(link)

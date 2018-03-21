@@ -6,10 +6,12 @@ import io.ermdev.classify.data.entity.User
 import io.ermdev.classify.data.repository.TeacherRepository
 import io.ermdev.classify.exception.EntityException
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
+import org.springframework.util.StringUtils
 
 @Service
-class TeacherService(@Autowired private var teacherRepository: TeacherRepository) {
+class TeacherService(@Autowired private val teacherRepository: TeacherRepository) {
 
     fun findAll(): List<Teacher> = teacherRepository.findAll()
 
@@ -31,8 +33,25 @@ class TeacherService(@Autowired private var teacherRepository: TeacherRepository
     }
 
     fun save(teacher: Teacher) {
-        teacher.user = User(0, teacher.email.split("@")[0].toLowerCase(), "123")
-        teacherRepository.save(teacher)
+        val emailPattern = "^([0-9a-zA-Z]+([_.][0-9a-zA-Z]+)?){3,}@[0-9a-zA-Z]+\\.[0-9a-zA-Z]+$"
+        if (StringUtils.isEmpty(teacher.name)) {
+            throw EntityException("name cannot be empty")
+        }
+        if (!teacher.name.matches(Regex("^[0-9a-zA-Z]+$"))) {
+            throw EntityException("name cannot contain special characters")
+        }
+        if (StringUtils.isEmpty(teacher.email)) {
+            throw EntityException("email cannot be empty")
+        }
+        if (!teacher.email.matches(Regex(emailPattern))) {
+            throw EntityException("email must be in valid format: regex $emailPattern")
+        }
+        try {
+            teacher.user = User(0, teacher.email.split("@")[0].toLowerCase(), "123")
+            teacherRepository.save(teacher)
+        } catch (e: DataIntegrityViolationException) {
+            throw EntityException("email must be unique")
+        }
     }
 
     fun deleteById(id: Long) = teacherRepository.deleteById(id)

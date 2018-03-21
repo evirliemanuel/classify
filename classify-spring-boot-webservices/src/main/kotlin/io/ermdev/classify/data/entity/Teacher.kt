@@ -12,6 +12,7 @@ class Teacher(
 
         var name: String = "",
 
+        @Column(unique = true)
         var email: String = "",
 
         @OneToOne(cascade = [CascadeType.PERSIST, CascadeType.REMOVE])

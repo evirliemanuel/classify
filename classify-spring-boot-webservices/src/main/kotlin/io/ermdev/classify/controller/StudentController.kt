@@ -72,7 +72,7 @@ class StudentController(@Autowired val studentService: StudentService,
     }
 
     @GetMapping("{studentId}/users")
-    fun getUser(@PathVariable("studentId") studentId: Long): ResponseEntity<Any?> {
+    fun getUser(@PathVariable("studentId") studentId: Long): ResponseEntity<Any> {
         return try {
             val user = studentService.findUser(studentId)
             val dto = UserDto(id = user.id, username = user.username, password = user.password)
@@ -98,7 +98,7 @@ class StudentController(@Autowired val studentService: StudentService,
 
     @PutMapping("{studentId}")
     fun updateStudent(@PathVariable("studentId") studentId: Long,
-                      @RequestBody student: Student): ResponseEntity<Any?> {
+                      @RequestBody student: Student): ResponseEntity<Any> {
         return try {
             student.id = studentId
             studentService.save(student)

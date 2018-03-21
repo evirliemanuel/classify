@@ -13,32 +13,33 @@ import org.springframework.stereotype.Service
 import javax.sql.DataSource
 
 @Service
-class LessonService(@Autowired val lessonRepository: LessonRepository,
-                    @Autowired val subjectRepository: SubjectRepository,
-                    @Autowired val teacherRepository: TeacherRepository,
-                    @Autowired val dataSource: DataSource) {
+class LessonService(@Autowired private val lessonRepository: LessonRepository,
+                    @Autowired private val subjectRepository: SubjectRepository,
+                    @Autowired private val teacherRepository: TeacherRepository,
+                    @Autowired private val dataSource: DataSource) {
 
     fun findAll(): List<Lesson> = lessonRepository.findAll()
 
-    fun findStudents(id: Long): List<Student> = lessonRepository.findStudents(id)
-
     fun findById(id: Long): Lesson {
         return lessonRepository.findById(id)
-                .orElseThrow { EntityException("No lesson found") }
+                .orElseThrow { EntityException("No lesson with id $id exists!") }
     }
 
     fun findTeacher(id: Long): Teacher {
-        return lessonRepository.findTeacher(id).get()
+        return lessonRepository.findTeacher(id)
+                ?: throw EntityException("No teacher entity found!")
     }
 
     fun findSubject(id: Long): Subject {
         return lessonRepository.findSubject(id)
-                .orElseThrow { EntityException("No subject found") }
+                ?: throw EntityException("No subject entity found!")
     }
 
-    fun findStudentById(lessonId: Long, studentId: Long): Student {
-        return lessonRepository.findStudentById(lessonId, studentId)
-                .orElseThrow { EntityException("No student found") }
+    fun findStudents(id: Long): List<Student> = lessonRepository.findStudents(id)
+
+    fun findStudent(lessonId: Long, studentId: Long): Student {
+        return lessonRepository.findStudent(lessonId, studentId)
+                ?: throw EntityException("No student entity found!")
     }
 
     fun save(lesson: Lesson, subjectId: Long, teacherId: Long) {
@@ -49,11 +50,12 @@ class LessonService(@Autowired val lessonRepository: LessonRepository,
         lessonRepository.save(lesson)
     }
 
-    fun save(lesson: Lesson) = lessonRepository.save(lesson)
+    fun save(lesson: Lesson) {
 
-    fun delete(lesson: Lesson) = lessonRepository.delete(lesson)
+        lessonRepository.save(lesson)
+    }
 
-    fun delete(id: Long) = lessonRepository.deleteById(id)
+    fun deleteById(id: Long) = lessonRepository.deleteById(id)
 
     fun deleteStudent(lessonId: Long, studentId: Long) {
         try {

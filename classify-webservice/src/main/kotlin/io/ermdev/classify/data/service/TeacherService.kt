@@ -36,7 +36,7 @@ class TeacherService(@Autowired private val teacherRepository: TeacherRepository
         if (StringUtils.isEmpty(teacher.name)) {
             throw EntityException("name cannot be empty")
         }
-        if (!teacher.name.matches(Regex("^[0-9a-zA-Z]+$"))) {
+        if (!teacher.name.matches(Regex("^[a-zA-Z0-9]+( [a-zA-Z0-9]+)*$"))) {
             throw EntityException("name cannot contain special characters")
         }
         if (StringUtils.isEmpty(teacher.email)) {

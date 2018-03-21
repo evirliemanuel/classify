@@ -35,7 +35,7 @@ class StudentService(@Autowired private val studentRepository: StudentRepository
         if (StringUtils.isEmpty(student.name)) {
             throw EntityException("name cannot be empty")
         }
-        if (!student.name.matches(Regex("^[0-9a-zA-Z]+$"))) {
+        if (!student.name.matches(Regex("^[a-zA-Z0-9]+( [a-zA-Z0-9]+)*$"))) {
             throw EntityException("name cannot contain special characters")
         }
         if (student.number <= 0) {

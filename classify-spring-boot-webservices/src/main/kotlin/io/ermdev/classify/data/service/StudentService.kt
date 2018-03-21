@@ -7,6 +7,7 @@ import io.ermdev.classify.data.repository.StudentRepository
 import io.ermdev.classify.exception.EntityException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.util.StringUtils
 
 @Service
 class StudentService(@Autowired private val studentRepository: StudentRepository) {
@@ -25,12 +26,21 @@ class StudentService(@Autowired private val studentRepository: StudentRepository
 
     fun findLessons(id: Long): List<Lesson> = studentRepository.findLessons(studentId = id)
 
-    fun findLesson(teacherId: Long, lessonId: Long): Lesson {
-        return studentRepository.findLesson(studentId = teacherId, lessonId = lessonId)
+    fun findLesson(studentId: Long, lessonId: Long): Lesson {
+        return studentRepository.findLesson(studentId = studentId, lessonId = lessonId)
                 ?: throw EntityException("No lesson entity found!")
     }
 
     fun save(student: Student) {
+        if (StringUtils.isEmpty(student.name)) {
+            throw EntityException("name cannot be empty")
+        }
+        if (!student.name.matches(Regex("^[0-9a-zA-Z]+$"))) {
+            throw EntityException("name cannot contain special characters")
+        }
+        if (student.number <= 0) {
+            throw EntityException("number cannot be zero or less")
+        }
         if (student.id == 0L) {
             student.user = User(username = student.name.toLowerCase(), password = "${student.number}")
         }

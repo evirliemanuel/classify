@@ -1,9 +1,9 @@
 package io.ermdev.classify.controller
 
 import io.ermdev.classify.data.entity.Student
-import io.ermdev.classify.data.entity.User
 import io.ermdev.classify.data.service.StudentService
 import io.ermdev.classify.data.service.UserService
+import io.ermdev.classify.dto.LessonDto
 import io.ermdev.classify.dto.StudentDto
 import io.ermdev.classify.dto.UserDto
 import io.ermdev.classify.exception.EntityException
@@ -44,6 +44,28 @@ class StudentController(@Autowired val studentService: StudentService,
             dto.add(StudentLinkBuilder.user(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
+            val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
+            ResponseEntity(error, HttpStatus.NOT_FOUND)
+        }
+    }
+
+    @GetMapping("{studentId}/lessons")
+    fun getLessons(@PathVariable("studentId") studentId: Long): ResponseEntity<Any> {
+        val dtoList = ArrayList<LessonDto>()
+        studentService.findLessons(id = studentId).forEach { lesson ->
+            dtoList.add(LessonDto(id = lesson.id))
+        }
+        return ResponseEntity(dtoList, HttpStatus.OK)
+    }
+
+    @GetMapping("{studentId}/lessons/{lessonId}")
+    fun getLesson(@PathVariable("studentId") studentId: Long,
+                  @PathVariable("lessonId") lessonId: Long): ResponseEntity<Any> {
+        return try {
+            val lesson = studentService.findLesson(studentId = studentId, lessonId = lessonId)
+            val dto = LessonDto(id = lesson.id)
+            ResponseEntity(dto, HttpStatus.OK)
+        } catch (e: Exception) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
             ResponseEntity(error, HttpStatus.NOT_FOUND)
         }

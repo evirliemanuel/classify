@@ -14,7 +14,7 @@ class SubjectService(@Autowired private val subjectRepository: SubjectRepository
 
     fun findById(id: Long): Subject {
         return subjectRepository.findById(id)
-                .orElseThrow { EntityException("No subject found") }
+                .orElseThrow { EntityException("No subject entity with id $id exists!") }
     }
 
     fun save(subject: Subject) {
@@ -28,7 +28,7 @@ class SubjectService(@Autowired private val subjectRepository: SubjectRepository
             throw EntityException("code cannot be empty")
         }
         if (!subject.code.matches(Regex("^[0-9a-zA-Z]+$"))) {
-            throw EntityException("email must be in valid format")
+            throw EntityException("code cannot contain special characters")
         }
         subjectRepository.save(subject)
     }

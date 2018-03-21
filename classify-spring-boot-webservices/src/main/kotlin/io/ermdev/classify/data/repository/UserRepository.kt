@@ -14,8 +14,8 @@ interface UserRepository : JpaRepository<User, Long> {
     fun findByUsername(@Param("username") username: String): Optional<User>
 
     @Query("from Student as a join a.user as b where b.id=:userId")
-    fun findStudent(@Param("userId") userId: Long): Optional<Student>
+    fun findStudent(@Param("userId") userId: Long): Student?
 
     @Query("from Teacher as a join a.user as b where b.id=:userId")
-    fun findTeacher(@Param("userId") userId: Long): Optional<Teacher>
+    fun findTeacher(@Param("userId") userId: Long): Teacher?
 }

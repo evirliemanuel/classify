@@ -26,12 +26,12 @@ class UserService(@Autowired private var userRepository: UserRepository) {
 
     fun findStudent(id: Long): Student {
         return userRepository.findStudent(id)
-                .orElseThrow { EntityException("No student entity found!") }
+                ?: throw EntityException("No student entity found!")
     }
 
     fun findTeacher(id: Long): Teacher {
         return userRepository.findTeacher(id)
-                .orElseThrow { EntityException("No teacher entity found!") }
+                ?: throw EntityException("No teacher entity found!")
     }
 
     fun save(user: User) {

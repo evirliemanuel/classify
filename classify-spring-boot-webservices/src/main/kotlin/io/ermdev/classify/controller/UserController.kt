@@ -26,22 +26,12 @@ class UserController(@Autowired val userService: UserService) {
                 val users = userService.findAll()
                 users.forEach { user ->
                     val dto = UserDto(id = user.id, username = user.username, password = user.password)
-                    val linkSelf = ControllerLinkBuilder
-                            .linkTo(UserController::class.java)
-                            .slash(dto.id)
-                            .withSelfRel()
-                    dto.add(linkSelf)
                     dtoList.add(dto)
                 }
                 ResponseEntity(dtoList, HttpStatus.OK)
             } else {
                 val user = userService.findByUsername(username!!)
                 val dto = UserDto(id = user.id, username = user.username, password = user.password)
-                val linkSelf = ControllerLinkBuilder
-                        .linkTo(UserController::class.java)
-                        .slash(dto.id)
-                        .withSelfRel()
-                dto.add(linkSelf)
                 ResponseEntity(dto, HttpStatus.OK)
             }
         } catch (e: EntityException) {
@@ -55,11 +45,6 @@ class UserController(@Autowired val userService: UserService) {
         return try {
             val user = userService.findById(userId)
             val dto = UserDto(id = user.id, username = user.username, password = user.password)
-            val linkSelf = ControllerLinkBuilder
-                    .linkTo(UserController::class.java)
-                    .slash(dto.id)
-                    .withSelfRel()
-            dto.add(linkSelf)
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")

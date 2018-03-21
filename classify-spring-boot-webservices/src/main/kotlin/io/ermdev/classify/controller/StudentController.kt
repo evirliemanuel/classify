@@ -61,11 +61,6 @@ class StudentController(@Autowired val studentService: StudentService,
         return try {
             val user = studentService.findUser(studentId)
             val dto = UserDto(id = user.id, username = user.username, password = user.password)
-            val linkSelf = ControllerLinkBuilder
-                    .linkTo(UserController::class.java)
-                    .slash(dto.id)
-                    .withSelfRel()
-            dto.add(linkSelf)
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)

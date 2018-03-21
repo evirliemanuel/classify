@@ -1,5 +1,6 @@
 package io.ermdev.classify.data.entity
 
+import java.io.Serializable
 import javax.persistence.*
 
 @Entity
@@ -18,4 +19,4 @@ class Teacher(
         var user: User = User(),
 
         @OneToMany(mappedBy = "teacher", cascade = [CascadeType.REMOVE])
-        var lessons: Set<Lesson> = HashSet())
+        var lessons: Set<Lesson> = HashSet()): Serializable

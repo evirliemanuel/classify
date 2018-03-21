@@ -28,9 +28,7 @@ class LessonService(@Autowired val lessonRepository: LessonRepository,
     }
 
     fun findTeacher(id: Long): Teacher {
-        return lessonRepository.findTeacher(id)
-                .orElseThrow { EntityException("No teacher found") }
-
+        return lessonRepository.findTeacher(id).get()
     }
 
     fun findSubject(id: Long): Subject {

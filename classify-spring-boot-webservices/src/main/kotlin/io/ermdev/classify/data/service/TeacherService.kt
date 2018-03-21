@@ -1,6 +1,8 @@
 package io.ermdev.classify.data.service
 
-import io.ermdev.classify.data.entity.*
+import io.ermdev.classify.data.entity.Lesson
+import io.ermdev.classify.data.entity.Teacher
+import io.ermdev.classify.data.entity.User
 import io.ermdev.classify.data.repository.TeacherRepository
 import io.ermdev.classify.exception.EntityException
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,8 +21,9 @@ class TeacherService(@Autowired private var teacherRepository: TeacherRepository
     }
 
     fun findUser(id: Long): User {
-        return teacherRepository.findUser(teacherId = id)
-                .orElseThrow { EntityException("No user entity found!") }
+        val user: User = teacherRepository.findUser(teacherId = id)
+                .orElseThrow({ EntityException("No user entity found!") })
+        return user
     }
 
     fun findLesson(teacherId: Long, lessonId: Long): Lesson {

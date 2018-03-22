@@ -3,6 +3,8 @@ package io.ermdev.classify.data.entity
 import java.sql.Time
 import javax.persistence.*
 
+@Entity
+@Table(name = "tbl_schedule")
 class Schedule(@Id
                @GeneratedValue(strategy = GenerationType.AUTO)
                val id: Long = 0,

@@ -55,4 +55,12 @@ class LessonService(@Autowired private val lessonRepository: LessonRepository,
             e.printStackTrace()
         }
     }
+
+    fun deleteStudent(lessonId: Long, student: Student) {
+        val lesson = lessonRepository.findById(lessonId).orElseGet { Lesson() }
+        if (lesson.id != 0L) {
+            lesson.students.remove(student)
+            lessonRepository.save(lesson)
+        }
+    }
 }

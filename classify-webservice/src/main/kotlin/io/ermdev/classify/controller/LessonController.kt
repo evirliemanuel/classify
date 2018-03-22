@@ -184,12 +184,17 @@ class LessonController(@Autowired private val lessonService: LessonService,
     @DeleteMapping("{lessonId}/students/{studentId}")
     fun deleteStudent(@PathVariable("lessonId") lessonId: Long,
                       @PathVariable("studentId") studentId: Long): ResponseEntity<Any> {
-        return try {
-            lessonService.deleteStudent(lessonId, studentId)
-            ResponseEntity(HttpStatus.OK)
-        } catch (e: Exception) {
-            val error = Error(status = 400, error = "Bad Request", message = e.message ?: "")
-            ResponseEntity(error, HttpStatus.BAD_REQUEST)
+        lessonService.deleteStudent(lessonId = lessonId, studentId = studentId)
+        return ResponseEntity(HttpStatus.OK)
+    }
+
+    @DeleteMapping("{lessonId}/sdStudents/{studentId}")
+    fun deleteSdStudent(@PathVariable("lessonId") lessonId: Long,
+                        @PathVariable("studentId") studentId: Long): ResponseEntity<Any> {
+        try {
+            lessonService.deleteStudent(lessonId = lessonId, student = studentService.findById(studentId))
+        } catch (e: EntityException) {
         }
+        return ResponseEntity(HttpStatus.OK)
     }
 }

@@ -5,6 +5,7 @@ import io.ermdev.classify.data.repository.LessonRepository
 import io.ermdev.classify.exception.EntityException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import javax.sql.DataSource
 
 @Service
@@ -60,6 +61,7 @@ class LessonService(@Autowired private val lessonRepository: LessonRepository,
         }
     }
 
+    @Transactional
     fun deleteSchedule(lessonId: Long, scheduleId: Long) {
         lessonRepository.deleteSchedule(lessonId, scheduleId)
     }

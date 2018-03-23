@@ -16,6 +16,8 @@ class ScheduleService(private val scheduleRepository: ScheduleRepository) {
                 .orElseThrow { EntityException("No schedule entity with id $id exists!") }
     }
 
+    fun findByDay(day: String): List<Schedule> = scheduleRepository.findByDay(day)
+
     fun save(schedule: Schedule) {
         if (StringUtils.isEmpty(schedule.day)) {
             throw EntityException("day cannot be empty")

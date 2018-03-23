@@ -19,7 +19,7 @@ class Lesson(@Id
              @ManyToMany(cascade = [CascadeType.ALL])
              @JoinTable(name = "tbl_student_lesson", joinColumns = [JoinColumn(name = "lesson_id")],
                      inverseJoinColumns = [(JoinColumn(name = "student_id"))])
-             var students: MutableList<Student> = ArrayList(),
+             var students: MutableSet<Student> = HashSet(),
 
              @OneToMany(mappedBy = "lesson", cascade = [CascadeType.REMOVE])
              var schedules: MutableSet<Schedule> = HashSet())

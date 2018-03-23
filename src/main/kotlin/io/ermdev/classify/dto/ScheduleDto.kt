@@ -4,12 +4,12 @@ import io.ermdev.classify.hateoas.ResourceSupport
 import java.sql.Time
 
 class ScheduleDto(
-        val id: Long = 0,
+        var id: Long = 0,
 
-        val day: String = "",
+        var day: String = "",
 
-        val room: String = "",
+        var room: String = "",
 
-        val start: Time = Time(System.currentTimeMillis()),
+        var start: Time = Time(System.currentTimeMillis()),
 
-        val end: Time = Time(System.currentTimeMillis())) : ResourceSupport()
+        var end: Time = Time(System.currentTimeMillis())) : ResourceSupport()

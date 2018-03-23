@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils
 @Service
 class ScheduleService(private val scheduleRepository: ScheduleRepository) {
 
-    fun findAll() = scheduleRepository.findAll()
+    fun findAll(): List<Schedule> = scheduleRepository.findAll()
 
     fun findById(id: Long): Schedule {
         return scheduleRepository.findById(id)
@@ -24,7 +24,7 @@ class ScheduleService(private val scheduleRepository: ScheduleRepository) {
             throw EntityException("day cannot contain special characters")
         }
         if (StringUtils.isEmpty(schedule.room)) {
-            throw EntityException("day cannot be empty")
+            throw EntityException("room cannot be empty")
         }
         if (!schedule.room.matches(Regex("^[a-zA-Z0-9]+( [a-zA-Z0-9]+)*$"))) {
             throw EntityException("room cannot contain special characters")

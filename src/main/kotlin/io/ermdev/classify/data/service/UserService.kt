@@ -3,12 +3,11 @@ package io.ermdev.classify.data.service
 import io.ermdev.classify.data.entity.User
 import io.ermdev.classify.data.repository.UserRepository
 import io.ermdev.classify.exception.EntityException
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.util.StringUtils
 
 @Service
-class UserService(@Autowired private val userRepository: UserRepository) {
+class UserService(private val userRepository: UserRepository) {
 
     fun findAll(): List<User> = userRepository.findAll()
 

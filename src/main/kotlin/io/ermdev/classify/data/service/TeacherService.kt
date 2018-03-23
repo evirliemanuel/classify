@@ -5,12 +5,11 @@ import io.ermdev.classify.data.entity.Teacher
 import io.ermdev.classify.data.entity.User
 import io.ermdev.classify.data.repository.TeacherRepository
 import io.ermdev.classify.exception.EntityException
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.util.StringUtils
 
 @Service
-class TeacherService(@Autowired private val teacherRepository: TeacherRepository) {
+class TeacherService(private val teacherRepository: TeacherRepository) {
 
     fun findAll(): List<Teacher> = teacherRepository.findAll()
 

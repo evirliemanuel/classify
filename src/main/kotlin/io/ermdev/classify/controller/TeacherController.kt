@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("teachers")
-class TeacherController(@Autowired val teacherService: TeacherService,
-                        @Autowired val userService: UserService) {
+class TeacherController(@Autowired private val teacherService: TeacherService,
+                        @Autowired private val userService: UserService) {
 
     @GetMapping
     fun getAll(): ResponseEntity<Any> {

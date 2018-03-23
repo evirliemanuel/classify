@@ -7,16 +7,21 @@ import javax.persistence.*
 @Table(name = "tbl_schedule")
 class Schedule(@Id
                @GeneratedValue(strategy = GenerationType.AUTO)
-               val id: Long = 0,
+               var id: Long = 0,
 
-               val day: String = "",
+               var day: String = "",
 
-               val room: String = "",
+               var room: String = "",
 
-               val start: Time = Time(System.currentTimeMillis()),
+               var start: Time = Time(System.currentTimeMillis()),
 
-               val end: Time = Time(System.currentTimeMillis()),
+               var end: Time = Time(System.currentTimeMillis()),
 
                @ManyToOne(cascade = [CascadeType.PERSIST])
-               @JoinColumn(name = "lessonId")
-               val lesson: Lesson = Lesson())
+               @JoinColumn(name = "lessonId", nullable = false)
+               var lesson: Lesson = Lesson()) {
+
+    override fun toString(): String {
+        return "start = $start,  end = $end"
+    }
+}

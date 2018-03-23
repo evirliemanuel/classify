@@ -6,14 +6,13 @@ import io.ermdev.classify.dto.SubjectDto
 import io.ermdev.classify.exception.EntityException
 import io.ermdev.classify.hateoas.builder.SubjectLinkBuilder
 import io.ermdev.classify.util.Error
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("subjects")
-class SubjectController(@Autowired val subjectService: SubjectService) {
+class SubjectController(private val subjectService: SubjectService) {
 
     @GetMapping
     fun getAll(): ResponseEntity<Any> {

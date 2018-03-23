@@ -6,7 +6,6 @@ import io.ermdev.classify.dto.UserDto
 import io.ermdev.classify.exception.EntityException
 import io.ermdev.classify.hateoas.builder.UserLinkBuilder
 import io.ermdev.classify.util.Error
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.util.StringUtils
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("users")
-class UserController(@Autowired val userService: UserService) {
+class UserController(private val userService: UserService) {
 
     @GetMapping
     fun getAll(@RequestParam(value = "username", required = false) username: String?): ResponseEntity<Any> {

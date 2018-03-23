@@ -3,8 +3,10 @@ package io.ermdev.classify.controller
 import io.ermdev.classify.data.entity.Schedule
 import io.ermdev.classify.data.service.LessonService
 import io.ermdev.classify.data.service.ScheduleService
+import io.ermdev.classify.dto.LessonDto
 import io.ermdev.classify.dto.ScheduleDto
 import io.ermdev.classify.exception.EntityException
+import io.ermdev.classify.hateoas.support.LessonLinkSupport
 import io.ermdev.classify.hateoas.support.ScheduleLinkSupport
 import io.ermdev.classify.util.Error
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,23 +22,22 @@ class ScheduleController(@Autowired private val scheduleService: ScheduleService
 
     @GetMapping
     fun getAll(@RequestParam("day", required = false) day: String?): ResponseEntity<Any> {
+        val dtoList = ArrayList<ScheduleDto>()
         return if (StringUtils.isEmpty(day)) {
-            val schedules: List<Schedule> = scheduleService.findAll()
-            val dtoList = ArrayList<ScheduleDto>()
-            schedules.forEach { schedule ->
+            scheduleService.findAll().forEach { schedule ->
                 val dto = ScheduleDto(id = schedule.id, day = schedule.day, room = schedule.room,
                         start = schedule.start, end = schedule.end)
                 dto.add(ScheduleLinkSupport.self(dto.id))
+                dto.add(ScheduleLinkSupport.lesson(dto.id))
                 dtoList.add(dto)
             }
             ResponseEntity(dtoList, HttpStatus.OK)
         } else {
-            val schedules: List<Schedule> = scheduleService.findByDay(day?:"")
-            val dtoList = ArrayList<ScheduleDto>()
-            schedules.forEach { schedule ->
+            scheduleService.findByDay(day ?: "").forEach { schedule ->
                 val dto = ScheduleDto(id = schedule.id, day = schedule.day, room = schedule.room,
                         start = schedule.start, end = schedule.end)
                 dto.add(ScheduleLinkSupport.self(dto.id))
+                dto.add(ScheduleLinkSupport.lesson(dto.id))
                 dtoList.add(dto)
             }
             ResponseEntity(dtoList, HttpStatus.OK)
@@ -50,6 +51,20 @@ class ScheduleController(@Autowired private val scheduleService: ScheduleService
             val dto = ScheduleDto(id = schedule.id, day = schedule.day, room = schedule.room, start = schedule.start,
                     end = schedule.end)
             dto.add(ScheduleLinkSupport.self(dto.id))
+            dto.add(ScheduleLinkSupport.lesson(dto.id))
+            ResponseEntity(dto, HttpStatus.OK)
+        } catch (e: EntityException) {
+            val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
+            ResponseEntity(error, HttpStatus.NOT_FOUND)
+        }
+    }
+
+    @GetMapping("{scheduleId}/lessons")
+    fun getLesson(@PathVariable("scheduleId") scheduleId: Long): ResponseEntity<Any> {
+        return try {
+            val lesson = scheduleService.findLesson(scheduleId)
+            val dto = LessonDto(id = lesson.id)
+            dto.add(LessonLinkSupport.self(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")

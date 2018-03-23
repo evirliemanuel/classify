@@ -28,7 +28,7 @@ class UserController(private val userService: UserService) {
             return ResponseEntity(dtoList, HttpStatus.OK)
         } else {
             return try {
-                val user = userService.findByUsername(username!!)
+                val user = userService.findByUsername(username ?: "")
                 val dto = UserDto(id = user.id, username = user.username, password = user.password)
                 dto.add(UserLinkSupport.self(id = dto.id))
                 ResponseEntity(dto, HttpStatus.OK)

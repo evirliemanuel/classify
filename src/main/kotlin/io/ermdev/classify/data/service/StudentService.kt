@@ -18,16 +18,16 @@ class StudentService(private val studentRepository: StudentRepository) {
                 .orElseThrow { EntityException("No teacher student with id $id exists!") }
     }
 
-    fun findUser(id: Long): User {
-        return studentRepository.findUser(id)
-                ?: throw EntityException("No user entity found!")
-    }
-
     fun findLessons(id: Long): List<Lesson> = studentRepository.findLessons(studentId = id)
 
     fun findLesson(studentId: Long, lessonId: Long): Lesson {
         return studentRepository.findLesson(studentId = studentId, lessonId = lessonId)
                 ?: throw EntityException("No lesson entity found!")
+    }
+
+    fun findUser(id: Long): User {
+        return studentRepository.findUser(id)
+                ?: throw EntityException("No user entity found!")
     }
 
     fun save(student: Student) {

@@ -13,5 +13,14 @@ class ScheduleLinkSupport {
                     .withSelfRel()
             return Link(rel = selfLink.rel, href = selfLink.href)
         }
+
+        fun lesson(id: Long): Link {
+            val lessonsLink = ControllerLinkBuilder
+                    .linkTo(ScheduleController::class.java)
+                    .slash(id)
+                    .slash("lessons")
+                    .withRel("lesson")
+            return Link(rel = lessonsLink.rel, href = lessonsLink.href)
+        }
     }
 }

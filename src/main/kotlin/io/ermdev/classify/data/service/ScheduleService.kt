@@ -1,5 +1,6 @@
 package io.ermdev.classify.data.service
 
+import io.ermdev.classify.data.entity.Lesson
 import io.ermdev.classify.data.entity.Schedule
 import io.ermdev.classify.data.repository.ScheduleRepository
 import io.ermdev.classify.exception.EntityException
@@ -17,6 +18,11 @@ class ScheduleService(private val scheduleRepository: ScheduleRepository) {
     }
 
     fun findByDay(day: String): List<Schedule> = scheduleRepository.findByDay(day)
+
+    fun findLesson(id: Long): Lesson {
+        return scheduleRepository.findLesson(scheduleId = id)
+                ?: throw EntityException("No lesson entity found!")
+    }
 
     fun save(schedule: Schedule) {
         if (StringUtils.isEmpty(schedule.day)) {

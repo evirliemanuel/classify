@@ -9,13 +9,13 @@ import org.springframework.data.repository.query.Param
 
 interface TeacherRepository : JpaRepository<Teacher, Long> {
 
-    @Query("from User as u join u.teacher as t where t.id=:teacherId")
-    fun findUser(@Param("teacherId") teacherId: Long): User?
-
     @Query("from Lesson as a join a.teacher as b where b.id=:teacherId")
     fun findLessons(@Param("teacherId") teacherId: Long): List<Lesson>
 
     @Query("from Lesson as a join a.teacher as b where b.id=:teacherId and a.id=:lessonId")
     fun findLesson(@Param("teacherId") teacherId: Long,
                    @Param("lessonId") lessonId: Long): Lesson?
+
+    @Query("from User as u join u.teacher as t where t.id=:teacherId")
+    fun findUser(@Param("teacherId") teacherId: Long): User?
 }

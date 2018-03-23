@@ -48,18 +48,6 @@ class TeacherController(@Autowired private val teacherService: TeacherService,
         }
     }
 
-    @GetMapping("{teacherId}/users")
-    fun getUser(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any> {
-        return try {
-            val user = teacherService.findUser(teacherId)
-            val dto = UserDto(id = user.id, username = user.username, password = user.password)
-            dto.add(UserLinkSupport.self(id = dto.id))
-            ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
-        }
-    }
-
     @GetMapping("{teacherId}/lessons")
     fun getLessons(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any> {
         val dtoList = ArrayList<LessonDto>()
@@ -79,6 +67,18 @@ class TeacherController(@Autowired private val teacherService: TeacherService,
         } catch (e: Exception) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
             ResponseEntity(error, HttpStatus.NOT_FOUND)
+        }
+    }
+
+    @GetMapping("{teacherId}/users")
+    fun getUser(@PathVariable("teacherId") teacherId: Long): ResponseEntity<Any> {
+        return try {
+            val user = teacherService.findUser(teacherId)
+            val dto = UserDto(id = user.id, username = user.username, password = user.password)
+            dto.add(UserLinkSupport.self(id = dto.id))
+            ResponseEntity(dto, HttpStatus.OK)
+        } catch (e: EntityException) {
+            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
         }
     }
 

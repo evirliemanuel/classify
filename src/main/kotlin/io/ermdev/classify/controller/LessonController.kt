@@ -26,6 +26,10 @@ class LessonController(@Autowired private val lessonService: LessonService,
         lessonService.findAll().forEach { lesson ->
             val dto = LessonDto(id = lesson.id)
             dto.add(LessonLinkSupport.self(dto.id))
+            dto.add(LessonLinkSupport.schedules(dto.id))
+            dto.add(LessonLinkSupport.students(dto.id))
+            dto.add(LessonLinkSupport.subject(dto.id))
+            dto.add(LessonLinkSupport.teacher(dto.id))
             dtoList.add(dto)
         }
         return ResponseEntity(dtoList, HttpStatus.OK)
@@ -37,32 +41,10 @@ class LessonController(@Autowired private val lessonService: LessonService,
             val lesson = lessonService.findById(lessonId)
             val dto = LessonDto(id = lesson.id)
             dto.add(LessonLinkSupport.self(dto.id))
-            ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: Exception) {
-            val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
-            ResponseEntity(error, HttpStatus.NOT_FOUND)
-        }
-    }
-
-    @GetMapping("{lessonId}/teachers")
-    fun getTeacher(@PathVariable("lessonId") lessonId: Long): ResponseEntity<Any> {
-        return try {
-            val teacher = lessonService.findTeacher(lessonId)
-            val dto = TeacherDto(teacher.id, teacher.name, teacher.email)
-            dto.add(TeacherLinkSupport.self(dto.id))
-            ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: Exception) {
-            val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
-            ResponseEntity(error, HttpStatus.NOT_FOUND)
-        }
-    }
-
-    @GetMapping("{lessonId}/subjects")
-    fun getSubject(@PathVariable("lessonId") lessonId: Long): ResponseEntity<Any> {
-        return try {
-            val subject = lessonService.findSubject(lessonId)
-            val dto = SubjectDto(id = subject.id, name = subject.name)
-            dto.add(SubjectLinkSupport.self(dto.id))
+            dto.add(LessonLinkSupport.schedules(dto.id))
+            dto.add(LessonLinkSupport.students(dto.id))
+            dto.add(LessonLinkSupport.subject(dto.id))
+            dto.add(LessonLinkSupport.teacher(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: Exception) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
@@ -122,6 +104,32 @@ class LessonController(@Autowired private val lessonService: LessonService,
         }
     }
 
+    @GetMapping("{lessonId}/teachers")
+    fun getTeacher(@PathVariable("lessonId") lessonId: Long): ResponseEntity<Any> {
+        return try {
+            val teacher = lessonService.findTeacher(lessonId)
+            val dto = TeacherDto(teacher.id, teacher.name, teacher.email)
+            dto.add(TeacherLinkSupport.self(dto.id))
+            ResponseEntity(dto, HttpStatus.OK)
+        } catch (e: Exception) {
+            val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
+            ResponseEntity(error, HttpStatus.NOT_FOUND)
+        }
+    }
+
+    @GetMapping("{lessonId}/subjects")
+    fun getSubject(@PathVariable("lessonId") lessonId: Long): ResponseEntity<Any> {
+        return try {
+            val subject = lessonService.findSubject(lessonId)
+            val dto = SubjectDto(id = subject.id, name = subject.name)
+            dto.add(SubjectLinkSupport.self(dto.id))
+            ResponseEntity(dto, HttpStatus.OK)
+        } catch (e: Exception) {
+            val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
+            ResponseEntity(error, HttpStatus.NOT_FOUND)
+        }
+    }
+
     @PostMapping
     fun addLesson(@RequestBody body: Lesson,
                   @RequestParam("subjectId") subjectId: Long,
@@ -132,6 +140,19 @@ class LessonController(@Autowired private val lessonService: LessonService,
             lessonService.save(body)
             ResponseEntity(HttpStatus.CREATED)
         } catch (e: EntityException) {
+            val error = Error(status = 400, error = "Bad Request", message = e.message ?: "")
+            ResponseEntity(error, HttpStatus.BAD_REQUEST)
+        }
+    }
+
+    @PostMapping("{lessonId}/schedules")
+    fun addSchedule(@PathVariable("lessonId") lessonId: Long,
+                    @RequestBody body: Schedule): ResponseEntity<Any> {
+        return try {
+            body.lesson = lessonService.findById(lessonId)
+            scheduleService.save(body)
+            ResponseEntity(HttpStatus.CREATED)
+        } catch (e: Exception) {
             val error = Error(status = 400, error = "Bad Request", message = e.message ?: "")
             ResponseEntity(error, HttpStatus.BAD_REQUEST)
         }
@@ -152,19 +173,6 @@ class LessonController(@Autowired private val lessonService: LessonService,
                 lesson.students.add(studentService.findById(studentId))
                 lessonService.save(lesson)
             }
-            ResponseEntity(HttpStatus.CREATED)
-        } catch (e: Exception) {
-            val error = Error(status = 400, error = "Bad Request", message = e.message ?: "")
-            ResponseEntity(error, HttpStatus.BAD_REQUEST)
-        }
-    }
-
-    @PostMapping("{lessonId}/schedules")
-    fun addSchedule(@PathVariable("lessonId") lessonId: Long,
-                    @RequestBody body: Schedule): ResponseEntity<Any> {
-        return try {
-            body.lesson = lessonService.findById(lessonId)
-            scheduleService.save(body)
             ResponseEntity(HttpStatus.CREATED)
         } catch (e: Exception) {
             val error = Error(status = 400, error = "Bad Request", message = e.message ?: "")
@@ -219,17 +227,17 @@ class LessonController(@Autowired private val lessonService: LessonService,
         return ResponseEntity(HttpStatus.OK)
     }
 
-    @DeleteMapping("{lessonId}/students/{studentId}")
-    fun deleteStudent(@PathVariable("lessonId") lessonId: Long,
-                      @PathVariable("studentId") studentId: Long): ResponseEntity<Any> {
-        lessonService.deleteStudent(lessonId = lessonId, studentId = studentId)
-        return ResponseEntity(HttpStatus.OK)
-    }
-
     @DeleteMapping("{lessonId}/schedules/{scheduleId}")
     fun deleteSchedule(@PathVariable("lessonId") lessonId: Long,
                        @PathVariable("scheduleId") scheduleId: Long): ResponseEntity<Any> {
         lessonService.deleteSchedule(lessonId = lessonId, scheduleId = scheduleId)
+        return ResponseEntity(HttpStatus.OK)
+    }
+
+    @DeleteMapping("{lessonId}/students/{studentId}")
+    fun deleteStudent(@PathVariable("lessonId") lessonId: Long,
+                      @PathVariable("studentId") studentId: Long): ResponseEntity<Any> {
+        lessonService.deleteStudent(lessonId = lessonId, studentId = studentId)
         return ResponseEntity(HttpStatus.OK)
     }
 }

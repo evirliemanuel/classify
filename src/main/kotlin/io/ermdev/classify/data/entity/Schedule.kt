@@ -19,9 +19,4 @@ class Schedule(@Id
 
                @ManyToOne(cascade = [CascadeType.PERSIST])
                @JoinColumn(name = "lessonId", nullable = false)
-               var lesson: Lesson = Lesson()) {
-
-    override fun toString(): String {
-        return "start = $start,  end = $end"
-    }
-}
+               var lesson: Lesson = Lesson())

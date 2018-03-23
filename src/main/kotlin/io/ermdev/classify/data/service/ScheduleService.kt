@@ -20,8 +20,15 @@ class ScheduleService(private val scheduleRepository: ScheduleRepository) {
         if (StringUtils.isEmpty(schedule.day)) {
             throw EntityException("day cannot be empty")
         }
-        if (!schedule.day.matches(Regex("^[a-zA-Z0-9]+$"))) {
-            throw EntityException("day cannot contain special characters")
+        when(schedule.day.toLowerCase().trim()) {
+            "monday", "1" -> schedule.day = "Monday"
+            "tuesday", "2" -> schedule.day = "Tuesday"
+            "wednesday", "3" -> schedule.day = "Wednesday"
+            "thursday", "4" -> schedule.day = "Thursday"
+            "friday", "5" -> schedule.day = "Friday"
+            "saturday", "6" -> schedule.day = "Saturday"
+            "sunday", "7", "0" -> schedule.day = "Sunday"
+             else -> throw EntityException("day must be valid")
         }
         if (StringUtils.isEmpty(schedule.room)) {
             throw EntityException("room cannot be empty")

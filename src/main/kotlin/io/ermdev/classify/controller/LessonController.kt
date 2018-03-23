@@ -157,7 +157,6 @@ class LessonController(@Autowired private val lessonService: LessonService,
 
     @PostMapping("{lessonId}/schedules")
     fun addSchedule(@PathVariable("lessonId") lessonId: Long,
-                    @PathVariable("scheduleId") scheduleId: Long,
                     @RequestBody body: Schedule): ResponseEntity<Any> {
         return try {
             body.lesson = lessonService.findById(lessonId)

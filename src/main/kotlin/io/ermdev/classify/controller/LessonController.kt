@@ -5,8 +5,7 @@ import io.ermdev.classify.data.entity.Schedule
 import io.ermdev.classify.data.service.*
 import io.ermdev.classify.dto.*
 import io.ermdev.classify.exception.EntityException
-import io.ermdev.classify.hateoas.builder.StudentLinkBuilder
-import io.ermdev.classify.hateoas.builder.TeacherLinkBuilder
+import io.ermdev.classify.hateoas.support.*
 import io.ermdev.classify.util.Error
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -26,6 +25,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
         val dtoList = ArrayList<LessonDto>()
         lessonService.findAll().forEach { lesson ->
             val dto = LessonDto(id = lesson.id)
+            dto.add(LessonLinkSupport.self(dto.id))
             dtoList.add(dto)
         }
         return ResponseEntity(dtoList, HttpStatus.OK)
@@ -36,6 +36,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
         return try {
             val lesson = lessonService.findById(lessonId)
             val dto = LessonDto(id = lesson.id)
+            dto.add(LessonLinkSupport.self(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: Exception) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
@@ -48,7 +49,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
         return try {
             val teacher = lessonService.findTeacher(lessonId)
             val dto = TeacherDto(teacher.id, teacher.name, teacher.email)
-            dto.add(TeacherLinkBuilder.self(dto.id))
+            dto.add(TeacherLinkSupport.self(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: Exception) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
@@ -61,6 +62,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
         return try {
             val subject = lessonService.findSubject(lessonId)
             val dto = SubjectDto(id = subject.id, name = subject.name)
+            dto.add(SubjectLinkSupport.self(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: Exception) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
@@ -73,7 +75,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
         val dtoList = ArrayList<StudentDto>()
         lessonService.findStudents(lessonId).forEach { student ->
             val dto = StudentDto(id = student.id, number = student.number, name = student.name)
-            dto.add(StudentLinkBuilder.self(dto.id))
+            dto.add(StudentLinkSupport.self(dto.id))
             dtoList.add(dto)
         }
         return ResponseEntity(dtoList, HttpStatus.OK)
@@ -85,7 +87,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
         return try {
             val student = lessonService.findStudent(lessonId, studentId)
             val dto = StudentDto(id = student.id, number = student.number, name = student.name)
-            dto.add(StudentLinkBuilder.self(dto.id))
+            dto.add(StudentLinkSupport.self(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: Exception) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
@@ -99,6 +101,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
         lessonService.findSchedules(lessonId).forEach { schedule ->
             val dto = ScheduleDto(id = schedule.id, day = schedule.day, room = schedule.room, start = schedule.start,
                     end = schedule.end)
+            dto.add(ScheduleLinkSupport.self(dto.id))
             dtoList.add(dto)
         }
         return ResponseEntity(dtoList, HttpStatus.OK)
@@ -111,6 +114,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
             val schedule = lessonService.findSchedule(lessonId, scheduleId)
             val dto = ScheduleDto(id = schedule.id, day = schedule.day, room = schedule.room, start = schedule.start,
                     end = schedule.end)
+            dto.add(ScheduleLinkSupport.self(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: Exception) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")

@@ -7,8 +7,8 @@ import io.ermdev.classify.dto.LessonDto
 import io.ermdev.classify.dto.StudentDto
 import io.ermdev.classify.dto.UserDto
 import io.ermdev.classify.exception.EntityException
-import io.ermdev.classify.hateoas.builder.StudentLinkBuilder
-import io.ermdev.classify.hateoas.builder.UserLinkBuilder
+import io.ermdev.classify.hateoas.support.StudentLinkSupport
+import io.ermdev.classify.hateoas.support.UserLinkSupport
 import io.ermdev.classify.util.Error
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -26,9 +26,9 @@ class StudentController(@Autowired private val studentService: StudentService,
         val students = studentService.findAll()
         students.forEach { student ->
             val dto = StudentDto(id = student.id, number = student.number, name = student.name)
-            dto.add(StudentLinkBuilder.self(dto.id))
-            dto.add(StudentLinkBuilder.lessons(dto.id))
-            dto.add(StudentLinkBuilder.user(dto.id))
+            dto.add(StudentLinkSupport.self(dto.id))
+            dto.add(StudentLinkSupport.lessons(dto.id))
+            dto.add(StudentLinkSupport.user(dto.id))
             dtoList.add(dto)
         }
         return ResponseEntity(dtoList, HttpStatus.OK)
@@ -39,9 +39,9 @@ class StudentController(@Autowired private val studentService: StudentService,
         return try {
             val student = studentService.findById(studentId)
             val dto = StudentDto(id = student.id, number = student.number, name = student.name)
-            dto.add(StudentLinkBuilder.self(dto.id))
-            dto.add(StudentLinkBuilder.lessons(dto.id))
-            dto.add(StudentLinkBuilder.user(dto.id))
+            dto.add(StudentLinkSupport.self(dto.id))
+            dto.add(StudentLinkSupport.lessons(dto.id))
+            dto.add(StudentLinkSupport.user(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
@@ -76,7 +76,7 @@ class StudentController(@Autowired private val studentService: StudentService,
         return try {
             val user = studentService.findUser(studentId)
             val dto = UserDto(id = user.id, username = user.username, password = user.password)
-            dto.add(UserLinkBuilder.self(id = dto.id))
+            dto.add(UserLinkSupport.self(id = dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")

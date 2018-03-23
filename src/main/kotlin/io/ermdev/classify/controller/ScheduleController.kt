@@ -4,6 +4,7 @@ import io.ermdev.classify.data.entity.Schedule
 import io.ermdev.classify.data.service.ScheduleService
 import io.ermdev.classify.dto.ScheduleDto
 import io.ermdev.classify.exception.EntityException
+import io.ermdev.classify.hateoas.support.ScheduleLinkSupport
 import io.ermdev.classify.util.Error
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -20,6 +21,7 @@ class ScheduleController(private val scheduleService: ScheduleService) {
         schedules.forEach { schedule ->
             val dto = ScheduleDto(id = schedule.id, day = schedule.day, room = schedule.room, start = schedule.start,
                     end = schedule.end)
+            dto.add(ScheduleLinkSupport.self(dto.id))
             dtoList.add(dto)
             System.out.println(schedule)
         }
@@ -32,6 +34,7 @@ class ScheduleController(private val scheduleService: ScheduleService) {
             val schedule = scheduleService.findById(scheduleId)
             val dto = ScheduleDto(id = schedule.id, day = schedule.day, room = schedule.room, start = schedule.start,
                     end = schedule.end)
+            dto.add(ScheduleLinkSupport.self(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")

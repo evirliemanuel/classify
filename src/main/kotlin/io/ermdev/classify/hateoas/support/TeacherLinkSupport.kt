@@ -1,14 +1,14 @@
-package io.ermdev.classify.hateoas.builder
+package io.ermdev.classify.hateoas.support
 
-import io.ermdev.classify.controller.StudentController
+import io.ermdev.classify.controller.TeacherController
 import io.ermdev.classify.hateoas.Link
 import org.springframework.hateoas.mvc.ControllerLinkBuilder
 
-class StudentLinkBuilder {
+class TeacherLinkSupport {
     companion object {
         fun self(id: Long): Link {
             val selfLink = ControllerLinkBuilder
-                    .linkTo(StudentController::class.java)
+                    .linkTo(TeacherController::class.java)
                     .slash(id)
                     .withSelfRel()
             return Link(rel = selfLink.rel, href = selfLink.href)
@@ -16,7 +16,7 @@ class StudentLinkBuilder {
 
         fun lessons(id: Long): Link {
             val lessonsLink = ControllerLinkBuilder
-                    .linkTo(StudentController::class.java)
+                    .linkTo(TeacherController::class.java)
                     .slash(id)
                     .slash("lessons")
                     .withRel("lessons")
@@ -25,7 +25,7 @@ class StudentLinkBuilder {
 
         fun user(id: Long): Link {
             val userLink = ControllerLinkBuilder
-                    .linkTo(StudentController::class.java)
+                    .linkTo(TeacherController::class.java)
                     .slash(id)
                     .slash("users")
                     .withRel("user")

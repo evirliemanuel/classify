@@ -4,7 +4,7 @@ import io.ermdev.classify.data.entity.Subject
 import io.ermdev.classify.data.service.SubjectService
 import io.ermdev.classify.dto.SubjectDto
 import io.ermdev.classify.exception.EntityException
-import io.ermdev.classify.hateoas.builder.SubjectLinkBuilder
+import io.ermdev.classify.hateoas.support.SubjectLinkSupport
 import io.ermdev.classify.util.Error
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -19,7 +19,7 @@ class SubjectController(private val subjectService: SubjectService) {
         val dtoList = ArrayList<SubjectDto>()
         subjectService.findAll().forEach { subject ->
             val dto = SubjectDto(id = subject.id, name = subject.name, code = subject.code)
-            dto.add(SubjectLinkBuilder.self(dto.id))
+            dto.add(SubjectLinkSupport.self(dto.id))
             dtoList.add(dto)
         }
         return ResponseEntity(dtoList, HttpStatus.OK)
@@ -30,7 +30,7 @@ class SubjectController(private val subjectService: SubjectService) {
         return try {
             val subject = subjectService.findById(subjectId)
             val dto = SubjectDto(id = subject.id, name = subject.name, code = subject.code)
-            dto.add(SubjectLinkBuilder.self(dto.id))
+            dto.add(SubjectLinkSupport.self(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")

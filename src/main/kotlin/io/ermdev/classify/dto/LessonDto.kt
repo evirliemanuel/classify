@@ -1,3 +1,5 @@
 package io.ermdev.classify.dto
 
-class LessonDto(var id: Long = 0)
+import io.ermdev.classify.hateoas.ResourceSupport
+
+class LessonDto(var id: Long = 0): ResourceSupport()

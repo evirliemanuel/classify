@@ -7,8 +7,8 @@ import io.ermdev.classify.dto.LessonDto
 import io.ermdev.classify.dto.TeacherDto
 import io.ermdev.classify.dto.UserDto
 import io.ermdev.classify.exception.EntityException
-import io.ermdev.classify.hateoas.builder.TeacherLinkBuilder
-import io.ermdev.classify.hateoas.builder.UserLinkBuilder
+import io.ermdev.classify.hateoas.support.TeacherLinkSupport
+import io.ermdev.classify.hateoas.support.UserLinkSupport
 import io.ermdev.classify.util.Error
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -26,9 +26,9 @@ class TeacherController(@Autowired private val teacherService: TeacherService,
         val teachers = teacherService.findAll()
         teachers.forEach { teacher ->
             val dto = TeacherDto(id = teacher.id, name = teacher.name, email = teacher.email)
-            dto.add(TeacherLinkBuilder.self(dto.id))
-            dto.add(TeacherLinkBuilder.lessons(dto.id))
-            dto.add(TeacherLinkBuilder.user(dto.id))
+            dto.add(TeacherLinkSupport.self(dto.id))
+            dto.add(TeacherLinkSupport.lessons(dto.id))
+            dto.add(TeacherLinkSupport.user(dto.id))
             dtoList.add(dto)
         }
         return ResponseEntity(dtoList, HttpStatus.OK)
@@ -39,9 +39,9 @@ class TeacherController(@Autowired private val teacherService: TeacherService,
         return try {
             val teacher = teacherService.findById(teacherId)
             val dto = TeacherDto(teacher.id, teacher.name, teacher.email)
-            dto.add(TeacherLinkBuilder.self(dto.id))
-            dto.add(TeacherLinkBuilder.lessons(dto.id))
-            dto.add(TeacherLinkBuilder.user(dto.id))
+            dto.add(TeacherLinkSupport.self(dto.id))
+            dto.add(TeacherLinkSupport.lessons(dto.id))
+            dto.add(TeacherLinkSupport.user(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)
@@ -53,7 +53,7 @@ class TeacherController(@Autowired private val teacherService: TeacherService,
         return try {
             val user = teacherService.findUser(teacherId)
             val dto = UserDto(id = user.id, username = user.username, password = user.password)
-            dto.add(UserLinkBuilder.self(id = dto.id))
+            dto.add(UserLinkSupport.self(id = dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
             ResponseEntity(e.message, HttpStatus.NOT_FOUND)

@@ -1,9 +1,6 @@
 package io.ermdev.classify.data.repository
 
-import io.ermdev.classify.data.entity.Lesson
-import io.ermdev.classify.data.entity.Student
-import io.ermdev.classify.data.entity.Subject
-import io.ermdev.classify.data.entity.Teacher
+import io.ermdev.classify.data.entity.*
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -22,4 +19,15 @@ interface LessonRepository : JpaRepository<Lesson, Long> {
     @Query("from Student as a join a.lessons as b where b.id=:lessonId and a.id=:studentId")
     fun findStudent(@Param("lessonId") lessonId: Long,
                     @Param("studentId") studentId: Long): Student?
+
+    @Query("from Schedule as a join a.lesson as b where b.id=:lessonId")
+    fun findSchedules(@Param("lessonId") lessonId: Long): List<Schedule>
+
+    @Query("from Schedule as a join a.lesson as b where b.id=:lessonId and a.id=:scheduleId")
+    fun findSchedule(@Param("lessonId") lessonId: Long,
+                     @Param("scheduleId") scheduleId: Long): Schedule?
+
+    @Query("delete from Schedule where lessonId=:lessonId and id=:scheduleId")
+    fun deleteSchedule(@Param("lessonId") lessonId: Long,
+                       @Param("scheduleId") scheduleId: Long)
 }

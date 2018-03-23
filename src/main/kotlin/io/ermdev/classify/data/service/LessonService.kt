@@ -1,9 +1,6 @@
 package io.ermdev.classify.data.service
 
-import io.ermdev.classify.data.entity.Lesson
-import io.ermdev.classify.data.entity.Student
-import io.ermdev.classify.data.entity.Subject
-import io.ermdev.classify.data.entity.Teacher
+import io.ermdev.classify.data.entity.*
 import io.ermdev.classify.data.repository.LessonRepository
 import io.ermdev.classify.exception.EntityException
 import org.springframework.beans.factory.annotation.Autowired
@@ -38,6 +35,13 @@ class LessonService(@Autowired private val lessonRepository: LessonRepository,
                 ?: throw EntityException("No student entity found!")
     }
 
+    fun findSchedules(id: Long): List<Schedule> = lessonRepository.findSchedules(id)
+
+    fun findSchedule(lessonId: Long, scheduleId: Long): Schedule {
+        return lessonRepository.findSchedule(lessonId, scheduleId)
+                ?: throw EntityException("No schedule entity found!")
+    }
+
     fun save(lesson: Lesson) {
         lessonRepository.save(lesson)
     }
@@ -56,11 +60,7 @@ class LessonService(@Autowired private val lessonRepository: LessonRepository,
         }
     }
 
-    fun deleteStudent(lessonId: Long, student: Student) {
-        val lesson = lessonRepository.findById(lessonId).orElseGet { Lesson() }
-        if (lesson.id != 0L) {
-            lesson.students.remove(student)
-            lessonRepository.save(lesson)
-        }
+    fun deleteSchedule(lessonId: Long, scheduleId: Long) {
+        lessonRepository.deleteSchedule(lessonId, scheduleId)
     }
 }

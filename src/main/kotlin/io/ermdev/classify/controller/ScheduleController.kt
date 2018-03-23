@@ -40,7 +40,7 @@ class ScheduleController(private val scheduleService: ScheduleService) {
     }
 
     @PostMapping
-    fun addUser(@RequestBody body: Schedule): ResponseEntity<Any> {
+    fun addSchedule(@RequestBody body: Schedule): ResponseEntity<Any> {
         return try {
             scheduleService.save(body)
             ResponseEntity(HttpStatus.CREATED)
@@ -51,7 +51,7 @@ class ScheduleController(private val scheduleService: ScheduleService) {
     }
 
     @PutMapping("{scheduleId}")
-    fun updateUser(@PathVariable("scheduleId") scheduleId: Long,
+    fun updateSchedule(@PathVariable("scheduleId") scheduleId: Long,
                    @RequestBody body: Schedule): ResponseEntity<Any> {
         return try {
             val schedule = scheduleService.findById(scheduleId)
@@ -68,7 +68,7 @@ class ScheduleController(private val scheduleService: ScheduleService) {
     }
 
     @DeleteMapping("{scheduleId}")
-    fun deleteUser(@PathVariable("scheduleId") scheduleId: Long): ResponseEntity<Any> {
+    fun deleteSchedule(@PathVariable("scheduleId") scheduleId: Long): ResponseEntity<Any> {
         scheduleService.deleteById(scheduleId)
         return ResponseEntity(HttpStatus.OK)
     }

@@ -31,6 +31,22 @@ class ScheduleService(private val scheduleRepository: ScheduleRepository) {
         return scheduleRepository.findByDay(anyMatch)
     }
 
+    fun findByDayAndTeacherId(day: String, id: Long): List<Schedule> {
+        val anyMatch: String = when (day.toLowerCase().trim()) {
+            "mon", "1" -> "Monday"
+            "tue", "2" -> "Tuesday"
+            "wed", "3" -> "Wednesday"
+            "thu", "4" -> "Thursday"
+            "fri", "5" -> "Friday"
+            "sat", "6" -> "Saturday"
+            "sun", "7", "0" -> "Sunday"
+            else -> day
+        }
+        return scheduleRepository.findByDayAndTeacherId(day = anyMatch, teacherId = id)
+    }
+
+    fun findByTeacherId(id: Long): List<Schedule> = scheduleRepository.findByTeacherId(id)
+
     fun findLesson(id: Long): Lesson {
         return scheduleRepository.findLesson(scheduleId = id)
                 ?: throw EntityException("No lesson entity found!")

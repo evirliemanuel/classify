@@ -21,18 +21,19 @@ class ScheduleController(@Autowired private val scheduleService: ScheduleService
                          @Autowired private val lessonService: LessonService) {
 
     @GetMapping
-    fun getAll(@RequestParam("day", required = false) day: String?): ResponseEntity<Any> {
+    fun getAll(@RequestParam("day", required = false) day: String?,
+               @RequestParam("teacherId", required = false) teacherId: Long?): ResponseEntity<Any> {
         val dtoList = ArrayList<ScheduleDto>()
-        return if (StringUtils.isEmpty(day)) {
-            scheduleService.findAll().forEach { schedule ->
+        if (!StringUtils.isEmpty(day) && teacherId != null) {
+            scheduleService.findByDayAndTeacherId(day ?: "", teacherId).forEach { schedule ->
                 val dto = ScheduleDto(id = schedule.id, day = schedule.day, room = schedule.room,
                         start = schedule.start, end = schedule.end)
                 dto.add(ScheduleLinkSupport.self(dto.id))
                 dto.add(ScheduleLinkSupport.lesson(dto.id))
                 dtoList.add(dto)
             }
-            ResponseEntity(dtoList, HttpStatus.OK)
-        } else {
+            return ResponseEntity(dtoList, HttpStatus.OK)
+        } else if (!StringUtils.isEmpty(day)) {
             scheduleService.findByDay(day ?: "").forEach { schedule ->
                 val dto = ScheduleDto(id = schedule.id, day = schedule.day, room = schedule.room,
                         start = schedule.start, end = schedule.end)
@@ -40,7 +41,25 @@ class ScheduleController(@Autowired private val scheduleService: ScheduleService
                 dto.add(ScheduleLinkSupport.lesson(dto.id))
                 dtoList.add(dto)
             }
-            ResponseEntity(dtoList, HttpStatus.OK)
+            return ResponseEntity(dtoList, HttpStatus.OK)
+        } else if (teacherId != null) {
+            scheduleService.findByTeacherId(teacherId).forEach { schedule ->
+                val dto = ScheduleDto(id = schedule.id, day = schedule.day, room = schedule.room,
+                        start = schedule.start, end = schedule.end)
+                dto.add(ScheduleLinkSupport.self(dto.id))
+                dto.add(ScheduleLinkSupport.lesson(dto.id))
+                dtoList.add(dto)
+            }
+            return ResponseEntity(dtoList, HttpStatus.OK)
+        } else {
+            scheduleService.findAll().forEach { schedule ->
+                val dto = ScheduleDto(id = schedule.id, day = schedule.day, room = schedule.room,
+                        start = schedule.start, end = schedule.end)
+                dto.add(ScheduleLinkSupport.self(dto.id))
+                dto.add(ScheduleLinkSupport.lesson(dto.id))
+                dtoList.add(dto)
+            }
+            return ResponseEntity(dtoList, HttpStatus.OK)
         }
     }
 

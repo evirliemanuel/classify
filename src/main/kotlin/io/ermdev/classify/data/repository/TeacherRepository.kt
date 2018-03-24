@@ -10,7 +10,7 @@ import java.util.*
 
 interface TeacherRepository : JpaRepository<Teacher, Long> {
 
-    @Query("from Teacher where userId=:userId")
+    @Query("from Teacher where user.id=:userId")
     fun findByUserId(@Param("userId") userId: Long): Optional<Teacher>
 
     @Query("from Lesson as a join a.teacher as b where b.id=:teacherId")

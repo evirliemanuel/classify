@@ -6,8 +6,12 @@ import io.ermdev.classify.data.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
+import java.util.*
 
 interface TeacherRepository : JpaRepository<Teacher, Long> {
+
+    @Query("from Teacher where userId=:userId")
+    fun findByUserId(@Param("userId") userId: Long): Optional<Teacher>
 
     @Query("from Lesson as a join a.teacher as b where b.id=:teacherId")
     fun findLessons(@Param("teacherId") teacherId: Long): List<Lesson>

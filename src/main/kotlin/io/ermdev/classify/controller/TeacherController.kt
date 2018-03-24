@@ -21,17 +21,30 @@ class TeacherController(@Autowired private val teacherService: TeacherService,
                         @Autowired private val userService: UserService) {
 
     @GetMapping
-    fun getAll(): ResponseEntity<Any> {
-        val dtoList = ArrayList<TeacherDto>()
-        val teachers = teacherService.findAll()
-        teachers.forEach { teacher ->
-            val dto = TeacherDto(id = teacher.id, name = teacher.name, email = teacher.email)
-            dto.add(TeacherLinkSupport.self(dto.id))
-            dto.add(TeacherLinkSupport.lessons(dto.id))
-            dto.add(TeacherLinkSupport.user(dto.id))
-            dtoList.add(dto)
+    fun getAll(@RequestParam("userId", required = false) userId: Long?): ResponseEntity<Any> {
+        if (userId != null) {
+            val dtoList = ArrayList<TeacherDto>()
+            val teachers = teacherService.findAll()
+            teachers.forEach { teacher ->
+                val dto = TeacherDto(id = teacher.id, name = teacher.name, email = teacher.email)
+                dto.add(TeacherLinkSupport.self(dto.id))
+                dto.add(TeacherLinkSupport.lessons(dto.id))
+                dto.add(TeacherLinkSupport.user(dto.id))
+                dtoList.add(dto)
+            }
+            return ResponseEntity(dtoList, HttpStatus.OK)
+        } else {
+            return try {
+                val teacher = teacherService.findByUserId(userId ?: 0)
+                val dto = TeacherDto(teacher.id, teacher.name, teacher.email)
+                dto.add(TeacherLinkSupport.self(dto.id))
+                dto.add(TeacherLinkSupport.lessons(dto.id))
+                dto.add(TeacherLinkSupport.user(dto.id))
+                ResponseEntity(dto, HttpStatus.OK)
+            } catch (e: EntityException) {
+                ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+            }
         }
-        return ResponseEntity(dtoList, HttpStatus.OK)
     }
 
     @GetMapping("{teacherId}")

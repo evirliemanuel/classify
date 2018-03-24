@@ -22,7 +22,7 @@ class TeacherController(@Autowired private val teacherService: TeacherService,
 
     @GetMapping
     fun getAll(@RequestParam("userId", required = false) userId: Long?): ResponseEntity<Any> {
-        if (userId != null) {
+        if (userId == null) {
             val dtoList = ArrayList<TeacherDto>()
             val teachers = teacherService.findAll()
             teachers.forEach { teacher ->
@@ -42,7 +42,8 @@ class TeacherController(@Autowired private val teacherService: TeacherService,
                 dto.add(TeacherLinkSupport.user(dto.id))
                 ResponseEntity(dto, HttpStatus.OK)
             } catch (e: EntityException) {
-                ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+                val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
+                ResponseEntity(error, HttpStatus.NOT_FOUND)
             }
         }
     }
@@ -57,7 +58,8 @@ class TeacherController(@Autowired private val teacherService: TeacherService,
             dto.add(TeacherLinkSupport.user(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+            val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
+            ResponseEntity(error, HttpStatus.NOT_FOUND)
         }
     }
 
@@ -91,7 +93,8 @@ class TeacherController(@Autowired private val teacherService: TeacherService,
             dto.add(UserLinkSupport.self(id = dto.id))
             ResponseEntity(dto, HttpStatus.OK)
         } catch (e: EntityException) {
-            ResponseEntity(e.message, HttpStatus.NOT_FOUND)
+            val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
+            ResponseEntity(error, HttpStatus.NOT_FOUND)
         }
     }
 

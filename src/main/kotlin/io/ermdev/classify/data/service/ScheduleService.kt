@@ -17,7 +17,19 @@ class ScheduleService(private val scheduleRepository: ScheduleRepository) {
                 .orElseThrow { EntityException("No schedule entity with id $id exists!") }
     }
 
-    fun findByDay(day: String): List<Schedule> = scheduleRepository.findByDay(day)
+    fun findByDay(day: String): List<Schedule> {
+        val anyMatch: String = when (day.toLowerCase().trim()) {
+            "mon", "1" -> "Monday"
+            "tue", "2" -> "Tuesday"
+            "wed", "3" -> "Wednesday"
+            "thu", "4" -> "Thursday"
+            "fri", "5" -> "Friday"
+            "sat", "6" -> "Saturday"
+            "sun", "7", "0" -> "Sunday"
+            else -> day
+        }
+        return scheduleRepository.findByDay(anyMatch)
+    }
 
     fun findLesson(id: Long): Lesson {
         return scheduleRepository.findLesson(scheduleId = id)
@@ -29,13 +41,13 @@ class ScheduleService(private val scheduleRepository: ScheduleRepository) {
             throw EntityException("day cannot be empty")
         }
         when (schedule.day.toLowerCase().trim()) {
-            "monday", "m", "1" -> schedule.day = "Monday"
-            "tuesday", "t", "2" -> schedule.day = "Tuesday"
-            "wednesday", "w", "3" -> schedule.day = "Wednesday"
-            "thursday", "th", "4" -> schedule.day = "Thursday"
-            "friday", "f", "5" -> schedule.day = "Friday"
-            "saturday", "s", "6" -> schedule.day = "Saturday"
-            "sunday", "sn", "7", "0" -> schedule.day = "Sunday"
+            "monday", "mon", "1" -> schedule.day = "Monday"
+            "tuesday", "tue", "2" -> schedule.day = "Tuesday"
+            "wednesday", "wed", "3" -> schedule.day = "Wednesday"
+            "thursday", "thu", "4" -> schedule.day = "Thursday"
+            "friday", "fri", "5" -> schedule.day = "Friday"
+            "saturday", "sat", "6" -> schedule.day = "Saturday"
+            "sunday", "sun", "7", "0" -> schedule.day = "Sunday"
             else -> throw EntityException("day must be valid")
         }
         if (StringUtils.isEmpty(schedule.room)) {

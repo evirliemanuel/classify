@@ -46,7 +46,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
             dto.add(LessonLinkSupport.subject(dto.id))
             dto.add(LessonLinkSupport.teacher(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: Exception) {
+        } catch (e: EntityException) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
             ResponseEntity(error, HttpStatus.NOT_FOUND)
         }
@@ -71,7 +71,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
             val dto = StudentDto(id = student.id, number = student.number, name = student.name)
             dto.add(StudentLinkSupport.self(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: Exception) {
+        } catch (e: EntityException) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
             ResponseEntity(error, HttpStatus.NOT_FOUND)
         }
@@ -98,7 +98,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
                     end = schedule.end)
             dto.add(ScheduleLinkSupport.self(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: Exception) {
+        } catch (e: EntityException) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
             ResponseEntity(error, HttpStatus.NOT_FOUND)
         }
@@ -111,7 +111,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
             val dto = TeacherDto(teacher.id, teacher.name, teacher.email)
             dto.add(TeacherLinkSupport.self(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: Exception) {
+        } catch (e: EntityException) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
             ResponseEntity(error, HttpStatus.NOT_FOUND)
         }
@@ -124,7 +124,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
             val dto = SubjectDto(id = subject.id, name = subject.name)
             dto.add(SubjectLinkSupport.self(dto.id))
             ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: Exception) {
+        } catch (e: EntityException) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
             ResponseEntity(error, HttpStatus.NOT_FOUND)
         }
@@ -152,7 +152,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
             body.lesson = lessonService.findById(lessonId)
             scheduleService.save(body)
             ResponseEntity(HttpStatus.CREATED)
-        } catch (e: Exception) {
+        } catch (e: EntityException) {
             val error = Error(status = 400, error = "Bad Request", message = e.message ?: "")
             ResponseEntity(error, HttpStatus.BAD_REQUEST)
         }
@@ -174,7 +174,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
                 lessonService.save(lesson)
             }
             ResponseEntity(HttpStatus.CREATED)
-        } catch (e: Exception) {
+        } catch (e: EntityException) {
             val error = Error(status = 400, error = "Bad Request", message = e.message ?: "")
             ResponseEntity(error, HttpStatus.BAD_REQUEST)
         }
@@ -187,7 +187,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
             val lesson = lessonService.findById(lessonId)
             lessonService.save(lesson)
             ResponseEntity(HttpStatus.OK)
-        } catch (e: Exception) {
+        } catch (e: EntityException) {
             val error = Error(status = 400, error = "Bad Request", message = e.message ?: "")
             ResponseEntity(error, HttpStatus.BAD_REQUEST)
         }
@@ -201,7 +201,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
             lesson.subject = subjectService.findById(subjectId)
             lessonService.save(lesson)
             ResponseEntity(HttpStatus.OK)
-        } catch (e: Exception) {
+        } catch (e: EntityException) {
             val error = Error(status = 400, error = "Bad Request", message = e.message ?: "")
             ResponseEntity(error, HttpStatus.BAD_REQUEST)
         }
@@ -215,7 +215,7 @@ class LessonController(@Autowired private val lessonService: LessonService,
             lesson.teacher = teacherService.findById(teacherId)
             lessonService.save(lesson)
             ResponseEntity(HttpStatus.OK)
-        } catch (e: Exception) {
+        } catch (e: EntityException) {
             val error = Error(status = 400, error = "Bad Request", message = e.message ?: "")
             ResponseEntity(error, HttpStatus.BAD_REQUEST)
         }

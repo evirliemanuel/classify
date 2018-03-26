@@ -17,4 +17,4 @@ class Student(@Id
               var user: User = User(),
 
               @ManyToMany(mappedBy = "students")
-              var lessons: List<Lesson> = ArrayList())
+              var lessons: MutableSet<Lesson> = HashSet())

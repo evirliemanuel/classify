@@ -65,7 +65,7 @@ class StudentController(@Autowired private val studentService: StudentService,
             val lesson = studentService.findLesson(studentId = studentId, lessonId = lessonId)
             val dto = LessonDto(id = lesson.id)
             ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: Exception) {
+        } catch (e: EntityException) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
             ResponseEntity(error, HttpStatus.NOT_FOUND)
         }

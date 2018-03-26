@@ -20,4 +20,4 @@ class Teacher(
         var user: User = User(),
 
         @OneToMany(mappedBy = "teacher", cascade = [CascadeType.REMOVE])
-        var lessons: Set<Lesson> = HashSet()): Serializable
+        var lessons: MutableSet<Lesson> = HashSet()): Serializable

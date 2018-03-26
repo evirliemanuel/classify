@@ -79,7 +79,7 @@ class TeacherController(@Autowired private val teacherService: TeacherService,
             val lesson = teacherService.findLesson(teacherId = teacherId, lessonId = lessonId)
             val dto = LessonDto(id = lesson.id)
             ResponseEntity(dto, HttpStatus.OK)
-        } catch (e: Exception) {
+        } catch (e: EntityException) {
             val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
             ResponseEntity(error, HttpStatus.NOT_FOUND)
         }

@@ -7,7 +7,7 @@ class Error(var timestamp: Timestamp = Timestamp(System.currentTimeMillis()),
             var error: String = "",
             var message: String = "") {
 
-    override fun toString(): String {
+    fun json(): String {
         return "{\n" +
                 "    \"timestamp\": \"$timestamp\",\n" +
                 "    \"status\": $status,\n" +

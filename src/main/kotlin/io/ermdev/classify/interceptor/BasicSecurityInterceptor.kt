@@ -15,14 +15,12 @@ class BasicSecurityInterceptor(val userService: UserService) : HandlerIntercepto
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         try {
-            val encoded: String? = request.getHeader("Authorization")?.split(" ")?.get(1)
-            if (!StringUtils.isEmpty(encoded)) {
-                val decoded = String(Base64.decode(encoded))
-                val username: String? = decoded.split(":")[0]
-                val password: String? = decoded.split(":")[1]
-                val user = userService.findByUsername(username ?: "")
-
-                if (user.password == password) {
+            val auth: List<String>? = request.getHeader("Authorization")?.split(" ")
+            if (auth != null && auth.size == 2 && !StringUtils.isEmpty(auth[0]) && !StringUtils.isEmpty(auth[1])) {
+                val token = String(Base64.decode(auth[1]))
+                val username: String? = token.split(":")[0]
+                val password: String? = token.split(":")[1]
+                if (userService.findByUsername(username ?: "").password == password) {
                     return true
                 } else {
                     throw RuntimeException("Access is denied due to invalid credentials")
@@ -31,11 +29,12 @@ class BasicSecurityInterceptor(val userService: UserService) : HandlerIntercepto
                 throw RuntimeException("Full authentication is required to access this resource")
             }
         } catch (e: Exception) {
-            val error = Error(status = 401, error = HttpStatus.UNAUTHORIZED.name, message = e.message?: "")
+            e.printStackTrace()
+            val error = Error(status = 401, error = HttpStatus.UNAUTHORIZED.name, message = e.message ?: "")
             response.contentType = "application/json"
             response.characterEncoding = "utf-8"
             response.status = 401
-            response.writer.print(error.toString())
+            response.writer.print(error.json())
             return false
         }
     }

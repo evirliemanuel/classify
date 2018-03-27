@@ -13,8 +13,13 @@ class User(@Id
 
            var password: String = "",
 
-           @OneToOne(mappedBy = "user")
-           var teacher: Teacher? = null,
+           @ManyToMany(cascade = [CascadeType.PERSIST])
+           @JoinTable(name = "tbl_user_role", joinColumns = [JoinColumn(name = "user_id", nullable = false)],
+                   inverseJoinColumns = [JoinColumn(name = "role_id", nullable = false)])
+           var roles: MutableSet<Role> = HashSet(),
 
            @OneToOne(mappedBy = "user")
-           var student: Student? = null)
+           var student: Student? = null,
+
+           @OneToOne(mappedBy = "user")
+           var teacher: Teacher? = null)

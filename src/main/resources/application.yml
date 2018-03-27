@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    show_sql: true
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/db_classify?useSSL=false
+    username: root
+    password:
+    driver-class-name: com.mysql.jdbc.Driver
+server:
+  port: 8085
+  servlet:
+    context-path: /api
+

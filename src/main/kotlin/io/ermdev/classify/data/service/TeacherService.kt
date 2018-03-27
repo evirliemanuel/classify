@@ -1,6 +1,7 @@
 package io.ermdev.classify.data.service
 
 import io.ermdev.classify.data.entity.Lesson
+import io.ermdev.classify.data.entity.Role
 import io.ermdev.classify.data.entity.Teacher
 import io.ermdev.classify.data.entity.User
 import io.ermdev.classify.data.repository.TeacherRepository
@@ -50,7 +51,10 @@ class TeacherService(private val teacherRepository: TeacherRepository) {
             throw EntityException("email must be in valid format")
         }
         if (teacher.id == 0L) {
-            teacher.user = User(username = teacher.email.split("@")[0].toLowerCase(), password = "123")
+            val role = Role(name = "USER")
+            val user = User(username = teacher.email.split("@")[0].toLowerCase(), password = "123")
+            user.roles.add(role)
+            teacher.user = user
         }
         teacherRepository.save(teacher)
     }

@@ -1,6 +1,7 @@
 package io.ermdev.classify.data.service
 
 import io.ermdev.classify.data.entity.Lesson
+import io.ermdev.classify.data.entity.Role
 import io.ermdev.classify.data.entity.Student
 import io.ermdev.classify.data.entity.User
 import io.ermdev.classify.data.repository.StudentRepository
@@ -41,7 +42,10 @@ class StudentService(private val studentRepository: StudentRepository) {
             throw EntityException("number cannot be zero or less")
         }
         if (student.id == 0L) {
-            student.user = User(username = student.name.toLowerCase(), password = "${student.number}")
+            val role = Role(name = "USER")
+            val user = User(username = student.name.toLowerCase(), password = "${student.number}")
+            user.roles.add(role)
+            student.user = user
         }
         studentRepository.save(student)
     }

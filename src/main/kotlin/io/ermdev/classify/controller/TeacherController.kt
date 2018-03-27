@@ -35,7 +35,7 @@ class TeacherController(@Autowired private val teacherService: TeacherService,
             return ResponseEntity(dtoList, HttpStatus.OK)
         } else {
             return try {
-                val teacher = teacherService.findByUserId(userId ?: 0)
+                val teacher = teacherService.findByUserId(userId)
                 val dto = TeacherDto(teacher.id, teacher.name, teacher.email)
                 dto.add(TeacherLinkSupport.self(dto.id))
                 dto.add(TeacherLinkSupport.lessons(dto.id))

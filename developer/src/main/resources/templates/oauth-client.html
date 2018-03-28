@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>Classify Developer</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/header.css}" rel="stylesheet"/>
+    <link th:href="@{/css/client.css}" rel="stylesheet"/>
+</head>
+<body>
+<th:block th:include="header :: header"/>
+<div>
+    <div class="container body-container">
+        <div class="row">
+        <div class="col-lg-10">
+            <h2>Create client ID</h2>
+            <form>
+                <div class="form-group">
+                    <label for="inputName">Name</label>
+                    <input type="text" class="form-control" id="inputName" aria-describedby="nameHelp" placeholder="Name" value="Application name">
+                    <!--<small id="nameHelp" class="form-text text-muted">We'll never share your name with anyone else.</small>-->
+                </div>
+                <div class="form-group">
+                    <label for="inputRedirectUri">Authorized redirect URIs</label>
+                    <input type="text" class="form-control" id="inputRedirectUri" placeholder="http://www.example.com">
+                </div>
+                <fieldset class="form-group">
+                    <Label><b>Application type</b></Label>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="optionsRadios" value="option2">
+                            Web Application
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="optionsRadios" value="option2">
+                            Android
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="optionsRadios" value="option2">
+                            Chrome App
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="optionsRadios" value="option2">
+                            iOS
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="optionsRadios" id="" value="option2">
+                            PlayStation 4
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="optionsRadios" value="option2">
+                            Other
+                        </label>
+                    </div>
+                </fieldset>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+<footer class="py-5 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; ermdev.io 2017</p>
+    </div>
+</footer>
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/header.js}"></script>
+</body>
+</html>

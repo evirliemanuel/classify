@@ -18,10 +18,10 @@ import java.util.List;
 
 @EnableOAuth2Sso
 @SpringBootApplication
-public class ClassifyUiApplication {
+public class ClassifyDeveloperApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ClassifyUiApplication.class, args);
+        SpringApplication.run(ClassifyDeveloperApplication.class, args);
     }
 
     @Controller

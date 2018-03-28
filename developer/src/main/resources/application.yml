@@ -2,7 +2,7 @@ auth-server: http://localhost:5002/auth
 server:
   port: 5003
   servlet:
-      context-path: /ui
+      context-path: /developer
 security:
   basic:
     enabled: false

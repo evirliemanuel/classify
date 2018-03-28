@@ -1,0 +1,16 @@
+body {
+    background-color: #fff;
+}
+
+.body-container {
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
+
+label[for="inputRedirectUri"] {
+    font-weight: bold;
+}
+
+label[for="inputName"] {
+    font-weight: bold;
+}

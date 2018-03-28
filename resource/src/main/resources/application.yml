@@ -18,7 +18,7 @@ security:
     enabled: false
   oauth2:
     resource:
-      token-info-uri: http://localhost:5001/auth/oauth/check_token
+      token-info-uri: http://localhost:5002/auth/oauth/check_token
     client:
       client-id: demo
       client-secret: demo

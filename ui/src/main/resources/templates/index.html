@@ -13,16 +13,14 @@
     <div class="uk-width-3-5">
         <h1>Demo</h1>
         <p>Logged in as: <span th:text="${#httpServletRequest.remoteUser}">demo</span></p>
-        <p>Logged in as: <span th:text="${param.code[0]}">demo</span></p>
         <form th:action="@{/messages}" class="uk-panel uk-panel-box uk-form" method="post">
             <input class="uk-form-large" type="text" name="text" placeholder="Message"/>
             <button class="uk-button uk-button-primary uk-button-large">Send</button>
         </form>
         <h2>Messages</h2>
-        <div class="uk-panel uk-panel-box" th:each="message : ${messages}">
-            <h3 class="uk-panel-title"><span th:text="${message.username}"></span> @ <span
-                    th:text="${message.createdAt}"></span></h3>
-            <span th:text="${message.text}"></span>
+        <div class="uk-panel uk-panel-box" th:each="user : ${users}">
+            <h3 class="uk-panel-title"><span th:text="${user.username}"></span> @ <span
+                    th:text="${user.password}"></span></h3>
         </div>
     </div>
     <div class="uk-width-1-5"></div>

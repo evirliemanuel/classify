@@ -12,8 +12,7 @@
     <div class="uk-width-1-5"></div>
     <div class="uk-width-3-5">
         <h1>Demo</h1>
-        <a th:href="@{${@environment.getProperty('ui.url', 'http://localhost:8080')}}">Go back to UI</a>
-        <form th:action="@{/logout}" method="post">
+        <form th:action="/logout" method="get">
             <button class="uk-button">Logout</button>
         </form>
     </div>

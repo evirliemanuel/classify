@@ -13,4 +13,6 @@ server:
   port: 8085
   servlet:
     context-path: /api
-
+security:
+  basic:
+    enabled: false

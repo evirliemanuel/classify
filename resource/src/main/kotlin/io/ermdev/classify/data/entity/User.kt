@@ -13,7 +13,7 @@ class User(@Id
 
            var password: String = "",
 
-           @ManyToMany(cascade = [CascadeType.PERSIST])
+           @ManyToMany(cascade = [CascadeType.PERSIST], fetch = FetchType.EAGER)
            @JoinTable(name = "tbl_user_role", joinColumns = [JoinColumn(name = "user_id", nullable = false)],
                    inverseJoinColumns = [JoinColumn(name = "role_id", nullable = false)])
            var roles: MutableSet<Role> = HashSet(),

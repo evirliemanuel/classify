@@ -10,7 +10,7 @@ spring:
     password:
     driver-class-name: com.mysql.jdbc.Driver
 server:
-  port: 8085
+  port: 5001
   servlet:
     context-path: /api
 security:

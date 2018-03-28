@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.ermdev</groupId>
-    <artifactId>classify</artifactId>
+    <artifactId>classify-resource</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>classify</name>
-    <description>Demo project for Spring Boot</description>
+    <name>classify-resource</name>
+    <description>REST API</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

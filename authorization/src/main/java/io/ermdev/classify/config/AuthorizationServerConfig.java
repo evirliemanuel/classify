@@ -19,10 +19,11 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-                .withClient("clientId")
-                .secret("{noop}secret")
-                .authorizedGrantTypes("authorization_code")
+                .withClient("demo")
+                .secret("{noop}demo")
+                .authorizedGrantTypes("authorization_code", "client_credentials")
                 .authorities("USER")
+                .accessTokenValiditySeconds(1000 * 60)
                 .scopes("read", "write");
     }
 }

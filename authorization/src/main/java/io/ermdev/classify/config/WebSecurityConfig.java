@@ -16,10 +16,11 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().loginPage("/login").permitAll()
                 .and()
                 .requestMatchers()
-                .antMatchers("/", "/login", "/oauth/authorize", "/oauth/confirm_access")
+                .antMatchers("/", "/login", "/logout", "/oauth/authorize", "/oauth/confirm_access")
                 .and()
                 .authorizeRequests()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and().csrf().disable();
     }
 
     @Override

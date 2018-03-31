@@ -12,7 +12,7 @@ class RoleService(@Autowired val roleRepository: RoleRepository) {
 
     fun findAll(): List<Role> = roleRepository.findAll()
 
-    fun funById(id: Long): Role {
+    fun findById(id: Long): Role {
         return roleRepository.findById(id)
                 .orElseThrow { EntityException("No role with id $id exists") }
     }

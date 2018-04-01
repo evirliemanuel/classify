@@ -21,7 +21,7 @@ datasource:
 
 ## Authentication
 
-Create your user acount by sending a POST request to [/auth/createToken](http:localhost:8085/api/developer/creatToken) with your username and password inside the body.
+Create your user acount by sending a POST request to [http://localhost:5002/auth/oauth/token](http:localhost:8085/api/developer/creatToken) with your username and password inside the body.
 On success, user information and API token will be returned:
 ```
 {

@@ -66,7 +66,7 @@ class RoleController(@Autowired val roleService: RoleService) {
     }
 
     @DeleteMapping("{roleId}")
-    fun deleteUser(@PathVariable("roleId") roleId: Long): ResponseEntity<Any> {
+    fun deleteRole(@PathVariable("roleId") roleId: Long): ResponseEntity<Any> {
         roleService.deleteById(roleId)
         return ResponseEntity(HttpStatus.OK)
     }

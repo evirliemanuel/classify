@@ -16,15 +16,27 @@ import org.springframework.web.bind.annotation.*
 class RoleController(@Autowired val roleService: RoleService) {
 
     @GetMapping
-    fun getAll(): ResponseEntity<Any> {
-        val dtoList = ArrayList<RoleDto>()
-        val roles = roleService.findAll()
-        roles.forEach { role ->
-            val dto = RoleDto(id = role.id, name = role.name)
-            dto.add(RoleLinkSupport.self(id = dto.id))
-            dtoList.add(dto)
+    fun getAll(@RequestParam("name") name: String?): ResponseEntity<Any> {
+        if (name != null) {
+            return try {
+                val role = roleService.findByName(name)
+                val dto = RoleDto(id = role.id, name = role.name)
+                dto.add(RoleLinkSupport.self(id = dto.id))
+                ResponseEntity(dto, HttpStatus.OK)
+            } catch (e: EntityException) {
+                val error = Error(status = 404, error = "Not Found", message = e.message ?: "")
+                ResponseEntity(error, HttpStatus.NOT_FOUND)
+            }
+        } else {
+            val dtoList = ArrayList<RoleDto>()
+            val roles = roleService.findAll()
+            roles.forEach { role ->
+                val dto = RoleDto(id = role.id, name = role.name)
+                dto.add(RoleLinkSupport.self(id = dto.id))
+                dtoList.add(dto)
+            }
+            return ResponseEntity(dtoList, HttpStatus.OK)
         }
-        return ResponseEntity(dtoList, HttpStatus.OK)
     }
 
     @GetMapping("{roleId}")

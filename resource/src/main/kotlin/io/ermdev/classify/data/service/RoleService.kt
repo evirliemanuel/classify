@@ -17,6 +17,11 @@ class RoleService(@Autowired val roleRepository: RoleRepository) {
                 .orElseThrow { EntityException("No role with id $id exists") }
     }
 
+    fun findByName(name: String): Role {
+        return roleRepository.findByName(name)
+                .orElseThrow { EntityException("No role with name $name exists") }
+    }
+
     fun save(role: Role) {
         if (StringUtils.isEmpty(role.name)) {
             throw EntityException("name cannot be empty")
